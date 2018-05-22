@@ -20,11 +20,11 @@ url3= 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
 def main():
     player1 = dc.Downloader(0, 0)
     player1.set_total_length(url)
-    thread1 = Thread(player1.set_data_length(url))
+    thread1 = Thread(target=player1.set_data_length, args=(url,))
     thread1.start()
-
-    while(player1.get_data_length() != player1.total_length):
-        print('HI')
+    print("hi")
+    while(player1.get_data_length() != player1.get_total_length()):
+        print(player1.get_data_length())
 
     #dc.download_data(url, player1.data_length)
 
