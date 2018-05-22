@@ -2,13 +2,15 @@ import requests
 import sys
 import urllib
 import time
+import threading
 ##
 # Determining file size before download and also downloading file from url
 # While also displaying the horse running(downloading animation)
 ##
 
-url = 'https://www.sample-videos.com/img/Sample-jpg-image-5mb.jpg' # hard coding url from now
-url2 = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
+url = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
+url2 = 'https://www.sample-videos.com/img/Sample-jpg-image-5mb.jpg' # hard coding url from now
+url3= 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
 file_name = "download.data" # declaring name of file in directory
 
 #printing the size of the file from url
@@ -58,5 +60,6 @@ def download_data(url):
 def main(url):
     size_info(url)
     download_data(url)
+    #download_data(url)
     print('\n')
 main(url)
