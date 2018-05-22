@@ -18,13 +18,18 @@ url3= 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
 
 #attempting to create thread so we can print the player1.data_length()
 def main():
-    player1 = dc.Downloader(0, 0)
+    player1 = dc.Downloader()
     player1.set_total_length(url)
     thread1 = Thread(target=player1.set_data_length, args=(url,))
     thread1.start()
-    print("hi")
+    start_time = time.time()
     while(player1.get_data_length() != player1.get_total_length()):
-        print(player1.get_data_length())
+        #print(player1.get_data_length())
+        done = int(50 * player1.data_length / player1.total_length) # done is 50 * data_length divided by total length
+        sys.stdout.write("\rRate:   %.3f mbs Percent Downloaded: %s%%  start |%s|:]%s| finish!" %
+            (round((player1.data_length/(time.time()- start_time)) /1024/1024, 3), 2*done, '-' * done, ' ' * (50-done)))
+        sys.stdout.flush() #makes the terminal output faster by flushing buffer
+        #time.sleep(.2)
 
     #dc.download_data(url, player1.data_length)
 

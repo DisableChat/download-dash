@@ -6,10 +6,8 @@ import urllib
 from threading import Thread
 
 class Downloader:
-
-    def __init__(self, data_length, total_length):
-        self.data_length = data_length
-        self.total_length = total_length
+    data_length = 0
+    total_length = 0
 
     # Downloading the length
     def set_data_length(self, url):
