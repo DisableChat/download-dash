@@ -38,7 +38,7 @@ def main():
 ##
     #print_race(player1)
     #print_race(player2)
-    func(player1)
+    func(player1,player2)
 
     #sys.exit()
 
@@ -57,14 +57,19 @@ def print_race(player):
             break
 
 # curses early stages/messing around
-def func(player1):
+def func(player1, player2):
     try:
         bool = True
+        string1 = "data_length bytes:"
         while(bool == True):
-            #screen.border()
-            screen.addch(1, 1, '@')
-            screen.addch(3, 29, '@')
-            #screen.addstr(60,1, print_race(player1))
+            screen.border()
+            #screen.addch(1, 1, '@')
+            #screen.addch(3, 29, '@')
+            screen.addstr(2,2, "Download's Amount Downloaded So Far")
+            screen.addstr(3,2, string1)
+            screen.addstr(4,2, string1)
+            screen.addstr(3,21, str(player1.data_length))
+            screen.addstr(4,21, str(player2.data_length))
             screen.refresh()
     except KeyboardInterrupt:
         curses.endwin()
