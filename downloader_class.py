@@ -21,7 +21,7 @@ class Downloader:
     def set_total_length(self, url):
         self.total_length = urllib.request.urlopen(url)
         self.total_length = int(self.total_length.headers['content-length'])
-        print('File Size: ', round(self.total_length/1024/1024, 3), 'MB')
+        #print('File Size: ', round(self.total_length/1024/1024, 3), 'MB')
 
     # Accesor functions
     def get_data_length(self):

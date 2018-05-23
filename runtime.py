@@ -4,6 +4,8 @@ import downloader_class as dc
 import sys
 import time
 from threading import Thread
+import curses
+import os
 
 ##
 # Determining file size before download and also downloading file from url
@@ -16,7 +18,7 @@ url3= 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
 
 #attempting to create thread so we can print the player1 downalad
 
-
+screen = curses.initscr()
 
 def main():
     player1 = dc.Downloader()
@@ -29,9 +31,16 @@ def main():
     thread2.start()
     start_time = time.time()
 
-    print_race(player1)
-    print('\ndone...')
-    sys.exit(0)
+
+##
+# Uncomment the print_race for player 1 or 2 and they will print, func(player1) is
+# testing the implementation of curses
+##
+    #print_race(player1)
+    #print_race(player2)
+    func(player1)
+
+    #sys.exit()
 
 # prints the "racing" animation
 def print_race(player):
@@ -46,5 +55,19 @@ def print_race(player):
         time.sleep(.25)
         if(var_data == var_total_data):
             break
+
+# curses early stages/messing around
+def func(player1):
+    try:
+        bool = True
+        while(bool == True):
+            #screen.border()
+            screen.addch(1, 1, '@')
+            screen.addch(3, 29, '@')
+            #screen.addstr(60,1, print_race(player1))
+            screen.refresh()
+    except KeyboardInterrupt:
+        curses.endwin()
+        sys.exit()
 
 main()
