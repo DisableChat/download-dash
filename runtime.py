@@ -35,7 +35,12 @@ def main():
         sys.stdout.flush() #makes the terminal output faster by flushing buffer
         #time.sleep(.2)
         if(player1.get_data_length() == player1.get_total_length()):
-            break
+            #print(player1.get_data_length())
+            done = int(50 * player1.data_length / player1.total_length) # done is 50 * data_length divided by total length
+            sys.stdout.write("\rRate:   %.3f mbs Percent Downloaded: %s%%  start |%s|:]%s| finish!" %
+            (round((player1.data_length/(time.time()- start_time)) /1024/1024, 3), 2*done, '-' * done, ' ' * (50-done)))
+            sys.stdout.flush()
+            bool = False
 
     #dc.download_data(url, player1.data_length)
 
