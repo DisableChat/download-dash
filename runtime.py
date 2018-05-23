@@ -23,6 +23,7 @@ def main():
     thread1 = Thread(target=player1.set_data_length, args=(url,))
     thread1.start()
     start_time = time.time()
+
     while(player1.get_data_length() != player1.get_total_length()):
         #print(player1.get_data_length())
         done = int(50 * player1.data_length / player1.total_length) # done is 50 * data_length divided by total length
@@ -30,7 +31,5 @@ def main():
             (round((player1.data_length/(time.time()- start_time)) /1024/1024, 3), 2*done, '-' * done, ' ' * (50-done)))
         sys.stdout.flush() #makes the terminal output faster by flushing buffer
         #time.sleep(.2)
-
     #dc.download_data(url, player1.data_length)
-
 main()

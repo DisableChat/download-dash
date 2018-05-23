@@ -13,18 +13,15 @@ class Downloader:
     def set_data_length(self, url):
         with open(file_name, 'wb') as f:
             response = requests.get(url, stream = True)
-            self.total_length = int(self.total_length)
-            start_time = time.time()
             for data in response.iter_content(chunk_size = 1024):
-                self.data_length += len(data)
                 #print(self.data_length)
+                self.data_length += len(data)
                 f.write(data)
-
     # setting the total length
     def set_total_length(self, url):
         self.total_length = urllib.request.urlopen(url)
         self.total_length = int(self.total_length.headers['content-length'])
-        print('File Size: ', round(self.total_length/1048576, 2), 'mb')
+        print('File Size: ', round(self.total_length/1024/1024, 3), 'MB')
 
     # Accesor functions
     def get_data_length(self):
@@ -37,6 +34,7 @@ class Downloader:
 file_name = "download.data" # declaring name of file in directory
 
 # the following two functions were older implementations from prev ver
+#--------------------------------------------------------------------------------#
 def size_info(url):
     print ("opening url:", url)
     url_size = urllib.request.urlopen(url)
