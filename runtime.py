@@ -60,16 +60,30 @@ def print_race(player):
 def func(player1, player2):
     try:
         bool = True
-        string1 = "data_length bytes:"
+        start_time1 = time.time()
         while(bool == True):
             screen.border()
-            #screen.addch(1, 1, '@')
-            #screen.addch(3, 29, '@')
-            screen.addstr(2,2, "Download's Amount Downloaded So Far")
-            screen.addstr(3,2, string1)
-            screen.addstr(4,2, string1)
-            screen.addstr(3,21, str(player1.data_length))
-            screen.addstr(4,21, str(player2.data_length))
+
+            player1_percent_done = int(50 * player1.data_length/player1.total_length)
+            player2_percent_done = int(50 * player2.data_length/player2.total_length)
+
+            screen.addstr(2,45,                     "WE GONA RACE TODAY COACH")
+            screen.addstr(3,20, '-------------------------------------------------------------------------')
+
+            screen.addstr(4, 2, "Player1 ::")
+            screen.addstr(4, 13, "Rate: %.3f mbs" % (round(player1.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3)))
+            screen.addstr(4, 25, "Percent Downloaded: %s%%" % (2*player1_percent_done))
+            screen.addstr(4, 50, "start |%s:]%s| finish!" % ('-' * player1_percent_done, ' ' *(50-player1_percent_done)))
+            if(player1.data_length == player1.total_length):
+                screen.addstr(4, 19, "0.000")
+
+            screen.addstr(6, 2, "Player2 ::")
+            screen.addstr(6,13, "Rate: %.3f mbs" % (round(player2.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
+            screen.addstr(6, 25, "Percent Downloaded: %s%%" % (2*player2_percent_done))
+            screen.addstr(6, 50, "start |%s:]%s| finish!" % ('-' * player2_percent_done, ' ' *(50-player2_percent_done)))
+            if(player2.data_length == player2.total_length):
+                screen.addstr(6, 19, "0.000")
+
             screen.refresh()
     except KeyboardInterrupt:
         curses.endwin()
