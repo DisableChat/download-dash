@@ -24,4 +24,18 @@ debian:
 ￼                   debian-9.4.0-amd64-xfce-CD-1.iso
 ￼                   debian-mac-9.4.0-amd64-netinst.iso
 
+dragonflybsd:
+    location = mirrorlists/dragonflybsd.txt
+    path += iso-images/
+    filenames = dfly-x86_64-5.2.1_REL.iso
 
+fedora:
+    location = mirrorlists/fedora.txt
+    path += releases/27/Workstation/x86_64/iso/
+    filenames +=    Fedora-Workstation-Live-x86_64-27-1.6.iso
+                    Fedora-Workstation-netinst-x86_64-27-1.6.iso
+
+gentoo:
+    location = mirrorlists/gentoo.txt
+    path += releases/amd64/autobuilds/current-install-amd64-minimal/
+    filenames +=    install-amd64-minimal-20180415T214502Z.iso
