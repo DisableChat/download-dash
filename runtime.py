@@ -47,7 +47,7 @@ def get_win_one_res(screen):
 def get_win_two_res(screen):
     window_height, window_width = screen.getmaxyx() # getting window size
     pos_start_y = (window_height + 6) - window_height
-    pos_start_x = (window_width + 2) - window_width
+    pos_start_x = (window_width - 1)
     return pos_start_y, pos_start_x
 
 window_height, window_width = get_win_one_res(screen)
@@ -127,37 +127,43 @@ def func():
         bool = True
         start_time1 = time.time()
         while(bool == True):
+            pos_start_y, pos_start_x = get_win_two_res(screen) # getting window size (testing rn)
+            middle_height, middle_width = get_win_one_res(screen)
+            window_height, window_width = screen.getmaxyx() # getting window size
 
             screen.clear() # clearing each for each new frame of print
             screen.border() # displaying border
 
-            pos_start_y, pos_start_x = get_win_two_res(screen) # getting window size (testing rn)
-            window_height, window_width = screen.getmaxyx() # getting window size
-
             # player 1 and player 2 percent for printing
+            # player1_percent_done_print is percentage based on window size
+            # while player1_done_percent is actual percentage downloaded
+            player1_percent_done_print = int((window_width - 23) * player1.data_length/player1.total_length)
             player1_percent_done = int(100 * player1.data_length/player1.total_length)
+            player2_percent_done_print = int((window_width - 23) * player2.data_length/player2.total_length)
             player2_percent_done = int(100 * player2.data_length/player2.total_length)
 
             # Title for the race window
-            screen.addstr(pos_start_y - 4 ,pos_start_x + 43,                     "WE GONA RACE TODAY COACH", curses.color_pair(blue))
-            screen.addstr(pos_start_y - 3, pos_start_x + 18, '-------------------------------------------------------------------------', curses.color_pair(blue))
+            screen.addstr(pos_start_y - 4 , middle_width - 13, "WE GONA RACE TODAY COACH", curses.color_pair(blue))
+            screen.addstr(pos_start_y - 3, middle_width - 14, '--------------------------', curses.color_pair(blue))
 
             #player 1
-            screen.addstr(pos_start_y, pos_start_x, "Player1 ::", curses.color_pair(cyan_dots))
+            screen.addstr(6, 2,  "Player1 ::", curses.color_pair(cyan_dots))
             screen.addstr(6, 13, "| Rate: %.3f MBs" % (round(player1.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3)))
             screen.addstr(6, 31, "| Percent Downloaded: %s%%" % (player1_percent_done))
-            screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done, ' ' *(100-player1_percent_done)), curses.color_pair(yellow_text))
+            screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done_print, ' ' *(pos_start_x - 23 - player1_percent_done_print)), curses.color_pair(yellow_text))
             if(player1.data_length == player1.total_length):
                 screen.addstr(6, 21, "0.000", curses.color_pair(red))
+                screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done_print, ' ' *(pos_start_x - 23 - player1_percent_done_print)), curses.color_pair(yellow_text))
                 winner = player1
 
             # player 2
             screen.addstr(12, 2, "Player2 ::" , curses.color_pair(cyan_dots))
             screen.addstr(12, 13, "| Rate: %.3f MBs" % (round(player2.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
             screen.addstr(12, 31, "| Percent Downloaded: %s%%" % (player2_percent_done))
-            screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done, ' ' *(100-player2_percent_done)), curses.color_pair(yellow_text))
+            screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done_print, ' ' *(pos_start_x - 23 - player2_percent_done_print)), curses.color_pair(yellow_text))
             if(player2.data_length == player2.total_length):
                 screen.addstr(12, 21, "0.000", curses.color_pair(red))
+                screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done_print, ' ' *(pos_start_x - 23 - player2_percent_done_print)), curses.color_pair(yellow_text))
                 winner = player2
 
             # If both players finish print loading animation infinitly
