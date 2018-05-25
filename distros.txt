@@ -1,0 +1,27 @@
+arch:
+    location = mirrorlists/arch.txt
+    path += iso/
+    filenames = archlinux-2018.05.01.x86_64.iso
+
+centos:
+    location = mirrorlists/centos.txt
+    path += 7/isos/x86_64/
+    filenames = CentOS-7-x86_64-DVD-1804.iso
+                CentOS-7-x86_64-Everything-1804.iso
+                CentOS-7-x86_64-LiveGNOME-1804.iso
+                CentOS-7-x86_64-LiveKDE-1804.iso
+                CentOS-7-x86_64-Minimal-1804.iso
+                CentOS-7-x86_64-NetInstall-1804.iso
+
+debian:
+    location = mirrorlists/debian.txt
+    path += current/amd64/iso-dvd/
+    filenames +=    debian-9.4.0-amd64-DVD-1.iso
+￼                   debian-9.4.0-amd64-DVD-2.iso
+￼                   debian-9.4.0-amd64-DVD-3.iso
+    path += current/amd64/iso-cd/
+    filenames +=    debian-9.4.0-amd64-netinst.iso
+￼                   debian-9.4.0-amd64-xfce-CD-1.iso
+￼                   debian-mac-9.4.0-amd64-netinst.iso
+
+
