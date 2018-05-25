@@ -15,6 +15,11 @@ url = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
 url2 = 'https://www.sample-videos.com/img/Sample-jpg-image-5mb.jpg' # hard coding url from now
 url3= 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
 
+
+
+##
+# Setting Up colors and Terminal Res Tracker.
+##--------------------------------------------------------------------------------------------------------#
 #attempting to create thread so we can print the player1 downalad
 screen = curses.initscr()
 curses.curs_set(0)
@@ -33,35 +38,68 @@ default = 4 # green text with black background
 yellow_text = 5 # yellow text with black bacground
 cyan_dots = 6 # blue dots when race is done
 
-window_height, window_width = screen.getmaxyx() # getting window size
-middle_height = (round(window_height/2 - 1)) # middle window height
-middle_width = (round(window_width/2 -1)) # middle window width
+def get_terminal_res(screen):
+    window_height, window_width = screen.getmaxyx() # getting window size
+    middle_height = (round(window_height/2 - 1)) # middle window height
+    middle_width = (round(window_width/2 -1)) # middle window width
+    return middle_height, middle_width
+
+window_height, window_width = get_terminal_res(screen)
 
 screen.bkgd(curses.color_pair(yellow_background)) # setting bacground color for first window launch
 
+
+
+
+#----------------------------------------------------------------------------------------------------------#
+
+
 # curses early stages/messing around
 def func():
-
     #  the first try/except is printing the countdown window when you first launch
+    # reason for whie loops is so the window can be rejusted without crashing.
+    # *NOTE* cannot shrink below very small size... (idk exact terminal size)
     try:
-        screen.border()
+        count = 0
         countdown = True
-        while(countdown == True):
-            screen.addstr(middle_height - 2, middle_width - 22, '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
+        while(countdown == True and count != 1000):
+            middle_height, middle_width = get_terminal_res(screen)
+            screen.clear()
+            screen.border()
+            screen.addstr(middle_height - 2, middle_width - 22 , '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
             screen.addch(middle_height, middle_width - 1, '3', curses.color_pair(yellow_background))
             screen.refresh()
-            time.sleep(1)
+            count += 1
+
+        count1 = 0
+        while(countdown == True and count1 != 1000):
+            middle_height, middle_width = get_terminal_res(screen)
+            screen.clear()
+            screen.border()
+            screen.addstr(middle_height - 2, middle_width - 22 , '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
             screen.addch(middle_height, middle_width - 1, '2', curses.color_pair(yellow_background))
             screen.refresh()
-            time.sleep(1)
+            count1 += 1
+
+        count2 = 0
+        while(countdown == True and count2 != 1000):
+            middle_height, middle_width = get_terminal_res(screen)
+            screen.clear()
+            screen.border()
+            screen.addstr(middle_height - 2, middle_width - 22 , '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
             screen.addch(middle_height, middle_width - 1, '1', curses.color_pair(yellow_background))
             screen.refresh()
-            time.sleep(1)
+            count2 += 1
+        count3 = 0
+        while(countdown == True and count3 != 1000):
+            middle_height, middle_width = get_terminal_res(screen)
+            screen.clear()
+            screen.border()
+            screen.addstr(middle_height - 2, middle_width - 22 , '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
             screen.addstr(middle_height, middle_width - 2, 'GO!', curses.color_pair(yellow_background))
             screen.refresh()
-            screen.addstr(middle_height, middle_width - 2, '   ')
-            screen.addstr(middle_height - 2, middle_width - 22, '                                           ')
-            countdown = False
+            count3 += 1
+        screen.clear()
     except KeyboardInterrupt: # for user wanting to ctr ^C
         curses.endwin()
         sys.exit()
