@@ -1,0 +1,17 @@
+http://ftp2.fr.openbsd.org/pub/OpenBSD/
+http://ftp.aso.ee/pub/OpenBSD/
+http://ftp.jaist.ac.jp/pub/OpenBSD/
+http://ftp.man.poznan.pl/pub/OpenBSD/
+http://ftp.ulak.net.tr/OpenBSD/
+http://kartolo.sby.datautama.net.id/pub/OpenBSD/
+http://mirror.exonetric.net/pub/OpenBSD/
+http://mirror.internode.on.net/pub/OpenBSD/
+http://mirror.ox.ac.uk/pub/OpenBSD/
+http://mirror.rise.ph/pub/OpenBSD/
+http://mirrors.gigenet.com/pub/OpenBSD/
+http://mirrors.mit.edu/pub/OpenBSD/
+http://mirrors.unb.br/pub/OpenBSD/
+http://mirror.switch.ch/ftp/pub/OpenBSD/
+http://openbsd.mirrors.pair.com/pub/OpenBSD/
+http://piotrkosoft.net/pub/OpenBSD/
+http://www.obsd.si/pub/OpenBSD/

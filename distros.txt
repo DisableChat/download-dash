@@ -112,4 +112,41 @@ netbsd:
                     NetBSD-8.0_RC1-x68k.iso
                     NetBSD-8.0_RC1-zaurus.iso
 
+openbsd:
+    location = mirrorlists/openbsd.txt
+    path += 6.3/amd64/
+    filenames += install63.iso
 
+sabayon:
+    location = mirrorlists/sabayon.txt
+    path += iso/daily/
+    filenames +=    Sabayon_Linux_DAILY_amd64_-dev.iso
+                    Sabayon_Linux_DAILY_amd64_.iso
+                    Sabayon_Linux_DAILY_amd64_ForensicsXfce.iso
+                    Sabayon_Linux_DAILY_amd64_GNOME-dev.iso
+                    Sabayon_Linux_DAILY_amd64_GNOME.iso
+                    Sabayon_Linux_DAILY_amd64_KDE-dev.iso
+                    Sabayon_Linux_DAILY_amd64_KDE.iso
+                    Sabayon_Linux_DAILY_amd64_LXQt-dev.iso
+                    Sabayon_Linux_DAILY_amd64_LXQt.iso
+                    Sabayon_Linux_DAILY_amd64_MATE-dev.iso
+                    Sabayon_Linux_DAILY_amd64_MATE.iso
+                    Sabayon_Linux_DAILY_amd64_Minimal-dev.iso
+                    Sabayon_Linux_DAILY_amd64_Minimal.iso
+                    Sabayon_Linux_DAILY_amd64_Server-dev.iso
+                    Sabayon_Linux_DAILY_amd64_Server.iso
+                    Sabayon_Linux_DAILY_amd64_SpinBase-dev.iso
+                    Sabayon_Linux_DAILY_amd64_SpinBase.iso
+                    Sabayon_Linux_DAILY_amd64_Xfce-dev.iso
+                    Sabayon_Linux_DAILY_amd64_Xfce.iso
+
+slackware:
+    location = mirrorlists/slackware.txt
+    path += slackware-iso/slackware64-14.2-iso/
+    filenames += slackware64-14.2-install-dvd.iso
+
+ubuntu:
+    location = mirrorlists/ubuntu.txt
+    path += 18.04/
+    filenames +=    ubuntu-18.04-desktop-amd64.iso
+                    ubuntu-18.04-live-server-amd64.iso
