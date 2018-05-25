@@ -38,13 +38,20 @@ default = 4 # green text with black background
 yellow_text = 5 # yellow text with black bacground
 cyan_dots = 6 # blue dots when race is done
 
-def get_terminal_res(screen):
+def get_win_one_res(screen):
     window_height, window_width = screen.getmaxyx() # getting window size
     middle_height = (round(window_height/2 - 1)) # middle window height
     middle_width = (round(window_width/2 -1)) # middle window width
     return middle_height, middle_width
 
-window_height, window_width = get_terminal_res(screen)
+def get_win_two_res(screen):
+    window_height, window_width = screen.getmaxyx() # getting window size
+    pos_start_y = (window_height + 6) - window_height
+    pos_start_x = (window_width + 2) - window_width
+    return pos_start_y, pos_start_x
+
+window_height, window_width = get_win_one_res(screen)
+pos_start_y, pos_start_x = get_win_two_res(screen)
 
 screen.bkgd(curses.color_pair(yellow_background)) # setting bacground color for first window launch
 
@@ -61,9 +68,8 @@ def func():
     # *NOTE* cannot shrink below very small size... (idk exact terminal size)
     try:
         count = 0
-        countdown = True
-        while(countdown == True and count != 1000):
-            middle_height, middle_width = get_terminal_res(screen)
+        while(count != 1000):
+            middle_height, middle_width = get_win_one_res(screen)
             screen.clear()
             screen.border()
             screen.addstr(middle_height - 2, middle_width - 22 , '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
@@ -72,8 +78,8 @@ def func():
             count += 1
 
         count1 = 0
-        while(countdown == True and count1 != 1000):
-            middle_height, middle_width = get_terminal_res(screen)
+        while(count1 != 1000):
+            middle_height, middle_width = get_win_one_res(screen)
             screen.clear()
             screen.border()
             screen.addstr(middle_height - 2, middle_width - 22 , '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
@@ -82,8 +88,8 @@ def func():
             count1 += 1
 
         count2 = 0
-        while(countdown == True and count2 != 1000):
-            middle_height, middle_width = get_terminal_res(screen)
+        while(count2 != 1000):
+            middle_height, middle_width = get_win_one_res(screen)
             screen.clear()
             screen.border()
             screen.addstr(middle_height - 2, middle_width - 22 , '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
@@ -91,8 +97,8 @@ def func():
             screen.refresh()
             count2 += 1
         count3 = 0
-        while(countdown == True and count3 != 1000):
-            middle_height, middle_width = get_terminal_res(screen)
+        while(count3 != 1000):
+            middle_height, middle_width = get_win_one_res(screen)
             screen.clear()
             screen.border()
             screen.addstr(middle_height - 2, middle_width - 22 , '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
@@ -121,21 +127,26 @@ def func():
         bool = True
         start_time1 = time.time()
         while(bool == True):
-            screen.border()
+
+            screen.clear() # clearing each for each new frame of print
+            screen.border() # displaying border
+
+            pos_start_y, pos_start_x = get_win_two_res(screen) # getting window size (testing rn)
+            window_height, window_width = screen.getmaxyx() # getting window size
 
             # player 1 and player 2 percent for printing
-            player1_percent_done = int(50 * player1.data_length/player1.total_length)
-            player2_percent_done = int(50 * player2.data_length/player2.total_length)
+            player1_percent_done = int(100 * player1.data_length/player1.total_length)
+            player2_percent_done = int(100 * player2.data_length/player2.total_length)
 
             # Title for the race window
-            screen.addstr(2,45,                     "WE GONA RACE TODAY COACH", curses.color_pair(blue))
-            screen.addstr(3,20, '-------------------------------------------------------------------------', curses.color_pair(blue))
+            screen.addstr(pos_start_y - 4 ,pos_start_x + 43,                     "WE GONA RACE TODAY COACH", curses.color_pair(blue))
+            screen.addstr(pos_start_y - 3, pos_start_x + 18, '-------------------------------------------------------------------------', curses.color_pair(blue))
 
             #player 1
-            screen.addstr(6, 2, "Player1 ::", curses.color_pair(cyan_dots))
+            screen.addstr(pos_start_y, pos_start_x, "Player1 ::", curses.color_pair(cyan_dots))
             screen.addstr(6, 13, "| Rate: %.3f MBs" % (round(player1.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3)))
-            screen.addstr(6, 31, "| Percent Downloaded: %s%%" % (2*player1_percent_done))
-            screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done, ' ' *(50-player1_percent_done)), curses.color_pair(yellow_text))
+            screen.addstr(6, 31, "| Percent Downloaded: %s%%" % (player1_percent_done))
+            screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done, ' ' *(100-player1_percent_done)), curses.color_pair(yellow_text))
             if(player1.data_length == player1.total_length):
                 screen.addstr(6, 21, "0.000", curses.color_pair(red))
                 winner = player1
@@ -143,8 +154,8 @@ def func():
             # player 2
             screen.addstr(12, 2, "Player2 ::" , curses.color_pair(cyan_dots))
             screen.addstr(12, 13, "| Rate: %.3f MBs" % (round(player2.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
-            screen.addstr(12, 31, "| Percent Downloaded: %s%%" % (2*player2_percent_done))
-            screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done, ' ' *(50-player2_percent_done)), curses.color_pair(yellow_text))
+            screen.addstr(12, 31, "| Percent Downloaded: %s%%" % (player2_percent_done))
+            screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done, ' ' *(100-player2_percent_done)), curses.color_pair(yellow_text))
             if(player2.data_length == player2.total_length):
                 screen.addstr(12, 21, "0.000", curses.color_pair(red))
                 winner = player2
@@ -160,9 +171,9 @@ def func():
                         screen.addstr(20, 50, '                   ')
                         screen.refresh()
                         loading = '.'
+                    screen.border()
                     screen.refresh()
-                    time.sleep(.25)
-
+                    time.sleep(.50)
             screen.refresh()
             time.sleep(.1)
     except KeyboardInterrupt:
