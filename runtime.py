@@ -17,6 +17,7 @@ url3= 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
 
 #attempting to create thread so we can print the player1 downalad
 screen = curses.initscr()
+curses.curs_set(0)
 curses.start_color()
 curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
 curses.init_pair(2, curses.COLOR_RED, curses.COLOR_YELLOW)
@@ -32,6 +33,10 @@ default = 4 # green text with black background
 yellow_text = 5 # yellow text with black bacground
 cyan_dots = 6 # blue dots when race is done
 
+window_height, window_width = screen.getmaxyx() # getting window size
+middle_height = (round(window_height/2 - 1)) # middle window height
+middle_width = (round(window_width/2 -1)) # middle window width
+
 screen.bkgd(curses.color_pair(yellow_background)) # setting bacground color for first window launch
 
 # curses early stages/messing around
@@ -42,20 +47,20 @@ def func():
         screen.border()
         countdown = True
         while(countdown == True):
-            screen.addstr(8, 52, '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
-            screen.addch(12, 73, '3', curses.color_pair(yellow_background))
+            screen.addstr(middle_height - 2, middle_width - 22, '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
+            screen.addch(middle_height, middle_width - 1, '3', curses.color_pair(yellow_background))
             screen.refresh()
             time.sleep(1)
-            screen.addch(12, 73, '2', curses.color_pair(yellow_background))
+            screen.addch(middle_height, middle_width - 1, '2', curses.color_pair(yellow_background))
             screen.refresh()
             time.sleep(1)
-            screen.addch(12, 73, '1', curses.color_pair(yellow_background))
+            screen.addch(middle_height, middle_width - 1, '1', curses.color_pair(yellow_background))
             screen.refresh()
             time.sleep(1)
-            screen.addstr(12, 73, 'GO!', curses.color_pair(yellow_background))
+            screen.addstr(middle_height, middle_width - 2, 'GO!', curses.color_pair(yellow_background))
             screen.refresh()
-            screen.addstr(12, 73, '   ')
-            screen.addstr(8, 52, '                                           ')
+            screen.addstr(middle_height, middle_width - 2, '   ')
+            screen.addstr(middle_height - 2, middle_width - 22, '                                           ')
             countdown = False
     except KeyboardInterrupt: # for user wanting to ctr ^C
         curses.endwin()
@@ -92,18 +97,18 @@ def func():
             screen.addstr(6, 2, "Player1 ::", curses.color_pair(cyan_dots))
             screen.addstr(6, 13, "| Rate: %.3f MBs" % (round(player1.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3)))
             screen.addstr(6, 31, "| Percent Downloaded: %s%%" % (2*player1_percent_done))
-            screen.addstr(6, 53, "start |%s:]%s| finish!" % ('-' * player1_percent_done, ' ' *(50-player1_percent_done)), curses.color_pair(yellow_text))
+            screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done, ' ' *(50-player1_percent_done)), curses.color_pair(yellow_text))
             if(player1.data_length == player1.total_length):
                 screen.addstr(6, 21, "0.000", curses.color_pair(red))
                 winner = player1
 
             # player 2
-            screen.addstr(8, 2, "Player2 ::" , curses.color_pair(cyan_dots))
-            screen.addstr(8, 13, "| Rate: %.3f MBs" % (round(player2.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
-            screen.addstr(8, 31, "| Percent Downloaded: %s%%" % (2*player2_percent_done))
-            screen.addstr(8, 53, "start |%s:]%s| finish!" % ('-' * player2_percent_done, ' ' *(50-player2_percent_done)), curses.color_pair(yellow_text))
+            screen.addstr(12, 2, "Player2 ::" , curses.color_pair(cyan_dots))
+            screen.addstr(12, 13, "| Rate: %.3f MBs" % (round(player2.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
+            screen.addstr(12, 31, "| Percent Downloaded: %s%%" % (2*player2_percent_done))
+            screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done, ' ' *(50-player2_percent_done)), curses.color_pair(yellow_text))
             if(player2.data_length == player2.total_length):
-                screen.addstr(8, 21, "0.000", curses.color_pair(red))
+                screen.addstr(12, 21, "0.000", curses.color_pair(red))
                 winner = player2
 
             # If both players finish print loading animation infinitly
