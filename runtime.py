@@ -13,9 +13,8 @@ import os
 
 url = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
 url2 = 'https://www.sample-videos.com/img/Sample-jpg-image-5mb.jpg' # hard coding url from now
-url3= 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
-
-
+url3 = 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
+url4 = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
 
 ##
 # Setting Up colors and Terminal Res Tracker.
@@ -55,11 +54,7 @@ pos_start_y, pos_start_x = get_win_two_res(screen)
 
 screen.bkgd(curses.color_pair(yellow_background)) # setting bacground color for first window launch
 
-
-
-
 #----------------------------------------------------------------------------------------------------------#
-
 
 # curses early stages/messing around
 def func():
@@ -113,12 +108,25 @@ def func():
     # instations of the donwnloader class and starting threads for the objects
     player1 = dc.Downloader()
     player2 = dc.Downloader()
+    player3 = dc.Downloader()
+    player4 = dc.Downloader()
+    player5 = dc.Downloader()
     player1.set_total_length(url)
     player2.set_total_length(url2)
+    player3.set_total_length(url3)
+    player4.set_total_length(url4)
+    player5.set_total_length(url4)
+
     thread1 = Thread(target=player1.set_data_length, args=(url,))
     thread2 = Thread(target=player2.set_data_length, args=(url2,))
+    thread3 = Thread(target=player3.set_data_length, args=(url3,))
+    thread4 = Thread(target=player4.set_data_length, args=(url4,))
+    thread5 = Thread(target=player5.set_data_length, args=(url4,))
     thread1.start()
     thread2.start()
+    thread3.start()
+    thread4.start()
+    thread5.start()
 
     screen.bkgd(curses.color_pair(default)) # setting color for the race window
 
@@ -141,8 +149,13 @@ def func():
             player1_percent_done = int(100 * player1.data_length/player1.total_length)
             player2_percent_done_print = int((window_width - 23) * player2.data_length/player2.total_length)
             player2_percent_done = int(100 * player2.data_length/player2.total_length)
-
-            # Title for the race window
+            player3_percent_done_print = int((window_width - 23) * player3.data_length/player3.total_length)
+            player3_percent_done = int(100 * player3.data_length/player3.total_length)
+            player4_percent_done_print = int((window_width - 23) * player4.data_length/player4.total_length)
+            player4_percent_done = int(100 * player4.data_length/player4.total_length)
+            player5_percent_done_print = int((window_width - 23) * player5.data_length/player5.total_length)
+            player5_percent_done = int(100 * player5.data_length/player5.total_length)
+                        # Title for the race window
             screen.addstr(pos_start_y - 4 , middle_width - 13, "WE GONA RACE TODAY COACH", curses.color_pair(blue))
             screen.addstr(pos_start_y - 3, middle_width - 14, '--------------------------', curses.color_pair(blue))
 
@@ -151,7 +164,7 @@ def func():
             screen.addstr(6, 13, "| Rate: %.3f MBs" % (round(player1.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3)))
             screen.addstr(6, 31, "| Percent Downloaded: %s%%" % (player1_percent_done))
             screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done_print, ' ' *(pos_start_x - 23 - player1_percent_done_print)), curses.color_pair(yellow_text))
-            if(player1.data_length == player1.total_length):
+            if(player1_percent_done == 100):
                 screen.addstr(6, 21, "0.000", curses.color_pair(red))
                 screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done_print, ' ' *(pos_start_x - 23 - player1_percent_done_print)), curses.color_pair(yellow_text))
                 winner = player1
@@ -161,11 +174,42 @@ def func():
             screen.addstr(12, 13, "| Rate: %.3f MBs" % (round(player2.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
             screen.addstr(12, 31, "| Percent Downloaded: %s%%" % (player2_percent_done))
             screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done_print, ' ' *(pos_start_x - 23 - player2_percent_done_print)), curses.color_pair(yellow_text))
-            if(player2.data_length == player2.total_length):
+            if(player2_percent_done == 100):
                 screen.addstr(12, 21, "0.000", curses.color_pair(red))
                 screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done_print, ' ' *(pos_start_x - 23 - player2_percent_done_print)), curses.color_pair(yellow_text))
                 winner = player2
 
+            # player 3
+            screen.addstr(18, 2, "Player3 ::" , curses.color_pair(cyan_dots))
+            screen.addstr(18, 13, "| Rate: %.3f MBs" % (round(player3.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
+            screen.addstr(18, 31, "| Percent Downloaded: %s%%" % (player3_percent_done))
+            screen.addstr(20, 2, "start |%s:]%s| finish!" % ('-' * player3_percent_done_print, ' ' *(pos_start_x - 23 - player3_percent_done_print)), curses.color_pair(yellow_text))
+            if(player3_percent_done == 100):
+                screen.addstr(18, 21, "0.000", curses.color_pair(red))
+                screen.addstr(20, 2, "start |%s:]%s| finish!" % ('-' * player3_percent_done_print, ' ' *(pos_start_x - 23 - player3_percent_done_print)), curses.color_pair(yellow_text))
+                winner = player3
+
+            # player 4
+            screen.addstr(24, 2, "Player4 ::" , curses.color_pair(cyan_dots))
+            screen.addstr(24, 13, "| Rate: %.3f MBs" % (round(player4.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
+            screen.addstr(24, 31, "| Percent Downloaded: %s%%" % (player4_percent_done))
+            screen.addstr(26, 2, "start |%s:]%s| finish!" % ('-' * player4_percent_done_print, ' ' *(pos_start_x - 23 - player4_percent_done_print)), curses.color_pair(yellow_text))
+            if(player4_percent_done == 100):
+                screen.addstr(24, 21, "0.000", curses.color_pair(red))
+                screen.addstr(26, 2, "start |%s:]%s| finish!" % ('-' * player4_percent_done_print, ' ' *(pos_start_x - 23 - player4_percent_done_print)), curses.color_pair(yellow_text))
+                winner = player4
+
+            # player 5
+            screen.addstr(30, 2, "Player5 ::" , curses.color_pair(cyan_dots))
+            screen.addstr(30, 13, "| Rate: %.3f MBs" % (round(player5.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
+            screen.addstr(30, 31, "| Percent Downloaded: %s%%" % (player5_percent_done))
+            screen.addstr(32, 2, "start |%s:]%s| finish!" % ('-' * player5_percent_done_print, ' ' *(pos_start_x - 23 - player5_percent_done_print)), curses.color_pair(yellow_text))
+            if(player4_percent_done == 100):
+                screen.addstr(30, 21, "0.000", curses.color_pair(red))
+                screen.addstr(32, 2, "start |%s:]%s| finish!" % ('-' * player5_percent_done_print, ' ' *(pos_start_x - 23 - player5_percent_done_print)), curses.color_pair(yellow_text))
+                winner = player5
+
+            '''
             # If both players finish print loading animation infinitly
             if(player1.data_length == player1.total_length and player2.data_length == player2.total_length ):
                 while(True):
@@ -180,6 +224,7 @@ def func():
                     screen.border()
                     screen.refresh()
                     time.sleep(.50)
+            '''
             screen.refresh()
             time.sleep(.1)
     except KeyboardInterrupt:
