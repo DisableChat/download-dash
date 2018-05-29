@@ -131,6 +131,7 @@ def func():
     screen.bkgd(curses.color_pair(default)) # setting color for the race window
 
     try:
+        max_download_speed = 0
         loading = '.'
         bool = True
         start_time1 = time.time()
@@ -155,8 +156,28 @@ def func():
             player4_percent_done = int(100 * player4.data_length/player4.total_length)
             player5_percent_done_print = int((window_width - 23) * player5.data_length/player5.total_length)
             player5_percent_done = int(100 * player5.data_length/player5.total_length)
+
+            p1_ds = (round(player1.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+            p2_ds = (round(player2.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+            p3_ds = (round(player3.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+            p4_ds = (round(player4.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+            p5_ds = (round(player5.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+
+            if(p1_ds > max_download_speed):
+                max_download_speed = p1_ds
+            if(p2_ds > max_download_speed):
+                max_download_speed = p2_ds
+            if(p3_ds > max_download_speed):
+                max_download_speed = p3_ds
+            if(p4_ds > max_download_speed):
+                max_download_speed = p4_ds
+            if(p5_ds > max_download_speed):
+                max_download_speed = p5_ds
+
+            screen.addstr(36, 2, "Overall Peek Download Rate Recorded: ", curses.color_pair(blue))
+            screen.addstr(36, 39, "%.3f Mbs" % (max_download_speed), curses.color_pair(yellow_text))
                         # Title for the race window
-            screen.addstr(pos_start_y - 4 , middle_width - 13, "WE GONA RACE TODAY COACH", curses.color_pair(blue))
+            screen.addstr(pos_start_y - 4 , middle_width - 7, "Hot Dog Racer", curses.color_pair(blue))
             screen.addstr(pos_start_y - 3, middle_width - 14, '--------------------------', curses.color_pair(blue))
 
             #player 1
@@ -204,27 +225,11 @@ def func():
             screen.addstr(30, 13, "| Rate: %.3f MBs" % (round(player5.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
             screen.addstr(30, 31, "| Percent Downloaded: %s%%" % (player5_percent_done))
             screen.addstr(32, 2, "start |%s:]%s| finish!" % ('-' * player5_percent_done_print, ' ' *(pos_start_x - 23 - player5_percent_done_print)), curses.color_pair(yellow_text))
-            if(player4_percent_done == 100):
+            if(player5_percent_done == 100):
                 screen.addstr(30, 21, "0.000", curses.color_pair(red))
                 screen.addstr(32, 2, "start |%s:]%s| finish!" % ('-' * player5_percent_done_print, ' ' *(pos_start_x - 23 - player5_percent_done_print)), curses.color_pair(yellow_text))
                 winner = player5
 
-            '''
-            # If both players finish print loading animation infinitly
-            if(player1.data_length == player1.total_length and player2.data_length == player2.total_length ):
-                while(True):
-                    screen.addstr(20, 50, loading)
-                    loading += '  .'
-                    screen.refresh()
-                    time.sleep(.25)
-                    if(loading == '.  .  .  .  .  .  .'):
-                        screen.addstr(20, 50, '                   ')
-                        screen.refresh()
-                        loading = '.'
-                    screen.border()
-                    screen.refresh()
-                    time.sleep(.50)
-            '''
             screen.refresh()
             time.sleep(.1)
     except KeyboardInterrupt:
