@@ -8,6 +8,10 @@ from threading import Thread
 class Downloader:
     data_length = 0
     total_length = 0
+    overall_average_download = 0
+    peek_download = 0
+    peek_download_high = 0
+    time_end = 0
 
     # Downloading the length
     def set_data_length(self, url):

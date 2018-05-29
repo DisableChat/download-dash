@@ -157,25 +157,29 @@ def func():
             player5_percent_done_print = int((window_width - 23) * player5.data_length/player5.total_length)
             player5_percent_done = int(100 * player5.data_length/player5.total_length)
 
-            p1_ds = (round(player1.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
-            p2_ds = (round(player2.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
-            p3_ds = (round(player3.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
-            p4_ds = (round(player4.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
-            p5_ds = (round(player5.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+            # Download Rate
+            player1.peek_download = (round(player1.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+            player2.peek_download = (round(player2.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+            player4.peek_download = (round(player4.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+            player3.peek_download = (round(player3.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
+            player5.peek_download = (round(player5.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3))
 
-            if(p1_ds > max_download_speed):
-                max_download_speed = p1_ds
-            if(p2_ds > max_download_speed):
-                max_download_speed = p2_ds
-            if(p3_ds > max_download_speed):
-                max_download_speed = p3_ds
-            if(p4_ds > max_download_speed):
-                max_download_speed = p4_ds
-            if(p5_ds > max_download_speed):
-                max_download_speed = p5_ds
+            # recoding highest peek download rate
+            if(player1.peek_download > max_download_speed):
+                max_download_speed = player1.peek_download
+            if(player2.peek_download > max_download_speed):
+                max_download_speed = player2.peek_download
+            if(player3.peek_download > max_download_speed):
+                max_download_speed = player3.peek_download
+            if(player4.peek_download > max_download_speed):
+                max_download_speed = player4.peek_download
+            if(player5.peek_download > max_download_speed):
+                max_download_speed = player5.peek_download
 
             screen.addstr(36, 2, "Overall Peek Download Rate Recorded: ", curses.color_pair(blue))
             screen.addstr(36, 39, "%.3f Mbs" % (max_download_speed), curses.color_pair(yellow_text))
+
+
                         # Title for the race window
             screen.addstr(pos_start_y - 4 , middle_width - 7, "Hot Dog Racer", curses.color_pair(blue))
             screen.addstr(pos_start_y - 3, middle_width - 14, '--------------------------', curses.color_pair(blue))
@@ -185,9 +189,18 @@ def func():
             screen.addstr(6, 13, "| Rate: %.3f MBs" % (round(player1.get_data_length()/(time.time()+1 -start_time1)/1024/1024, 3)))
             screen.addstr(6, 31, "| Percent Downloaded: %s%%" % (player1_percent_done))
             screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done_print, ' ' *(pos_start_x - 23 - player1_percent_done_print)), curses.color_pair(yellow_text))
+            if(player1.peek_download > player1.peek_download_high):
+                player1.peek_download_high = player1.peek_download
+            screen.addstr(10, 2, "Peek Download Rate Recorded:", curses.color_pair(blue))
+            screen.addstr(10, 34, "%.3f Mbs" % (player1.peek_download_high), curses.color_pair(yellow_text))
             if(player1_percent_done == 100):
+                #player1.time_end = time.time() + 1 - start_time1
                 screen.addstr(6, 21, "0.000", curses.color_pair(red))
                 screen.addstr(8, 2, "start |%s:]%s| finish!" % ('-' * player1_percent_done_print, ' ' *(pos_start_x - 23 - player1_percent_done_print)), curses.color_pair(yellow_text))
+                if(player1.overall_average_download == 0):
+                    player1.overall_average_download = round(player1.total_length /(time.time() + 1  - start_time1) /1024/1024, 3)
+                screen.addstr(10, 46, "Overall Average Download Speed:", curses.color_pair(blue))
+                screen.addstr(10, 81, "%.3f MBs" % (player1.overall_average_download), curses.color_pair(yellow_text))
                 winner = player1
 
             # player 2
@@ -195,9 +208,18 @@ def func():
             screen.addstr(12, 13, "| Rate: %.3f MBs" % (round(player2.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
             screen.addstr(12, 31, "| Percent Downloaded: %s%%" % (player2_percent_done))
             screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done_print, ' ' *(pos_start_x - 23 - player2_percent_done_print)), curses.color_pair(yellow_text))
+            if(player2.peek_download > player2.peek_download_high):
+                player2.peek_download_high = player2.peek_download
+            screen.addstr(16, 2, "Peek Download Rate Recorded: ", curses.color_pair(blue))
+            screen.addstr(16, 34, "%.3f Mbs" % (player2.peek_download_high), curses.color_pair(yellow_text))
             if(player2_percent_done == 100):
+                player2.time_end = time.time() + 1 - start_time1
                 screen.addstr(12, 21, "0.000", curses.color_pair(red))
                 screen.addstr(14, 2, "start |%s:]%s| finish!" % ('-' * player2_percent_done_print, ' ' *(pos_start_x - 23 - player2_percent_done_print)), curses.color_pair(yellow_text))
+                if(player2.overall_average_download == 0):
+                    player2.overall_average_download = round(player2.total_length / player2.time_end /1024/1024, 3)
+                screen.addstr(16, 46, "Overall Average Download Speed:", curses.color_pair(blue))
+                screen.addstr(16, 81, "%.3f MBs" % (player2.overall_average_download), curses.color_pair(yellow_text))
                 winner = player2
 
             # player 3
@@ -205,6 +227,10 @@ def func():
             screen.addstr(18, 13, "| Rate: %.3f MBs" % (round(player3.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
             screen.addstr(18, 31, "| Percent Downloaded: %s%%" % (player3_percent_done))
             screen.addstr(20, 2, "start |%s:]%s| finish!" % ('-' * player3_percent_done_print, ' ' *(pos_start_x - 23 - player3_percent_done_print)), curses.color_pair(yellow_text))
+            if(player3.peek_download > player3.peek_download_high):
+                player3.peek_download_high = player3.peek_download
+            screen.addstr(22, 2, "Peek Download Rate Recorded: ", curses.color_pair(blue))
+            screen.addstr(22, 31, "%.3f Mbs" % (player3.peek_download_high), curses.color_pair(yellow_text))
             if(player3_percent_done == 100):
                 screen.addstr(18, 21, "0.000", curses.color_pair(red))
                 screen.addstr(20, 2, "start |%s:]%s| finish!" % ('-' * player3_percent_done_print, ' ' *(pos_start_x - 23 - player3_percent_done_print)), curses.color_pair(yellow_text))
@@ -215,6 +241,10 @@ def func():
             screen.addstr(24, 13, "| Rate: %.3f MBs" % (round(player4.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
             screen.addstr(24, 31, "| Percent Downloaded: %s%%" % (player4_percent_done))
             screen.addstr(26, 2, "start |%s:]%s| finish!" % ('-' * player4_percent_done_print, ' ' *(pos_start_x - 23 - player4_percent_done_print)), curses.color_pair(yellow_text))
+            if(player4.peek_download > player4.peek_download_high):
+                player4.peek_download_high = player4.peek_download
+            screen.addstr(28, 2, "Peek Download Rate Recorded: ", curses.color_pair(blue))
+            screen.addstr(28, 31, "%.3f Mbs" % (player4.peek_download_high), curses.color_pair(yellow_text))
             if(player4_percent_done == 100):
                 screen.addstr(24, 21, "0.000", curses.color_pair(red))
                 screen.addstr(26, 2, "start |%s:]%s| finish!" % ('-' * player4_percent_done_print, ' ' *(pos_start_x - 23 - player4_percent_done_print)), curses.color_pair(yellow_text))
@@ -225,6 +255,10 @@ def func():
             screen.addstr(30, 13, "| Rate: %.3f MBs" % (round(player5.get_data_length()/(time.time()+1 - start_time1)/1024/1024, 3)))
             screen.addstr(30, 31, "| Percent Downloaded: %s%%" % (player5_percent_done))
             screen.addstr(32, 2, "start |%s:]%s| finish!" % ('-' * player5_percent_done_print, ' ' *(pos_start_x - 23 - player5_percent_done_print)), curses.color_pair(yellow_text))
+            if(player5.peek_download > player5.peek_download_high):
+                player5.peek_download_high = player5.peek_download
+            screen.addstr(34, 2, "Peek Download Rate Recorded: ", curses.color_pair(blue))
+            screen.addstr(34, 31, "%.3f Mbs" % (player5.peek_download_high), curses.color_pair(yellow_text))
             if(player5_percent_done == 100):
                 screen.addstr(30, 21, "0.000", curses.color_pair(red))
                 screen.addstr(32, 2, "start |%s:]%s| finish!" % ('-' * player5_percent_done_print, ' ' *(pos_start_x - 23 - player5_percent_done_print)), curses.color_pair(yellow_text))
