@@ -17,7 +17,7 @@ url5 = 'http://ipv4.download.thinkbroadband.com/100MB.zip'
 #url = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
 #url2 = 'https://www.sample-videos.com/img/Sample-jpg-image-5mb.jpg' # hard coding url from now
 #url3 = 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
-#url4 = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
+#url = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
 
 ##
 # Setting Up colors and Terminal Res Tracker.
@@ -96,7 +96,7 @@ def func():
     # declaring an array of threads
     threads = []
     for p in players:
-        threads.append(Thread(target=p.download, args=(url4,)))
+        threads.append(Thread(target=p.download, args=(url5,)))
 
 
     # starting the array of threads
@@ -140,7 +140,7 @@ def func():
             x = 0
             for p in players:
 
-                screen.addstr(y_offset, 2,  "Player1 ::", curses.color_pair(cyan_dots))
+                screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
                 screen.addstr(y_offset, 13, "| Rate: %.3f MBs" %
                     (round(p.get_data_length()/(time.time()+1 -start_time)/1024/1024, 3)))
                 screen.addstr(y_offset, 31, "| Percent Downloaded: %s%%" % (p.get_percent_done()))
@@ -160,7 +160,9 @@ def func():
                         curses.color_pair(yellow_text))
 
                     if(p.overall_average_download == 0):
-                        p.overall_average_download = round(p.total_length /(time.time() + 1  - start_time) /1024/1024, 3)
+                        time_end = time.time() + 1
+                        screen.addstr(30,4, str(time_end))
+                        p.overall_average_download = round((p.total_length /(time_end - start_time)) /1024/1024, 3)
                     screen.addstr(y_offset+4, 46, "Overall Average Download Speed:", curses.color_pair(blue))
                     screen.addstr(y_offset+4, 81, "%.3f MBs" % (p.overall_average_download), curses.color_pair(yellow_text))
 

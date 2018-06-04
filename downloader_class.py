@@ -82,13 +82,11 @@ class Downloader:
         self.header = str(self.header)
         self.parse_content_length()
 
-        bool = True
-        while(bool == True):
+        while(True):
             result = s.recv(4096)
             self.data_length += len(result)
-            #self.data_length += 4096
             if(self.data_length == self.total_length):
-                bool = False
+                break
 
     # Accesor functions
     def get_data_length(self):
