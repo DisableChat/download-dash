@@ -1,6 +1,22 @@
 import socket
 import time
-import string
+
+#parses server address as well as download directories
+def parse_server_info(url):
+    url = str(url)
+    http_array = list(url)
+    if(http_array[0:7] == ['h', 't', 't', 'p', ':', '/', '/']):
+        http_array = http_array[7:len(url)]
+        url = ''.join(http_array)
+        directory_loc_begin = url.find('/')
+        server = http_array[0:directory_loc_begin]
+        server = ''.join(server)
+        directories = http_array[directory_loc_begin:len(url)]
+        directories = ''.join(directories)
+        print('Server: ', server)
+        print('Directory: ', directories)
+        return server , directories
+
 
 # function used to parse out the content length from http header
 def parse_content_length(string):
@@ -22,12 +38,13 @@ except socket.error as err:
 
 
 #hard coding servers for now.
-#server = '212.183.159.230'
-server = 'ipv4.download.thinkbroadband.com'
-#server = 'ipv4.download.thinkbroadband.com'
-#server = 'www.office.xerox.com' # /latest/SFTBR-04.PDF
+url = 'http://ipv4.download.thinkbroadband.com/5MB.zip'
 
 port = 80
+
+server, directories = parse_server_info(url)
+request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
+
 
 try:
     server_ip = socket.gethostbyname(server)
@@ -36,13 +53,6 @@ except socket.gaierror:
     #could not resolve the host
     print("there was an error resolving the host")
     sys.exit()
-
-
-
-# messing with the requests by hard coding for now
-#request = "GET /100MB.zip HTTP/1.1\r\nHOST: "+server+"\r\n\r\n" #20971520 #NOTE abou 11s download time
-#request = "GET /latest/SFTBR-04.PDF HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
-request = "GET /20MB.zip HTTP/1.1\r\nHOST: "+server+"\r\n\r\n" #NOTE about 4 sec download time
 
 # conneting to server
 s.connect((server, port))
