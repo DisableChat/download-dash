@@ -9,10 +9,15 @@ import os
 # Determining file size before download and also downloading file from url
 # While also displaying the horse running(downloading
 
-url = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
-url2 = 'https://www.sample-videos.com/img/Sample-jpg-image-5mb.jpg' # hard coding url from now
-url3 = 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
-url4 = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
+url1 = 'http://ipv4.download.thinkbroadband.com/5MB.zip'
+url2 = 'http://ipv4.download.thinkbroadband.com/10MB.zip'
+url3 = 'http://ipv4.download.thinkbroadband.com/20MB.zip'
+url4 = 'http://ipv4.download.thinkbroadband.com/50MB.zip'
+url5 = 'http://ipv4.download.thinkbroadband.com/100MB.zip'
+#url = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
+#url2 = 'https://www.sample-videos.com/img/Sample-jpg-image-5mb.jpg' # hard coding url from now
+#url3 = 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
+#url4 = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
 
 ##
 # Setting Up colors and Terminal Res Tracker.
@@ -87,12 +92,12 @@ def func():
     players = []
     for i in range(0, 5, 1):
         players.append(dc.Downloader())
-        players[i].set_total_length(url)
 
     # declaring an array of threads
     threads = []
     for p in players:
-        threads.append(Thread(target=p.download, args=(url,)))
+        threads.append(Thread(target=p.download, args=(url4,)))
+
 
     # starting the array of threads
     for thread in threads:
@@ -129,8 +134,10 @@ def func():
             # Title for the race window
             screen.addstr(2, middle_width - 7, "Hot Dog Racer", curses.color_pair(blue))
             screen.addstr(3, middle_width - 14, '--------------------------', curses.color_pair(blue))
-
+            screen.addstr(3, middle_width, (str(players[0].total_length)))
+            screen.addstr(3, middle_width - 10, (str(players[0].data_length)))
             y_offset = 6
+            x = 0
             for p in players:
 
                 screen.addstr(y_offset, 2,  "Player1 ::", curses.color_pair(cyan_dots))
@@ -138,7 +145,7 @@ def func():
                     (round(p.get_data_length()/(time.time()+1 -start_time)/1024/1024, 3)))
                 screen.addstr(y_offset, 31, "| Percent Downloaded: %s%%" % (p.get_percent_done()))
                 screen.addstr(y_offset+2, 2, "start |%s:]%s| finish!" %
-                    ('-' * percent_print[x], ' ' *(window_width - 22 - percent_print[x])),
+                    ('-' * percent_print[x], ' ' *(window_width - 23 - percent_print[x])),
                     curses.color_pair(yellow_text))
 
                 if(p.peek_download > p.peek_download_high):
@@ -158,7 +165,7 @@ def func():
                     screen.addstr(y_offset+4, 81, "%.3f MBs" % (p.overall_average_download), curses.color_pair(yellow_text))
 
                 y_offset += 6 # offesting the next racer in y-direction
-
+                x += 1
             screen.refresh()
             time.sleep(.1)
 

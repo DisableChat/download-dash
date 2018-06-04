@@ -3,37 +3,92 @@ import requests
 import sys
 import time
 import urllib
+import socket
 from threading import Thread
 
 class Downloader:
 
     # variables needed for class
-    data_length = 0
-    total_length = 0
+    data_length = 1
+    total_length = 1
     overall_average_download = 0
     peek_download = 0
     peek_download_high = 0
     percent_done = 0
+    header = ''
 
     url = ''
+
+    #parses server address as well as download directories
+    def parse_server_info(self, url):
+        url = str(url)
+        http_array = list(url)
+        if(http_array[0:7] == ['h', 't', 't', 'p', ':', '/', '/']):
+            http_array = http_array[7:len(url)]
+            url = ''.join(http_array)
+            directory_loc_begin = url.find('/')
+            server = http_array[0:directory_loc_begin]
+            server = ''.join(server)
+            directories = http_array[directory_loc_begin:len(url)]
+            directories = ''.join(directories)
+            #print('Server: ', server)
+            #print('Directory: ', directories)
+            return server , directories
+
+    # function used to parse out the content length from http header
+    def parse_content_length(self):
+        content_length = ''
+        content_length_pos = self.header.find('Content-Length') + 17
+        for i in range(content_length_pos, 4096 - content_length_pos, 1):
+            content_length += self.header[i - 1]
+            if(self.header[i] == "\\"):
+                break
+        self.total_length = int(content_length)
+        #return content_length
 
     # getting the percent currently done
     def get_percent_done(self):
         self.percent_done = int(100 * self.data_length/self.total_length)
         return self.percent_done
 
-    # Downloading the length
     def download(self, url):
-        with open(file_name, 'wb') as f:
-            response = requests.get(url, stream = True)
-            for data in response.iter_content(chunk_size = 1024):
-                self.data_length += len(data)
-                f.write(data)
+        # setting up socket
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            print("Socket succesfully created")
+        except socket.error as err:
+            print("Socket Error %s" %(err))
 
-    # setting the total length
-    def set_total_length(self, url):
-        self.total_length = urllib.request.urlopen(url)
-        self.total_length = int(self.total_length.headers['content-length'])
+
+        self.url = url
+        port = 80
+        server, directories = self.parse_server_info(self.url)
+        request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
+
+        try:
+            server_ip = socket.gethostbyname(server)
+            print(server_ip)
+        except socket.gaierror:
+            #could not resolve the host
+            print("there was an error resolving the host")
+            sys.exit()
+
+        # conneting to server
+        s.connect((server, port))
+        s.send(request.encode())
+
+        self.header = s.recv(4096)
+        self.data_length += len(self.header)
+        self.header = str(self.header)
+        self.parse_content_length()
+
+        bool = True
+        while(bool == True):
+            result = s.recv(4096)
+            self.data_length += len(result)
+            #self.data_length += 4096
+            if(self.data_length == self.total_length):
+                bool = False
 
     # Accesor functions
     def get_data_length(self):
@@ -41,5 +96,3 @@ class Downloader:
 
     def get_total_length(self):
         return self.total_length
-
-file_name = "download.data" # declaring name of file in directory
