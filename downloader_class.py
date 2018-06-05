@@ -8,23 +8,18 @@ from threading import Thread
 
 class Downloader:
 
-    # variables needed for class
-    data_length = 0
-    total_length = 1
-    overall_average_download = 0
-    peek_download = 0
-    peek_download_high = 0
-    percent_done = 0
-    header = ''
-    time_end = 0
-    done_flag = False
-    stop_avg_flag = False
-    url = ''
+    # Players data_length and total_length and percent done
+    data_length = 0; total_length = 1; percent_done = 0
+    # average download and peak download var
+    overall_average_download = 0; peak_download = 0; peak_download_high = 0
+    #flags used
+    done_flag = False; stop_avg_flag = False
+    # Used for data download rate arithmitic
+    chunk_rate = 0; chunk = 0; chunk_timer_start = 0; chunk_timer_end = 0
+    # String variables for header and url info
+    header = ''; url = ''
 
-    chunk_rate = 0
-    chunk = 0
-    chunk_timer_start = 0
-    chunk_timer_end = 0
+    time_end = 0 #used for each player time end var
 
     #parses server address as well as download directories
     def parse_server_info(self, url):
@@ -51,19 +46,13 @@ class Downloader:
         self.total_length = int(content_length)
         #return content_length
 
-    # getting the percent currently done
-    def get_percent_done(self):
-        self.percent_done = int(100 * self.data_length/self.total_length)
-        return self.percent_done
-
     def download(self, url):
+
         # setting up socket
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            #print("Socket succesfully created")
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #socket succesfully created
         except socket.error as err:
-            sys.exit()
-            #print("Socket Error %s" %(err))
+            sys.exit() #print("Socket Error %s" %(err))
 
         self.url = url
         port = 80
@@ -75,9 +64,7 @@ class Downloader:
             #print(server_ip)
         except socket.gaierror:
             #could not resolve the host
-            sys.exit()
-            #print("there was an error resolving the host")
-            sys.exit()
+            sys.exit()  #there was an error resolving the host
 
         # conneting to server
         s.connect((server, port))
@@ -88,17 +75,24 @@ class Downloader:
         self.header = str(self.header)
         self.parse_content_length()
 
-        self.chunk_timer_start = time.time()
+
+        self.chunk_timer_start = time.time() #starting timer
+        #receving stream of packets
         while(True):
             result = s.recv(4096)
             self.data_length += len(result)
             self.chunk += len(result)
-            if((time.time() - self.chunk_timer_start) >= 1):
-                self.chunk_rate = self.chunk/(time.time() - self.chunk_timer_start)
-                self.chunk_timer_start = time.time()
-                self.chunk = 0
+            self.set_chunk_rate()
             if(self.data_length == self.total_length):
                 break
+
+    # determines the chunk rate
+    def set_chunk_rate(self):
+        if((time.time() - self.chunk_timer_start) >= 1):
+            self.chunk_rate = self.chunk/(time.time() - self.chunk_timer_start)
+            self.chunk_timer_start = time.time()
+            self.chunk = 0
+
 
     # Accesor functions
     def get_data_length(self):
@@ -106,3 +100,7 @@ class Downloader:
 
     def get_total_length(self):
         return self.total_length
+
+    def get_percent_done(self):
+        self.percent_done = int(100 * self.data_length/self.total_length)
+        return self.percent_done

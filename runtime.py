@@ -121,22 +121,22 @@ def func():
             for p in players:
                 percent_print.append(int((window_width - 23) * p.data_length/p.total_length))
 
-            # determing peek_download and highest overall peek_download
+            # determing peak_download and highest overall peak_download
             for p in players:
-                p.peek_download = (p.chunk_rate/1024/1024)
-                if p.peek_download > max_download_speed:
-                    max_download_speed = p.peek_download
+                p.peak_download = (p.chunk_rate/1024/1024)
+                if p.peak_download > max_download_speed:
+                    max_download_speed = p.peak_download
 
-            # Displaying overall peek download to screen
-            screen.addstr(36, 2, "Overall Peek Download Rate Recorded: ", curses.color_pair(blue))
+            # Displaying overall peak download to screen
+            screen.addstr(36, 2, "Overall Peak Download Rate Recorded: ", curses.color_pair(blue))
             screen.addstr(36, 39, "%.3f Mbs" % (max_download_speed), curses.color_pair(yellow_text))
 
             # Title for the race window
             screen.addstr(2, middle_width - 10, "Hot Dog Downloader", curses.color_pair(blue))
             screen.addstr(3, middle_width - 14, '--------------------------', curses.color_pair(blue))
 
-            y_offset = 6
-            x = 0
+            y_offset = 6 # y componet offset for players
+            x = 0  #used in percent_print array
             for p in players:
                 # displaying the player, rate, percent downloaded and start/finish animation
                 screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
@@ -147,13 +147,13 @@ def func():
                     ('-' * percent_print[x], ' ' *(window_width - 23 - percent_print[x])),
                     curses.color_pair(yellow_text))
 
-                #displaying the peek download
-                if(p.chunk_rate > p.peek_download_high):
-                    p.peek_download_high = p.chunk_rate
-                screen.addstr(y_offset+4, 2, "Peek Download Rate Recorded:", curses.color_pair(blue))
-                screen.addstr(y_offset+4, 34, "%.3f Mbs" % (p.peek_download_high/1024/1024), curses.color_pair(yellow_text))
+                #displaying the peak download
+                if(p.chunk_rate > p.peak_download_high):
+                    p.peak_download_high = p.chunk_rate
+                screen.addstr(y_offset+4, 2, "Peak Download Rate Recorded:", curses.color_pair(blue))
+                screen.addstr(y_offset+4, 34, "%.3f Mbs" % (p.peak_download_high/1024/1024), curses.color_pair(yellow_text))
 
-                # if done hen print static image
+                # if done hen print static image for load animation but can still be resized
                 if(p.get_percent_done() == 100):
                     screen.addstr(y_offset, 21, "0.000", curses.color_pair(red))
                     screen.addstr(y_offset+2, 2, "start |%s:]%s| finish!" %
@@ -178,7 +178,6 @@ def func():
                 x += 1
             screen.refresh()
             time.sleep(.1)
-
 
     except KeyboardInterrupt:
         curses.endwin()
