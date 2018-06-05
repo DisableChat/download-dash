@@ -57,7 +57,6 @@ screen.bkgd(curses.color_pair(yellow_background)) # setting bacground color for 
 #----------------------------------------------------------------------------------------------------------#
 
 def func():
-
     # firt try is used to display the countdown screen before race
     try:
         for x in range(3, 0, -1):
@@ -107,6 +106,7 @@ def func():
 
     try:
         max_download_speed = 0
+        split_timer = time.time()
         start_time = time.time()
 
         while(True):
@@ -121,9 +121,9 @@ def func():
             for p in players:
                 percent_print.append(int((window_width - 23) * p.data_length/p.total_length))
 
-            # determing peek_download and highest overall peek_download
+            # determing peek_download and highest overall peek_download #TODO The prob is get_data_length is not the right mesurement
             for p in players:
-                p.peek_download = (round(p.get_data_length()/(time.time()+1 -start_time)/1024/1024, 3))
+                p.peek_download = (round(((p.get_data_length()/(time.time() - start_time))/1024/1024), 3))
                 if p.peek_download > max_download_speed:
                     max_download_speed = p.peek_download
 
@@ -134,42 +134,52 @@ def func():
             # Title for the race window
             screen.addstr(2, middle_width - 7, "Hot Dog Racer", curses.color_pair(blue))
             screen.addstr(3, middle_width - 14, '--------------------------', curses.color_pair(blue))
-            screen.addstr(3, middle_width, (str(players[0].total_length)))
-            screen.addstr(3, middle_width - 10, (str(players[0].data_length)))
+            #screen.addstr(3, middle_width, (str(players[0].total_length))) #testing purposes
+            #screen.addstr(3, middle_width - 10, (str(players[0].data_length))) # testing purposes
             y_offset = 6
             x = 0
             for p in players:
-
+                # displaying the player, rate, percent downloaded and start/finish animation
                 screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
                 screen.addstr(y_offset, 13, "| Rate: %.3f MBs" %
-                    (round(p.get_data_length()/(time.time()+1 -start_time)/1024/1024, 3)))
+                    (round(p.data_length/(time.time() - start_time)/1024/1024, 3)))
                 screen.addstr(y_offset, 31, "| Percent Downloaded: %s%%" % (p.get_percent_done()))
                 screen.addstr(y_offset+2, 2, "start |%s:]%s| finish!" %
                     ('-' * percent_print[x], ' ' *(window_width - 23 - percent_print[x])),
                     curses.color_pair(yellow_text))
 
+                #displaying the peek download
                 if(p.peek_download > p.peek_download_high):
                     p.peek_download_high = p.peek_download
                 screen.addstr(y_offset+4, 2, "Peek Download Rate Recorded:", curses.color_pair(blue))
                 screen.addstr(y_offset+4, 34, "%.3f Mbs" % (p.peek_download_high), curses.color_pair(yellow_text))
 
+                # if done hen print static image
                 if(p.get_percent_done() == 100):
                     screen.addstr(y_offset, 21, "0.000", curses.color_pair(red))
                     screen.addstr(y_offset+2, 2, "start |%s:]%s| finish!" %
                         ('-' * percent_print[x], ' ' *(window_width - 22 - percent_print[x])),
                         curses.color_pair(yellow_text))
+                    p.done_flag = True
 
-                    if(p.overall_average_download == 0):
-                        time_end = time.time() + 1
-                        screen.addstr(30,4, str(time_end))
-                        p.overall_average_download = round((p.total_length /(time_end - start_time)) /1024/1024, 3)
+                # display overall average download when done
+                if(p.done_flag == True and p.get_percent_done() == 100):
+                    if(p.stop_avg_flag == False):
+                        p.time_end = time.time()
+                        p.stop_avg_flag = True
+                    screen.addstr(x+1,1, "Player"+str(x+1)+": "+str(round(p.time_end,3)))
+                    screen.addstr(1,27 ,"Start Time: "+str(round(start_time, 3)))
+                    p.overall_average_download = round(((p.total_length /(p.time_end - start_time)) /1024/1024), 3)
                     screen.addstr(y_offset+4, 46, "Overall Average Download Speed:", curses.color_pair(blue))
                     screen.addstr(y_offset+4, 81, "%.3f MBs" % (p.overall_average_download), curses.color_pair(yellow_text))
+                else:
+                    pass
 
                 y_offset += 6 # offesting the next racer in y-direction
                 x += 1
             screen.refresh()
             time.sleep(.1)
+
 
     except KeyboardInterrupt:
         curses.endwin()

@@ -9,14 +9,16 @@ from threading import Thread
 class Downloader:
 
     # variables needed for class
-    data_length = 1
+    data_length = 0
     total_length = 1
     overall_average_download = 0
     peek_download = 0
     peek_download_high = 0
     percent_done = 0
     header = ''
-
+    time_end = 0
+    done_flag = False
+    stop_avg_flag = False
     url = ''
 
     #parses server address as well as download directories
@@ -31,8 +33,6 @@ class Downloader:
             server = ''.join(server)
             directories = http_array[directory_loc_begin:len(url)]
             directories = ''.join(directories)
-            #print('Server: ', server)
-            #print('Directory: ', directories)
             return server , directories
 
     # function used to parse out the content length from http header
@@ -55,9 +55,10 @@ class Downloader:
         # setting up socket
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            print("Socket succesfully created")
+            #print("Socket succesfully created")
         except socket.error as err:
-            print("Socket Error %s" %(err))
+            sys.exit()
+            #print("Socket Error %s" %(err))
 
 
         self.url = url
@@ -67,10 +68,11 @@ class Downloader:
 
         try:
             server_ip = socket.gethostbyname(server)
-            print(server_ip)
+            #print(server_ip)
         except socket.gaierror:
             #could not resolve the host
-            print("there was an error resolving the host")
+            sys.exit()
+            #print("there was an error resolving the host")
             sys.exit()
 
         # conneting to server
