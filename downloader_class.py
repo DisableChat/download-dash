@@ -21,6 +21,11 @@ class Downloader:
     stop_avg_flag = False
     url = ''
 
+    chunk_rate = 0
+    chunk = 0
+    chunk_timer_start = 0
+    chunk_timer_end = 0
+
     #parses server address as well as download directories
     def parse_server_info(self, url):
         url = str(url)
@@ -84,9 +89,15 @@ class Downloader:
         self.header = str(self.header)
         self.parse_content_length()
 
+        self.chunk_timer_start = time.time()
         while(True):
             result = s.recv(4096)
             self.data_length += len(result)
+            self.chunk += len(result)
+            if((time.time() - self.chunk_timer_start) >= 1):
+                self.chunk_rate = self.chunk/(time.time() - self.chunk_timer_start)
+                self.chunk_timer_start = time.time()
+                self.chunk = 0
             if(self.data_length == self.total_length):
                 break
 

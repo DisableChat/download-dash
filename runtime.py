@@ -136,13 +136,14 @@ def func():
             screen.addstr(3, middle_width - 14, '--------------------------', curses.color_pair(blue))
             #screen.addstr(3, middle_width, (str(players[0].total_length))) #testing purposes
             #screen.addstr(3, middle_width - 10, (str(players[0].data_length))) # testing purposes
+            screen.addstr(3, middle_width, str(p.chunk))
             y_offset = 6
             x = 0
             for p in players:
                 # displaying the player, rate, percent downloaded and start/finish animation
                 screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
                 screen.addstr(y_offset, 13, "| Rate: %.3f MBs" %
-                    (round(p.data_length/(time.time() - start_time)/1024/1024, 3)))
+                    (round(p.chunk_rate/1024/1024, 3)))
                 screen.addstr(y_offset, 31, "| Percent Downloaded: %s%%" % (p.get_percent_done()))
                 screen.addstr(y_offset+2, 2, "start |%s:]%s| finish!" %
                     ('-' * percent_print[x], ' ' *(window_width - 23 - percent_print[x])),
