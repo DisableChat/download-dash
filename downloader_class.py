@@ -9,17 +9,32 @@ from threading import Thread
 class Downloader:
 
     # Players data_length and total_length and percent done
-    data_length = 0; total_length = 1; percent_done = 0
-    # average download and peak download var
-    overall_average_download = 0; peak_download = 0; peak_download_high = 0
-    #flags used
-    done_flag = False; stop_avg_flag = False
-    # Used for data download rate arithmitic
-    chunk_rate = 0; chunk = 0; chunk_timer_start = 0; chunk_timer_end = 0
-    # String variables for header and url info
-    header = ''; url = ''
+    data_length     = 0
+    total_length    = 1
+    percent_done    = 0
 
-    time_end = 0 #used for each player time end var
+    # average download and peak download var
+    overall_average_download    = 0
+    peak_download               = 0
+    peak_download_high          = 0
+
+    #flags used
+    done_flag       = False
+    stop_avg_flag   = False
+
+    # Used for data download rate arithmitic
+    chunk_rate          = 0
+    chunk               = 0
+    chunk_timer_start   = 0
+    chunk_timer_end     = 0
+
+
+    # String variables for header and url info
+    header  = ''
+    url     = ''
+
+    #used for each player time end var
+    time_end = 0
 
     #parses server address as well as download directories
     def parse_server_info(self, url):
@@ -52,7 +67,7 @@ class Downloader:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #socket succesfully created
         except socket.error as err:
-            sys.exit() #print("Socket Error %s" %(err))
+            sys.exit("Socket Error %s" %(err))
 
         self.url = url
         port = 80
@@ -61,10 +76,8 @@ class Downloader:
 
         try:
             server_ip = socket.gethostbyname(server)
-            #print(server_ip)
         except socket.gaierror:
-            #could not resolve the host
-            sys.exit()  #there was an error resolving the host
+            sys.exit("there was an error resolving the host")#could not resolve the host
 
         # conneting to server
         s.connect((server, port))

@@ -4,24 +4,21 @@ import time
 from threading import Thread
 import curses
 import os
+import sys
 
-##
-# Determining file size before download and also downloading file from url
-# While also displaying the horse running(downloading
-
+# hard coding url for now
 url1 = 'http://ipv4.download.thinkbroadband.com/5MB.zip'
 url2 = 'http://ipv4.download.thinkbroadband.com/10MB.zip'
 url3 = 'http://ipv4.download.thinkbroadband.com/20MB.zip'
 url4 = 'http://ipv4.download.thinkbroadband.com/50MB.zip'
 url5 = 'http://ipv4.download.thinkbroadband.com/100MB.zip'
-#url = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
-#url2 = 'https://www.sample-videos.com/img/Sample-jpg-image-5mb.jpg' # hard coding url from now
-#url3 = 'https://www.sample-videos.com/img/Sample-jpg-image-30mb.jpg'
-#url = 'https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg'
+
 
 ##
 # Setting Up colors and Terminal Res Tracker.
-##--------------------------------------------------------------------------------------------------------#
+##
+
+#--------------------------------------------------------------------------------------------------------#
 
 screen = curses.initscr() # instantiating screen object
 curses.curs_set(0) # Cursor visibility = false
@@ -35,12 +32,12 @@ curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_BLACK)
 curses.init_pair(5, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 curses.init_pair(6, curses.COLOR_CYAN, curses.COLOR_BLACK)
 
-red = 1 # red text with black background
-yellow_background = 2 # yellow background hurts eyes
-blue = 3 # blue text black background
-default = 4 # green text with black background
-yellow_text = 5 # yellow text with black bacground
-cyan_dots = 6 # blue dots when race is done
+red                 = 1 # red text with black background
+yellow_background   = 2 # yellow background hurts eyes
+blue                = 3 # blue text black background
+default             = 4 # green text with black background
+yellow_text         = 5 # yellow text with black bacground
+cyan_dots           = 6 # blue dots when race is done
 
 # Window_res determines middle_height, middle_width, pos_start x
 def window_res(screen):
@@ -85,7 +82,7 @@ def func():
         screen.clear()
     except KeyboardInterrupt: # for user wanting to ctr ^C
         curses.endwin()
-        sys.exit()
+        sys.exit("Keyboard Interrupt")
 
     # Declaring an array of players and instantiating those players and setting url total length
     players = []
@@ -137,7 +134,9 @@ def func():
 
             y_offset = 6 # y componet offset for players
             x = 0  #used in percent_print array
+
             for p in players:
+
                 # displaying the player, rate, percent downloaded and start/finish animation
                 screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
                 screen.addstr(y_offset, 13, "| Rate: %.3f MBs" %
@@ -166,8 +165,6 @@ def func():
                     if(p.stop_avg_flag == False):
                         p.time_end = time.time()
                         p.stop_avg_flag = True
-                    #screen.addstr(x+1,1, "Player"+str(x+1)+": "+str(round(p.time_end,3))) #helper
-                    #screen.addstr(1,27 ,"Start Time: "+str(round(start_time, 3)))
                     p.overall_average_download = round(((p.total_length /(p.time_end - start_time)) /1024/1024), 3)
                     screen.addstr(y_offset+4, 46, "Overall Average Download Speed:", curses.color_pair(blue))
                     screen.addstr(y_offset+4, 81, "%.3f MBs" % (p.overall_average_download), curses.color_pair(yellow_text))
@@ -181,6 +178,8 @@ def func():
 
     except KeyboardInterrupt:
         curses.endwin()
-        sys.exit()
+        sys.exit("Keyboard Interrupt")
+        for p in players:
+            threads.join()
 
 func()
