@@ -1,10 +1,14 @@
-# Downloader Struct
 import requests
 import sys
 import time
 import urllib
 import socket
 from threading import Thread
+
+##
+# Downloader Struct is struct for the "Players" used in the race. This includes
+# all the neccary vars and functions needed by the runtime.py
+##
 
 class Downloader:
 
@@ -13,12 +17,12 @@ class Downloader:
     total_length    = 1
     percent_done    = 0
 
-    # average download and peak download var
+    # Average download and peak download var
     overall_average_download    = 0
     peak_download               = 0
     peak_download_high          = 0
 
-    #flags used
+    # Flags used
     done_flag       = False
     stop_avg_flag   = False
 
@@ -28,15 +32,14 @@ class Downloader:
     chunk_timer_start   = 0
     chunk_timer_end     = 0
 
-
     # String variables for header and url info
     header  = ''
     url     = ''
 
-    #used for each player time end var
+    # Used for each player time end var
     time_end = 0
 
-    #parses server address as well as download directories
+    # Parses server address as well as download directories
     def parse_server_info(self, url):
         url = str(url)
         http_array = list(url)
@@ -50,7 +53,7 @@ class Downloader:
             directories = ''.join(directories)
             return server , directories
 
-    # function used to parse out the content length from http header
+    # Function used to parse out the content length from http header
     def parse_content_length(self):
         content_length = ''
         content_length_pos = self.header.find('Content-Length') + 17
@@ -59,27 +62,28 @@ class Downloader:
             if(self.header[i] == "\\"):
                 break
         self.total_length = int(content_length)
-        #return content_length
 
     def download(self, url):
 
-        # setting up socket
+        # Setting up socket
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #socket succesfully created
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         except socket.error as err:
             sys.exit("Socket Error %s" %(err))
 
+        # Setting Url, Port, Server, and Directory and request info
         self.url = url
         port = 80
         server, directories = self.parse_server_info(self.url)
         request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
 
+        # Connect To host Try
         try:
             server_ip = socket.gethostbyname(server)
         except socket.gaierror:
-            sys.exit("there was an error resolving the host")#could not resolve the host
+            sys.exit("there was an error resolving the host")
 
-        # conneting to server
+        # Conneting to server
         s.connect((server, port))
         s.send(request.encode())
 
@@ -88,9 +92,10 @@ class Downloader:
         self.header = str(self.header)
         self.parse_content_length()
 
+        # Starting timer
+        self.chunk_timer_start = time.time()
 
-        self.chunk_timer_start = time.time() #starting timer
-        #receving stream of packets
+        # Receiving stream of packets
         while(True):
             result = s.recv(4096)
             self.data_length += len(result)
@@ -99,7 +104,7 @@ class Downloader:
             if(self.data_length == self.total_length):
                 break
 
-    # determines the chunk rate
+    # Determines the chunk rate
     def set_chunk_rate(self):
         if((time.time() - self.chunk_timer_start) >= 1):
             self.chunk_rate = self.chunk/(time.time() - self.chunk_timer_start)

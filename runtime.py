@@ -1,10 +1,14 @@
-# implementation
 import downloader_class as dc
 import time
 from threading import Thread
 import curses
 import os
 import sys
+
+##
+# Runtime.py Script is designed to simulate a hot dog downloader race
+##
+
 
 # hard coding url for now
 url1 = 'http://ipv4.download.thinkbroadband.com/5MB.zip'
@@ -14,10 +18,8 @@ url4 = 'http://ipv4.download.thinkbroadband.com/50MB.zip'
 url5 = 'http://ipv4.download.thinkbroadband.com/100MB.zip'
 
 
-##
-# Setting Up colors and Terminal Res Tracker.
-##
 
+# Setting Up colors and Terminal Res Tracker.
 #--------------------------------------------------------------------------------------------------------#
 
 screen = curses.initscr() # instantiating screen object
@@ -41,20 +43,21 @@ cyan_dots           = 6 # blue dots when race is done
 
 # Window_res determines middle_height, middle_width, pos_start x
 def window_res(screen):
-    window_height, window_width = screen.getmaxyx() # getting window size
-    middle_height = (round(window_height/2 - 1)) # middle window height
-    middle_width = (round(window_width/2 -1)) # middle window width
+    window_height, window_width = screen.getmaxyx()
+    middle_height = (round(window_height/2 - 1))
+    middle_width = (round(window_width/2 -1))
     pos_start_x = (window_width -1)
     return middle_height, middle_width
 
 window_height, window_width = window_res(screen)
 
-screen.bkgd(curses.color_pair(yellow_background)) # setting bacground color for first window launch
+# Setting bacground color for first window launch
+screen.bkgd(curses.color_pair(yellow_background))
 
 #----------------------------------------------------------------------------------------------------------#
 
 def func():
-    # firt try is used to display the countdown screen before race
+    # Firt try is used to display the countdown screen before race
     try:
         for x in range(3, 0, -1):
             count = 0
@@ -80,7 +83,9 @@ def func():
             count1 += 1
 
         screen.clear()
-    except KeyboardInterrupt: # for user wanting to ctr ^C
+
+    # For user wanting to ctr ^C
+    except KeyboardInterrupt:
         curses.endwin()
         sys.exit("Keyboard Interrupt")
 
@@ -89,17 +94,17 @@ def func():
     for i in range(0, 5, 1):
         players.append(dc.Downloader())
 
-    # declaring an array of threads
+    # Declaring an array of threads
     threads = []
     for p in players:
         threads.append(Thread(target=p.download, args=(url5,)))
 
-
-    # starting the array of threads
+    # Starting the array of threads
     for thread in threads:
         thread.start()
 
-    screen.bkgd(curses.color_pair(default)) # setting color for the race window
+    # Setting color for the race window
+    screen.bkgd(curses.color_pair(default))
 
     try:
         max_download_speed = 0
@@ -107,18 +112,23 @@ def func():
         start_time = time.time()
 
         while(True):
-
+            # Setting middle_width and height
             middle_height, middle_width = window_res(screen)
-            window_height, window_width = screen.getmaxyx() # getting window size
 
-            screen.clear() # clearing each for each new frame of print
-            screen.border() # displaying border
+            # Getting window size
+            window_height, window_width = screen.getmaxyx()
+
+            # Clearing each for each new frame of print
+            screen.clear()
+
+            # Displaying border
+            screen.border()
 
             percent_print = []
             for p in players:
                 percent_print.append(int((window_width - 23) * p.data_length/p.total_length))
 
-            # determing peak_download and highest overall peak_download
+            # Determing peak_download and highest overall peak_download
             for p in players:
                 p.peak_download = (p.chunk_rate/1024/1024)
                 if p.peak_download > max_download_speed:
@@ -132,12 +142,15 @@ def func():
             screen.addstr(2, middle_width - 10, "Hot Dog Downloader", curses.color_pair(blue))
             screen.addstr(3, middle_width - 14, '--------------------------', curses.color_pair(blue))
 
-            y_offset = 6 # y componet offset for players
-            x = 0  #used in percent_print array
+            # Y componet offset for players
+
+            y_offset = 6
+            # Used in percent_print array
+            x = 0
 
             for p in players:
 
-                # displaying the player, rate, percent downloaded and start/finish animation
+                # Displaying the player, rate, percent downloaded and start/finish animation
                 screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
                 screen.addstr(y_offset, 13, "| Rate: %.3f MBs" %
                     (round(p.chunk_rate/1024/1024, 3)))
@@ -146,13 +159,13 @@ def func():
                     ('-' * percent_print[x], ' ' *(window_width - 23 - percent_print[x])),
                     curses.color_pair(yellow_text))
 
-                #displaying the peak download
+                # Displaying the peak download
                 if(p.chunk_rate > p.peak_download_high):
                     p.peak_download_high = p.chunk_rate
                 screen.addstr(y_offset+4, 2, "Peak Download Rate Recorded:", curses.color_pair(blue))
                 screen.addstr(y_offset+4, 34, "%.3f Mbs" % (p.peak_download_high/1024/1024), curses.color_pair(yellow_text))
 
-                # if done hen print static image for load animation but can still be resized
+                # If done hen print static image for load animation but can still be resized
                 if(p.get_percent_done() == 100):
                     screen.addstr(y_offset, 21, "0.000", curses.color_pair(red))
                     screen.addstr(y_offset+2, 2, "start |%s:]%s| finish!" %
@@ -160,7 +173,7 @@ def func():
                         curses.color_pair(yellow_text))
                     p.done_flag = True
 
-                # display overall average download when done
+                # Display overall average download when done
                 if(p.done_flag == True and p.get_percent_done() == 100):
                     if(p.stop_avg_flag == False):
                         p.time_end = time.time()
@@ -171,7 +184,7 @@ def func():
                 else:
                     pass
 
-                y_offset += 6 # offesting the next racer in y-direction
+                y_offset += 6 # Offesting the next racer in y-direction
                 x += 1
             screen.refresh()
             time.sleep(.1)
@@ -179,7 +192,6 @@ def func():
     except KeyboardInterrupt:
         curses.endwin()
         sys.exit("Keyboard Interrupt")
-        for p in players:
-            threads.join()
-
+        for thread in threads:
+            thread.join()
 func()
