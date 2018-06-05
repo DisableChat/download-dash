@@ -65,7 +65,6 @@ class Downloader:
             sys.exit()
             #print("Socket Error %s" %(err))
 
-
         self.url = url
         port = 80
         server, directories = self.parse_server_info(self.url)
