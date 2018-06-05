@@ -6,7 +6,7 @@ import socket
 from threading import Thread
 
 ##
-# Downloader Struct is struct for the "Players" used in the race. This includes
+# Downloader class is a class for the "Players" used in the race. This includes
 # all the neccary vars and functions needed by the runtime.py
 ##
 

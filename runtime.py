@@ -9,7 +9,6 @@ import sys
 # Runtime.py Script is designed to simulate a hot dog downloader race
 ##
 
-
 # hard coding url for now
 url1 = 'http://ipv4.download.thinkbroadband.com/5MB.zip'
 url2 = 'http://ipv4.download.thinkbroadband.com/10MB.zip'
@@ -17,13 +16,14 @@ url3 = 'http://ipv4.download.thinkbroadband.com/20MB.zip'
 url4 = 'http://ipv4.download.thinkbroadband.com/50MB.zip'
 url5 = 'http://ipv4.download.thinkbroadband.com/100MB.zip'
 
-
-
 # Setting Up colors and Terminal Res Tracker.
 #--------------------------------------------------------------------------------------------------------#
 
-screen = curses.initscr() # instantiating screen object
-curses.curs_set(0) # Cursor visibility = false
+# Instantiating screen object
+screen = curses.initscr()
+
+# Cursor visibility = false
+curses.curs_set(0)
 
 # starting and declaring colors for the program
 curses.start_color()
