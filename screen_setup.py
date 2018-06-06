@@ -1,7 +1,7 @@
 import curses
 
 ##
-# Screen_Setup
+# Screen_Setup purpose is to setup the screen for runtime.py 
 ##
 
 def curses_setup():
@@ -12,7 +12,7 @@ def curses_setup():
     # Cursor visibility = false
     curses.curs_set(0)
 
-    # starting and declaring colors for the program
+    # Starting and declaring colors for the program
     curses.start_color()
     curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_YELLOW)
@@ -21,12 +21,12 @@ def curses_setup():
     curses.init_pair(5, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     curses.init_pair(6, curses.COLOR_CYAN, curses.COLOR_BLACK)
 
-    red                 = 1 # red text with black background
-    yellow_background   = 2 # yellow background hurts eyes
-    blue                = 3 # blue text black background
-    default             = 4 # green text with black background
-    yellow_text         = 5 # yellow text with black bacground
-    cyan_dots           = 6 # blue dots when race is done
+    red                 = 1 # Red text with black background
+    yellow_background   = 2 # Yellow background hurts eyes
+    blue                = 3 # Blue text black background
+    default             = 4 # Green text with black background
+    yellow_text         = 5 # Yellow text with black bacground
+    cyan_dots           = 6 # Blue dots when race is done
 
     # Setting bacground color for first window launch
     screen.bkgd(curses.color_pair(yellow_background))
