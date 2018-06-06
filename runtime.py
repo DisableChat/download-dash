@@ -1,4 +1,5 @@
 import downloader_class as dc
+import screen_setup as ss
 import time
 from threading import Thread
 import curses
@@ -17,52 +18,17 @@ url4 = 'http://ipv4.download.thinkbroadband.com/50MB.zip'
 url5 = 'http://ipv4.download.thinkbroadband.com/100MB.zip'
 
 # Setting Up colors and Terminal Res Tracker.
-#--------------------------------------------------------------------------------------------------------#
-
-# Instantiating screen object
-screen = curses.initscr()
-
-# Cursor visibility = false
-curses.curs_set(0)
-
-# starting and declaring colors for the program
-curses.start_color()
-curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_YELLOW)
-curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_BLACK)
-curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_BLACK)
-curses.init_pair(5, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-curses.init_pair(6, curses.COLOR_CYAN, curses.COLOR_BLACK)
-
-red                 = 1 # red text with black background
-yellow_background   = 2 # yellow background hurts eyes
-blue                = 3 # blue text black background
-default             = 4 # green text with black background
-yellow_text         = 5 # yellow text with black bacground
-cyan_dots           = 6 # blue dots when race is done
-
-# Window_res determines middle_height, middle_width, pos_start x
-def window_res(screen):
-    window_height, window_width = screen.getmaxyx()
-    middle_height = (round(window_height/2 - 1))
-    middle_width = (round(window_width/2 -1))
-    pos_start_x = (window_width -1)
-    return middle_height, middle_width
-
-window_height, window_width = window_res(screen)
-
-# Setting bacground color for first window launch
-screen.bkgd(curses.color_pair(yellow_background))
-
-#----------------------------------------------------------------------------------------------------------#
+screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
+window_height, window_width = ss.window_res(screen)
 
 def func():
-    # Firt try is used to display the countdown screen before race
+
+    # Firt try except is used to display the countdown screen before race
     try:
         for x in range(3, 0, -1):
             count = 0
             while(count != 1000):
-                middle_height, middle_width = window_res(screen)
+                middle_height, middle_width = ss.window_res(screen)
                 screen.clear()
                 screen.border()
                 screen.addstr(middle_height - 2, middle_width - 22 ,
@@ -73,7 +39,7 @@ def func():
 
         count1 = 0
         while(count1 != 1000):
-            middle_height, middle_width = window_res(screen)
+            middle_height, middle_width = ss.window_res(screen)
             screen.clear()
             screen.border()
             screen.addstr(middle_height - 2, middle_width - 22 ,
@@ -113,7 +79,7 @@ def func():
 
         while(True):
             # Setting middle_width and height
-            middle_height, middle_width = window_res(screen)
+            middle_height, middle_width = ss.window_res(screen)
 
             # Getting window size
             window_height, window_width = screen.getmaxyx()
