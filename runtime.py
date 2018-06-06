@@ -84,10 +84,10 @@ def func():
 
         screen.clear()
 
-    # For user wanting to ctr ^C
+    # For user wanting to ctr ^C in countdown window
     except KeyboardInterrupt:
         curses.endwin()
-        sys.exit("Keyboard Interrupt")
+        sys.exit("Keyboard Interrupt, Quitting...")
 
     # Declaring an array of players and instantiating those players and setting url total length
     players = []
@@ -142,11 +142,9 @@ def func():
             screen.addstr(2, middle_width - 10, "Hot Dog Downloader", curses.color_pair(blue))
             screen.addstr(3, middle_width - 14, '--------------------------', curses.color_pair(blue))
 
-            # Y componet offset for players
-
-            y_offset = 6
-            # Used in percent_print array
-            x = 0
+            # Y componet offset for players X ussed in percent_print array
+            y_offset    = 6
+            x           = 0
 
             for p in players:
 
@@ -184,14 +182,17 @@ def func():
                 else:
                     pass
 
-                y_offset += 6 # Offesting the next racer in y-direction
-                x += 1
+                # Offesting the next racer in y-direction and updating x for player percent_print array
+                y_offset    += 6
+                x           += 1
             screen.refresh()
             time.sleep(.1)
 
+    # If User Ctr ^C, threads will get celaned up and exit
     except KeyboardInterrupt:
+        for p in players:
+            p.run_thread = False
         curses.endwin()
-        sys.exit("Keyboard Interrupt")
-        for thread in threads:
-            thread.join()
+        sys.exit("Keyboard Interrupt, Quitting...")
+
 func()

@@ -39,6 +39,9 @@ class Downloader:
     # Used for each player time end var
     time_end = 0
 
+    # Runs threads while true, else quit player threads
+    run_thread = True
+
     # Parses server address as well as download directories
     def parse_server_info(self, url):
         url = str(url)
@@ -96,7 +99,7 @@ class Downloader:
         self.chunk_timer_start = time.time()
 
         # Receiving stream of packets
-        while(True):
+        while(self.run_thread):
             result = s.recv(4096)
             self.data_length += len(result)
             self.chunk += len(result)
