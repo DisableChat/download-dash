@@ -11,6 +11,8 @@ import sys
 ##
 
 # hard coding url for now
+#url = 'mirrorlists/sabayon.txt/iso/daily/Sabayon_Linux_DAILY_amd64_-dev.iso'
+url= 'http://mirror.dkm.cz/pub/sabayon/iso/daily/Sabayon_Linux_DAILY_amd64_.iso'
 url1 = 'http://ipv4.download.thinkbroadband.com/5MB.zip'
 url2 = 'http://ipv4.download.thinkbroadband.com/10MB.zip'
 url3 = 'http://ipv4.download.thinkbroadband.com/20MB.zip'
@@ -63,7 +65,7 @@ def func():
     # Declaring an array of threads
     threads = []
     for p in players:
-        threads.append(Thread(target=p.download, args=(url5,)))
+        threads.append(Thread(target=p.download, args=(url,)))
 
     # Starting the array of threads
     for thread in threads:

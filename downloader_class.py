@@ -42,6 +42,33 @@ class Downloader:
     # Runs threads while true, else quit player threads
     run_thread = True
 
+
+    # Deterimines if there is a redirect error (301 ERROR), if it does occur find new route
+    def determine_error(self, s):
+
+        if(self.header.find('301 Moved Permanently') != -1):
+
+            url_redirect = ''
+
+            pos = self.header.find('Location:') + 11
+            for i in range(pos, 1024 - pos, 1):
+                url_redirect += self.header[i - 1]
+                if(self.header[i] == "\\"):
+                    break
+
+            url_redirect = ''.join(url_redirect)
+            server, directories = self.parse_server_info(url_redirect)
+            request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
+
+            s.send(request.encode())
+
+            new_header = s.recv(4096)
+            new_header = str(new_header)
+            self.header = new_header
+
+        else:
+            return
+
     # Parses server address as well as download directories
     def parse_server_info(self, url):
         url = str(url)
@@ -90,10 +117,12 @@ class Downloader:
         s.connect((server, port))
         s.send(request.encode())
 
+        # recieving header to find out size of download
         self.header = s.recv(4096)
-        self.data_length += len(self.header)
         self.header = str(self.header)
+        self.determine_error(s)
         self.parse_content_length()
+        self.data_length += len(self.header)
 
         # Starting timer
         self.chunk_timer_start = time.time()
