@@ -1,0 +1,64 @@
+-//W3C//DTD HTML 4.01 Transitional//EN
+ *  For details, see the Prototype web site: http://prototype.conio.net/
+}// Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//           (c) 2005 Ivan Krstic (http://blogs.law.harvard.edu/ivan)
+//           (c) 2005 Jon Tirsen (http://www.tirsen.com)
+// see documentation on http://wiki.script.aculo.us/scriptaculous/show/Ajax.InPlaceEditor
+// Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+}// Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//  Justin Palmer (http://encytemedia.com/)
+//  Mark Pilgrim (http://diveintomark.org/)
+http://distrib-coffee.ipsl.jussieu.fr/pub/linux/Mageia/
+http://mirror.internode.on.net/pub/mageia/
+http://mageia.supp.name/
+http://distro.ibiblio.org/pub/linux/distributions/mageia/
+http://ftp.klid.dk/ftp/mageia
+http://ftp.cc.uoc.gr/mirrors/linux/mageia/
+http://ftp.yzu.edu.tw/Linux/Mageia/
+http://mirror.cedia.org.ec/mageia/
+http://fr2.rpmfind.net/linux/mageia
+http://free.nchc.org.tw/mageia/
+http://mirrors-usa.go-parts.com/mageia
+http://ftp.twaren.net/Linux/Mageia/
+http://ftp.fi.muni.cz/pub/linux/mageia/
+http://mirrors.ustc.edu.cn/mageia/
+http://mageia.c3sl.ufpr.br/
+http://ftp.icm.edu.pl/pub/Linux/sunsite/distributions/mageia/
+http://mageia.ip-connect.vn.ua/
+http://ftp.sjtu.edu.cn/mageia/
+http://www.mirrorservice.org/sites/mageia.org/pub/mageia/
+http://ftp.fau.de/mageia/
+http://aglae.biomedicale.univ-paris5.fr/
+http://mirror.math.princeton.edu/pub/mageia/
+http://mirrors.kernel.org/mageia/
+http://mirror.datacenter.by/pub/mirrors/mageia.org/
+http://ftp.sun.ac.za/ftp/pub/mirrors/mageia
+http://mageia.unige.ch/mirror/
+http://mirror.dacentec.com/mageia/
+http://ftp.tsukuba.wide.ad.jp/Linux/mageia/
+http://ftp.snt.utwente.nl/pub/os/linux/mageia
+http://ftp.tku.edu.tw/Linux/Mageia/
+http://ftp.linux.org.tr/mageia/
+http://mageia.mirror.garr.it/mirrors/mageia/
+http://ftp.nluug.nl/pub/os/Linux/distr/mageia/
+http://mirrors.yun-idc.com/mageia/
+http://vodka.sublink.org/mageia/
+http://mirror.onet.pl/pub/mirrors/mageia/
+http://mageia.mirror.triple-it.nl/
+http://ftp5.gwdg.de/pub/linux/mageia/
+http://mirror.netcologne.de/mageia
+http://ftp-stud.hs-esslingen.de/pub/Mirrors/Mageia/
+http://mirror.rise.ph/mageia/
+http://mirrors.tuna.tsinghua.edu.cn/mageia/
+http://mirrors.netix.net/mageia/
+http://mirror2.tuxinator.org/mageia
+http://mirror.freedif.org/Mageia/
+http://mirror.tuxinator.org/mageia/
+http://mirror.aarnet.edu.au/pub/mageia/
+http://mirror.yandex.ru/mageia/
+http://mageia.fis.unb.br/
+http://ftp.free.fr/mirrors/mageia.org/
+http://ftp.acc.umu.se/mirror/mageia/
+http://mirror.isoc.org.il/pub/mageia/
+http://magie.remi.lu/
+http://mageia.jameswhitby.net/mageia
