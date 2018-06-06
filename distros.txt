@@ -1,0 +1,152 @@
+arch:
+    location = mirrorlists/arch.txt
+    path += iso/
+    filenames = archlinux-2018.05.01.x86_64.iso
+
+centos:
+    location = mirrorlists/centos.txt
+    path += 7/isos/x86_64/
+    filenames = CentOS-7-x86_64-DVD-1804.iso
+                CentOS-7-x86_64-Everything-1804.iso
+                CentOS-7-x86_64-LiveGNOME-1804.iso
+                CentOS-7-x86_64-LiveKDE-1804.iso
+                CentOS-7-x86_64-Minimal-1804.iso
+                CentOS-7-x86_64-NetInstall-1804.iso
+
+debian:
+    location = mirrorlists/debian.txt
+    path += current/amd64/iso-dvd/
+    filenames +=    debian-9.4.0-amd64-DVD-1.iso
+￼                   debian-9.4.0-amd64-DVD-2.iso
+￼                   debian-9.4.0-amd64-DVD-3.iso
+    path += current/amd64/iso-cd/
+    filenames +=    debian-9.4.0-amd64-netinst.iso
+￼                   debian-9.4.0-amd64-xfce-CD-1.iso
+￼                   debian-mac-9.4.0-amd64-netinst.iso
+
+dragonflybsd:
+    location = mirrorlists/dragonflybsd.txt
+    path += iso-images/
+    filenames = dfly-x86_64-5.2.1_REL.iso
+
+fedora:
+    location = mirrorlists/fedora.txt
+    path += releases/27/Workstation/x86_64/iso/
+    filenames +=    Fedora-Workstation-Live-x86_64-27-1.6.iso
+                    Fedora-Workstation-netinst-x86_64-27-1.6.iso
+
+gentoo:
+    location = mirrorlists/gentoo.txt
+    path += releases/amd64/autobuilds/current-install-amd64-minimal/
+    filenames +=    install-amd64-minimal-20180415T214502Z.iso
+
+mageia:
+    location = mirrorlists/mageia.txt
+    path += iso/6/Mageia-6-x86_64-DVD/
+    filenames += Mageia-6-x86_64-DVD.iso
+
+mint:
+    location = mirrorlists/mint.txt
+    path += iso/stable/18.3/
+    filenames +=    linuxmint-18.3-cinnamon-32bit.iso
+                    linuxmint-18.3-cinnamon-64bit.iso
+                    linuxmint-18.3-kde-32bit.iso
+                    linuxmint-18.3-kde-64bit.iso
+                    linuxmint-18.3-mate-32bit.iso
+                    linuxmint-18.3-mate-64bit.iso
+                    linuxmint-18.3-xfce-32bit.iso
+                    linuxmint-18.3-xfce-64bit.iso
+
+netbsd:
+    location = mirrorlists/netbsd.txt
+    path += iso/8.0_RC1/
+    filenames +=    NetBSD-8.0_RC1-acorn32.iso
+                    NetBSD-8.0_RC1-alpha.iso
+                    NetBSD-8.0_RC1-amd64.iso
+                    NetBSD-8.0_RC1-amiga.iso
+                    NetBSD-8.0_RC1-arc.iso
+                    NetBSD-8.0_RC1-atari.iso
+                    NetBSD-8.0_RC1-cats.iso
+                    NetBSD-8.0_RC1-cobalt.iso
+                    NetBSD-8.0_RC1-dreamcast.iso
+                    NetBSD-8.0_RC1-emips.iso
+                    NetBSD-8.0_RC1-evbarm-earm.iso
+                    NetBSD-8.0_RC1-evbarm-earmeb.iso
+                    NetBSD-8.0_RC1-evbarm-earmv6hf.iso
+                    NetBSD-8.0_RC1-evbarm-earmv7hf.iso
+                    NetBSD-8.0_RC1-evbarm-earmv7hfeb.iso
+                    NetBSD-8.0_RC1-evbmips-mips64eb.iso
+                    NetBSD-8.0_RC1-evbmips-mips64el.iso
+                    NetBSD-8.0_RC1-evbmips-mipseb.iso
+                    NetBSD-8.0_RC1-evbmips-mipsel.iso
+                    NetBSD-8.0_RC1-evbppc.iso
+                    NetBSD-8.0_RC1-evbsh3-sh3eb.iso
+                    NetBSD-8.0_RC1-evbsh3-sh3el.iso
+                    NetBSD-8.0_RC1-ews4800mips.iso
+                    NetBSD-8.0_RC1-hp300.iso
+                    NetBSD-8.0_RC1-hpcarm.iso
+                    NetBSD-8.0_RC1-hpcmips.iso
+                    NetBSD-8.0_RC1-hpcsh.iso
+                    NetBSD-8.0_RC1-hppa.iso
+                    NetBSD-8.0_RC1-i386.iso
+                    NetBSD-8.0_RC1-ibmnws.iso
+                    NetBSD-8.0_RC1-luna68k.iso
+                    NetBSD-8.0_RC1-mac68k.iso
+                    NetBSD-8.0_RC1-macppc.iso
+                    NetBSD-8.0_RC1-mipsco.iso
+                    NetBSD-8.0_RC1-mvme68k.iso
+                    NetBSD-8.0_RC1-mvmeppc.iso
+                    NetBSD-8.0_RC1-news68k.iso
+                    NetBSD-8.0_RC1-newsmips.iso
+                    NetBSD-8.0_RC1-ofppc.iso
+                    NetBSD-8.0_RC1-pmax.iso
+                    NetBSD-8.0_RC1-prep.iso
+                    NetBSD-8.0_RC1-sandpoint.iso
+                    NetBSD-8.0_RC1-sgimips.iso
+                    NetBSD-8.0_RC1-shark.iso
+                    NetBSD-8.0_RC1-sparc.iso
+                    NetBSD-8.0_RC1-sparc64.iso
+                    NetBSD-8.0_RC1-sun2.iso
+                    NetBSD-8.0_RC1-sun3.iso
+                    NetBSD-8.0_RC1-vax.iso
+                    NetBSD-8.0_RC1-x68k.iso
+                    NetBSD-8.0_RC1-zaurus.iso
+
+openbsd:
+    location = mirrorlists/openbsd.txt
+    path += 6.3/amd64/
+    filenames += install63.iso
+
+sabayon:
+    location = mirrorlists/sabayon.txt
+    path += iso/daily/
+    filenames +=    Sabayon_Linux_DAILY_amd64_-dev.iso
+                    Sabayon_Linux_DAILY_amd64_.iso
+                    Sabayon_Linux_DAILY_amd64_ForensicsXfce.iso
+                    Sabayon_Linux_DAILY_amd64_GNOME-dev.iso
+                    Sabayon_Linux_DAILY_amd64_GNOME.iso
+                    Sabayon_Linux_DAILY_amd64_KDE-dev.iso
+                    Sabayon_Linux_DAILY_amd64_KDE.iso
+                    Sabayon_Linux_DAILY_amd64_LXQt-dev.iso
+                    Sabayon_Linux_DAILY_amd64_LXQt.iso
+                    Sabayon_Linux_DAILY_amd64_MATE-dev.iso
+                    Sabayon_Linux_DAILY_amd64_MATE.iso
+                    Sabayon_Linux_DAILY_amd64_Minimal-dev.iso
+                    Sabayon_Linux_DAILY_amd64_Minimal.iso
+                    Sabayon_Linux_DAILY_amd64_Server-dev.iso
+                    Sabayon_Linux_DAILY_amd64_Server.iso
+                    Sabayon_Linux_DAILY_amd64_SpinBase-dev.iso
+                    Sabayon_Linux_DAILY_amd64_SpinBase.iso
+                    Sabayon_Linux_DAILY_amd64_Xfce-dev.iso
+                    Sabayon_Linux_DAILY_amd64_Xfce.iso
+
+slackware:
+    location = mirrorlists/slackware.txt
+    path += slackware-iso/slackware64-14.2-iso/
+    filenames += slackware64-14.2-install-dvd.iso
+
+ubuntu:
+    location = mirrorlists/ubuntu.txt
+    path += 18.04/
+    filenames +=    ubuntu-18.04-desktop-amd64.iso
+                    ubuntu-18.04-live-server-amd64.iso
