@@ -5,7 +5,7 @@ from threading import Thread
 import curses
 import os
 import sys
-
+import random
 ##
 # Runtime.py Script is designed to simulate a hot dog downloader race
 ##
@@ -18,6 +18,8 @@ url2 = 'http://ipv4.download.thinkbroadband.com/10MB.zip'
 url3 = 'http://ipv4.download.thinkbroadband.com/20MB.zip'
 url4 = 'http://ipv4.download.thinkbroadband.com/50MB.zip'
 url5 = 'http://ipv4.download.thinkbroadband.com/100MB.zip'
+
+url_array = [url,url1,url2,url3,url4,url5]
 
 # Setting Up colors and Terminal Res Tracker.
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
@@ -65,7 +67,7 @@ def func():
     # Declaring an array of threads
     threads = []
     for p in players:
-        threads.append(Thread(target=p.download, args=(url,)))
+        threads.append(Thread(target=p.download, args=(random.choice(url_array),)))
 
     # Starting the array of threads
     for thread in threads:
