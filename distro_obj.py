@@ -46,6 +46,10 @@ class Distro:
             for lines in range(len(self.address)):
                 self.address[lines] = self.address[lines].strip('\n')
 
+            # TODO Print helpers
+            #for i in range(len(self.address)):
+            #    print(self.address[i])
+
     # Determine the spacing between distros so we can use them for conditons later on
     def get_distro_spacing(self, distro_list_dir):
 
@@ -78,7 +82,7 @@ class Distro:
             array = fp.readlines()
 
             # TODO Helper function
-            print('Distro Number In Array',distro_num)
+            #print('Distro Number In Array',distro_num)
 
             # Loop through text file
             for line in range(len(array)):
@@ -92,18 +96,18 @@ class Distro:
 
                     # Stripping the words and \n from the lines of in the text file
                     if(array[line].find(':') != -1):
-                        self.distro = (array[line].strip('\n'))
-                        print(self.distro)
+                        self.distro = (array[line].strip(':' + '\n'))
+                    #    print(self.distro) # TODO Print helper
 
                         # Setting Obj's location
                         array[line+1] = (array[line+1].strip('location '))
                         self.location = (array[line+1].strip('= ' + '\n'))
-                        print(self.location)
+                    #    print(self.location) # TODO Print helper
 
                         # Setting Obj's path
                         array[line+2] = (array[line+2].strip('path +'))
                         self.path = (array[line+2].strip('= ' + '\n'))
-                        print(self.path)
+                    #    print(self.path) # TODO Print helper
 
                         # First directory but need to strip the filename from that line of txt
                         array[line+3] = (array[line+3].strip('filenames '))
@@ -117,15 +121,31 @@ class Distro:
                             counter += 1
 
             # TODO print helper
-            for k in range(len(self.filenames)):
-                print(self.filenames[k])
+            #for k in range(len(self.filenames)):
+            #    print(self.filenames[k])
 
 #-----------------------------------------------------TEST--------------------------------------------------#
-for i in range(0, 25, 1):
-    distro_lib_array.append(Distro())
-
-#test.create_address_array(file_directory, fedora)
 
 test = Distro()
 test.get_distro_spacing(distro_list_dir)
-test.parse_distro_txt(distro_list_dir, 3)
+for i in range(len(test.distro_loc)):
+    distro_lib_array.append(Distro())
+
+# Going through and parsing
+i = 0
+for d in distro_lib_array:
+    d.parse_distro_txt(distro_list_dir, i)
+    i += 1
+
+# Printing objects distro, location, path
+for d in distro_lib_array:
+    print(d.distro)
+    print(d.location)
+    print(d.path)
+
+# Printing all The objects Addresess
+for k in range(len(d.filenames)):
+    print(d.filenames[k])
+
+
+#test.create_address_array(file_directory, ubuntu)
