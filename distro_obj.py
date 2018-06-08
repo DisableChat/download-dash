@@ -1,3 +1,7 @@
+import random
+
+random.seed()
+
 # Directory info
 distro_list_dir     = '/home/wes/Source/download-dash/distros.txt'
 file_directory      = '/home/wes/Source/download-dash/'
@@ -28,15 +32,19 @@ distro_lib_array = []
 class Distro:
 
     # Distro object vars
-    distro          = ''
-    location        = ''
-    path            = ''
-    filenames       = []
-    address         = []
+
 
     # array of the locations of where the distros start (ie. arch = distro_loc[0])
     distro_loc      = []
     distro_ver      = 0
+
+    def __init__(self):
+        self.distro          = ''
+        self.location        = ''
+        self. path           = ''
+        self.filenames       = []
+        self.address         = []
+
 
     # Opens the txt file containing the distro addresses and then
     def create_address_array(self, file_directory, file):
@@ -147,5 +155,9 @@ for d in distro_lib_array:
 for k in range(len(d.filenames)):
     print(d.filenames[k])
 
-
+print(len(distro_lib_array[2].filenames))
+print(distro_lib_array[2].filenames)
+print('\n')
+print(distro_lib_array[2].distro)
+print(random.choice(distro_lib_array[1].filenames))
 #test.create_address_array(file_directory, ubuntu)
