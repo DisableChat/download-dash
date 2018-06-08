@@ -1,7 +1,7 @@
 arch:
     location = mirrorlists/arch.txt
     path += iso/
-    filenames = archlinux-2018.05.01.x86_64.iso
+    filenames += archlinux-2018.05.01.x86_64.iso
 
 centos:
     location = mirrorlists/centos.txt
@@ -13,16 +13,19 @@ centos:
                 CentOS-7-x86_64-Minimal-1804.iso
                 CentOS-7-x86_64-NetInstall-1804.iso
 
-debian:
+debian-dvd:
     location = mirrorlists/debian.txt
     path += current/amd64/iso-dvd/
-    filenames +=    debian-9.4.0-amd64-DVD-1.iso
-￼                   debian-9.4.0-amd64-DVD-2.iso
-￼                   debian-9.4.0-amd64-DVD-3.iso
+    filenames += debian-9.4.0-amd64-DVD-1.iso
+        	       sdebian-9.4.0-amd64-DVD-2.iso
+                 debian-9.4.0-amd64-DVD-3.iso
+
+debian-cd:
+    location = mirrorlists/debian.txt
     path += current/amd64/iso-cd/
-    filenames +=    debian-9.4.0-amd64-netinst.iso
-￼                   debian-9.4.0-amd64-xfce-CD-1.iso
-￼                   debian-mac-9.4.0-amd64-netinst.iso
+    filenames += debian-9.4.0-amd64-netinst.iso
+                 debian-9.4.0-amd64-xfce-CD-1.iso
+                 debian-mac-9.4.0-amd64-netinst.iso
 
 dragonflybsd:
     location = mirrorlists/dragonflybsd.txt
@@ -150,3 +153,5 @@ ubuntu:
     path += 18.04/
     filenames +=    ubuntu-18.04-desktop-amd64.iso
                     ubuntu-18.04-live-server-amd64.iso
+
+END:

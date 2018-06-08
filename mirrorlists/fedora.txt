@@ -42,7 +42,7 @@ http://ftp.halifax.rwth-aachen.de/fedora/linux
 http://ftp.informatik.uni-frankfurt.de/fedora
 http://ftp-stud.hs-esslingen.de/pub/fedora/linux
 http://ftp.uni-bayreuth.de/linux/fedora/linux
-http://ftp.uni-kl.de/pub/linux/fedora/linux
+http://ftp.uni-kl.de/pub/linux/fedora/linux		
 http://mirror.23media.de/fedora/linux
 http://mirror2.hs-esslingen.de/fedora/linux
 http://mirror.de.leaseweb.net/fedora/linux
@@ -95,7 +95,7 @@ http://mirror.isoc.org.il/pub/fedora
 http://mirror.nonstop.co.il/fedora/linux
 http://fedora.excellmedia.net
 http://fedora.iitm.ac.in
-    <td>http://mirrors.piconets.webwerks.in/fedora-mirror/</td>
+http://mirrors.piconets.webwerks.in/fedora-mirror **
 http://mirrors.piconets.webwerks.in/fedora-mirror/fedora/linux
 http://mirror.cse.iitk.ac.in/fedora/linux
 http://www.fedora.is/fedora
