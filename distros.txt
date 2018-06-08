@@ -6,7 +6,7 @@ arch:
 centos:
     location = mirrorlists/centos.txt
     path += 7/isos/x86_64/
-    filenames = CentOS-7-x86_64-DVD-1804.iso
+    filenames += CentOS-7-x86_64-DVD-1804.iso
                 CentOS-7-x86_64-Everything-1804.iso
                 CentOS-7-x86_64-LiveGNOME-1804.iso
                 CentOS-7-x86_64-LiveKDE-1804.iso
