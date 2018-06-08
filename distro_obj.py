@@ -27,13 +27,10 @@ distro_lib_array = []
 ##
 class Distro:
 
-    continue_flag   = True
-
     # Distro object vars
     distro          = ''
     location        = ''
     path            = ''
-    filename0       = ''
     filenames       = []
     address         = []
 
