@@ -31,12 +31,15 @@ class Distro:
 
     # Distro object vars
     distro          = ''
+    location        = ''
     path            = ''
+    filename0       = ''
+    filenames       = []
     address         = []
-    filenames       = ''
 
     # array of the locations of where the distros start (ie. arch = distro_loc[0])
     distro_loc      = []
+    distro_ver      = 0
 
     # Opens the txt file containing the distro addresses and then
     def create_address_array(self, file_directory, file):
@@ -65,64 +68,67 @@ class Distro:
 
 
     # Parses distros text file
-    def parse_distro_txt(self, distro_list_dir):
+    def parse_distro_txt(self, distro_list_dir, distro_ver):
 
         # Distro_num represents distro number in distros txt so arch = 1
-        distro_num = 1
+        distro_num = distro_ver
         counter = 0
-
+        i = 1
 
         with open(distro_list_dir, 'r') as fp:
 
             # Creating an array of the lines of the text file
             array = fp.readlines()
 
-            # Loop while flag = True and distro num < len of the # of distros
-            while(self.continue_flag and distro_num < len(self.distro_loc)):
+            # TODO Helper function
+            print('Distro Number In Array',distro_num)
 
-                # Loop through text file
-                for line in range(len(array)):
+            # Loop through text file
+            for line in range(len(array)):
 
-                    # Self.distro_loc[pos] = distro - 1 (so pos 0 = arch)
-                    if(line < self.distro_loc[distro_num] and (line + 1) > self.distro_loc[distro_num - 1]):
+                # Self.distro_loc[pos] = distro - 1 (so pos 0 = arch)
+                if(line < self.distro_loc[distro_num] and (line + 1) > self.distro_loc[distro_num - 1]):
 
-                        # Located in file as a indicator
-                        if(array[line].find('END:') != -1):
-                            return
+                    # Located in file as a indicator
+                    if(array[line].find('END:') != -1):
+                        return
 
-                        # Stripping the words and \n from the lines of in the text file
-                        if(array[line].find(':') != -1):
-                            print(array[line].strip('\n'))
-                            array[line+1] = (array[line+1].strip('location '))
-                            print(array[line+1].strip('= ' + '\n'))
-                            array[line+2] = (array[line+2].strip('path +'))
-                            print(array[line+2].strip('= '+ '\n'))
+                    # Stripping the words and \n from the lines of in the text file
+                    if(array[line].find(':') != -1):
+                        self.distro = (array[line].strip('\n'))
+                        print(self.distro)
 
-                            # First directory but need to strip the filename from that line of txt
-                            array[line+3] = (array[line+3].strip('filenames '))
-                            print(array[line+3].strip('+= ' + '\n'))
-                            counter = line + 4
+                        # Setting Obj's location
+                        array[line+1] = (array[line+1].strip('location '))
+                        self.location = (array[line+1].strip('= ' + '\n'))
+                        print(self.location)
 
-                            # Finding the rest of the directories
-                            while(array[counter + 1].find(':') == -1):
-                                print(array[counter].strip())
-                                counter += 1
+                        # Setting Obj's path
+                        array[line+2] = (array[line+2].strip('path +'))
+                        self.path = (array[line+2].strip('= ' + '\n'))
+                        print(self.path)
 
-                            # Setting flag to false to get out of while loop so we can move to next distro
-                            self.continue_flag = False
+                        # First directory but need to strip the filename from that line of txt
+                        array[line+3] = (array[line+3].strip('filenames '))
+                        self.filenames.append(array[line+3].strip('+= ' + '\n'))
+                        counter = line + 4
 
-                # Reseting flag and incrementing distro we will be on next
-                self.reset_flag()
-                distro_num += 1
+                        # Finding the rest of the directories and appending them to array
+                        while(array[counter + 1].find(':') == -1):
+                            self.filenames.append(array[counter].strip())
+                            i += 1
+                            counter += 1
 
-    # Flag reset function
-    def reset_flag(self):
-        self.continue_flag = True
+            # TODO print helper
+            for k in range(len(self.filenames)):
+                print(self.filenames[k])
 
 #-----------------------------------------------------TEST--------------------------------------------------#
+for i in range(0, 25, 1):
+    distro_lib_array.append(Distro())
+
+#test.create_address_array(file_directory, fedora)
 
 test = Distro()
-test.create_address_array(file_directory, fedora)
-print(test.address[1] + 'hi')
 test.get_distro_spacing(distro_list_dir)
-test.parse_distro_txt(distro_list_dir)
+test.parse_distro_txt(distro_list_dir, 3)
