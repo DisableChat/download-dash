@@ -155,9 +155,17 @@ for d in distro_lib_array:
 for k in range(len(d.filenames)):
     print(d.filenames[k])
 
-print(len(distro_lib_array[2].filenames))
-print(distro_lib_array[2].filenames)
-print('\n')
+distro_lib_array[2].create_address_array(file_directory, centos)
+
 print(distro_lib_array[2].distro)
-print(random.choice(distro_lib_array[1].filenames))
+print('Number of File Names: ',len(distro_lib_array[2].filenames))
+print('Random Choice File Name: ', random.choice(distro_lib_array[2].filenames))
+#print(distro_lib_array[2].address)
+
+x2 = (random.choice(distro_lib_array[2].filenames))
+x2 = str(x2)
+x3 = (random.choice(distro_lib_array[2].address))
+
+print(x3 + distro_lib_array[2].path + x2)
+
 #test.create_address_array(file_directory, ubuntu)
