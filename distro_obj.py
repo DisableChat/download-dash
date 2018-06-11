@@ -161,20 +161,10 @@ for d in distro_lib_array:
     d.parse_distro_txt(distro_list_dir, i)
     i += 1
 
-# Printing objects distro, location, path
-for d in distro_lib_array:
-    print(d.distro)
-    print(d.location)
-    print(d.path)
-
-# Printing all The objects Addresess
-for k in range(len(d.filenames)):
-    print(d.filenames[k])
-print(os_array[0])
-
 distro_lib_array[1].get_address()
 
-# glue url(1) starts at Arch, NOTE distro_lib_array[num] doesn't matter what the num is as long as its smaller
-# than the total size of the total number of distros
-distro_lib_array[1].glue_url(1)
-print(distro_lib_array[1].random_url)
+for j in range(1,len(distro_lib_array)-1, 1):
+    # glue url(1) starts at Arch, NOTE distro_lib_array[num] doesn't matter what the num is as long as its smaller
+    # than the total size of the total number of distros
+    distro_lib_array[j].glue_url(j)
+    print(distro_lib_array[j].random_url)
