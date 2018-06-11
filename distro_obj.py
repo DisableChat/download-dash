@@ -22,6 +22,8 @@ sabayon         = 'mirrorlists/sabayon.txt'
 slackware       = 'mirrorlists/slackware.txt'
 ubuntu          = 'mirrorlists/ubuntu.txt'
 
+os_array = [arch,centos,debian_dvd,debian_cd,dragonflybsd,fedora,gentoo,mageia,mint,nethbsd,openbsd,sabayon,slackware,ubuntu]
+
 # Array to hold distro obj's
 distro_lib_array = []
 
@@ -31,13 +33,11 @@ distro_lib_array = []
 ##
 class Distro:
 
-    # Distro object vars
-
-
     # array of the locations of where the distros start (ie. arch = distro_loc[0])
     distro_loc      = []
     distro_ver      = 0
 
+    # Each objects inital variables when instantiated
     def __init__(self):
         self.distro          = ''
         self.location        = ''
@@ -48,7 +48,6 @@ class Distro:
 
     # Opens the txt file containing the distro addresses and then
     def create_address_array(self, file_directory, file):
-
         with open(file_directory + file, 'r') as fp:
             self.address = fp.readlines()
             for lines in range(len(self.address)):
@@ -132,6 +131,20 @@ class Distro:
             #for k in range(len(self.filenames)):
             #    print(self.filenames[k])
 
+    # Randomly chooses file name and address and connects them with the distro's location
+    # and path to create a randomly generated url from library
+    def glue_url(self, num):
+        section_one = random.choice(distro_lib_array[num].address)
+        section_two =   distro_lib_array[num].path
+        section_three = str(random.choice(distro_lib_array[num].filenames))
+        print(section_one + section_two + section_three)
+
+    # Get txt file addresses for os and put them in corrosponding objects address array
+    def get_address(self):
+        # We do len(self.distro_loc )- 1 because END: is considered 1 of the os's
+        for i in range(1, len(self.distro_loc)- 1, 1):
+            distro_lib_array[i].create_address_array(file_directory, os_array[i-1])
+
 #-----------------------------------------------------TEST--------------------------------------------------#
 
 test = Distro()
@@ -154,18 +167,10 @@ for d in distro_lib_array:
 # Printing all The objects Addresess
 for k in range(len(d.filenames)):
     print(d.filenames[k])
+print(os_array[0])
 
-distro_lib_array[2].create_address_array(file_directory, centos)
+distro_lib_array[1].get_address()
 
-print(distro_lib_array[2].distro)
-print('Number of File Names: ',len(distro_lib_array[2].filenames))
-print('Random Choice File Name: ', random.choice(distro_lib_array[2].filenames))
-#print(distro_lib_array[2].address)
-
-x2 = (random.choice(distro_lib_array[2].filenames))
-x2 = str(x2)
-x3 = (random.choice(distro_lib_array[2].address))
-
-print(x3 + distro_lib_array[2].path + x2)
-
-#test.create_address_array(file_directory, ubuntu)
+# glue url(1) starts at Arch, NOTE distro_lib_array[num] doesn't matter what the num is as long as its smaller
+# than the total number of distros
+distro_lib_array[1].glue_url(1)
