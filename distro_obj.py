@@ -39,11 +39,13 @@ class Distro:
 
     # Each objects inital variables when instantiated
     def __init__(self):
-        self.distro          = ''
-        self.location        = ''
-        self. path           = ''
-        self.filenames       = []
-        self.address         = []
+        self.distro         = ''
+        self.location       = ''
+        self. path          = ''
+        self.filenames      = []
+        self.address        = []
+
+        self.random_url     = ''
 
 
     # Opens the txt file containing the distro addresses and then
@@ -137,7 +139,8 @@ class Distro:
         section_one = random.choice(distro_lib_array[num].address)
         section_two =   distro_lib_array[num].path
         section_three = str(random.choice(distro_lib_array[num].filenames))
-        print(section_one + section_two + section_three)
+        self.random_url = section_one + section_two + section_three
+        #print(section_one + section_two + section_three)
 
     # Get txt file addresses for os and put them in corrosponding objects address array
     def get_address(self):
@@ -172,5 +175,6 @@ print(os_array[0])
 distro_lib_array[1].get_address()
 
 # glue url(1) starts at Arch, NOTE distro_lib_array[num] doesn't matter what the num is as long as its smaller
-# than the total number of distros
+# than the total size of the total number of distros
 distro_lib_array[1].glue_url(1)
+print(distro_lib_array[1].random_url)
