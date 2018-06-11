@@ -6,20 +6,12 @@ import curses
 import os
 import sys
 import random
+import distro_obj as dis
 ##
 # Runtime.py Script is designed to simulate a hot dog downloader race
 ##
 
-# hard coding url for now
-#url = 'mirrorlists/sabayon.txt/iso/daily/Sabayon_Linux_DAILY_amd64_-dev.iso'
-url= 'http://mirror.dkm.cz/pub/sabayon/iso/daily/Sabayon_Linux_DAILY_amd64_.iso'
-url1 = 'http://ipv4.download.thinkbroadband.com/5MB.zip'
-url2 = 'http://ipv4.download.thinkbroadband.com/10MB.zip'
-url3 = 'http://ipv4.download.thinkbroadband.com/20MB.zip'
-url4 = 'http://ipv4.download.thinkbroadband.com/50MB.zip'
-url5 = 'http://ipv4.download.thinkbroadband.com/100MB.zip'
-
-url_array = [url,url1,url2,url3,url4,url5]
+url_array = dis.choose_racers()
 
 # Setting Up colors and Terminal Res Tracker.
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
@@ -66,8 +58,10 @@ def func():
 
     # Declaring an array of threads
     threads = []
+    index = 0
     for p in players:
-        threads.append(Thread(target=p.download, args=(random.choice(url_array),)))
+        threads.append(Thread(target=p.download, args=(url_array[index],)))
+        index += 1
 
     # Starting the array of threads
     for thread in threads:

@@ -27,6 +27,12 @@ os_array = [arch,centos,debian_dvd,debian_cd,dragonflybsd,fedora,gentoo,mageia,m
 # Array to hold distro obj's
 distro_lib_array = []
 
+# Array of random url's
+random_url_array = []
+
+# Final array of url's with no repeats from same os
+url_array = []
+
 ##
 # Distro takes the txt files and creates an array of the object Distro
 # which contains the distro, location, path, filenames and address.
@@ -148,7 +154,7 @@ class Distro:
         for i in range(1, len(self.distro_loc)- 1, 1):
             distro_lib_array[i].create_address_array(file_directory, os_array[i-1])
 
-#-----------------------------------------------------TEST--------------------------------------------------#
+#-----------------------------------------------------Creation----------------------------------------------------#
 
 test = Distro()
 test.get_distro_spacing(distro_list_dir)
@@ -161,10 +167,30 @@ for d in distro_lib_array:
     d.parse_distro_txt(distro_list_dir, i)
     i += 1
 
+# filling addresses into the corresponding obj
 distro_lib_array[1].get_address()
 
+# creating random url for each obj in array
 for j in range(1,len(distro_lib_array)-1, 1):
+
     # glue url(1) starts at Arch, NOTE distro_lib_array[num] doesn't matter what the num is as long as its smaller
     # than the total size of the total number of distros
     distro_lib_array[j].glue_url(j)
-    print(distro_lib_array[j].random_url)
+    random_url_array.append(distro_lib_array[j].random_url)
+    # TODO printer helper to show if the url you downloaded is typo due to txt docu
+    #print(distro_lib_array[j].random_url)
+
+# Choose racers finally chooses the racers from distro where there are no repeats on os and each is unique
+def choose_racers():
+    size = len(random_url_array)
+    while(size > 9):
+        index = random.randrange(size)
+        element = random_url_array[index]
+        random_url_array[index] = random_url_array[size - 1]
+        size -= 1
+        url_array.append(element)
+    #TODO Printer Helper used to show if URL downloaded is typo or bug NOTE ask creator for clarification
+    for i in range(5):
+        print(url_array[i])
+
+    return url_array
