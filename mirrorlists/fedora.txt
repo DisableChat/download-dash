@@ -141,7 +141,7 @@ http://ftp.ines.lug.ro/fedora/linux/
 http://ftp.upcnet.ro/mirrors/fedora/pub/fedora/linux/
 http://mirrors.nav.ro/fedora/linux/
 http://mirrors.nxthost.com/fedora-enchilada/
-http://mirror.etf.bg.ac.rs/fedora
+http://mirror.etf.bg.ac.rs/fedora/
 http://mirror.pmf.kg.ac.rs/fedora/linux/
 http://fedora-mirror01.rbc.ru/pub/fedora/linux/
 http://mirror.linux-ia64.org/fedora/linux/

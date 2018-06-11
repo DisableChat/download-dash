@@ -4,6 +4,7 @@ import time
 import urllib
 import socket
 from threading import Thread
+import distro_obj as dis
 
 ##
 # Downloader class is a class for the "Players" used in the race. This includes
@@ -45,8 +46,12 @@ class Downloader:
 
     # Deterimines if there is a redirect error (301 ERROR), if it does occur find new route
     def determine_error(self, s):
+        if(self.header.find('404 Not Found') != -1):
+            self.header = 'NULL'
+            while(True):
+                print('hi')
 
-        if(self.header.find('301 Moved Permanently') != -1):
+        elif(self.header.find('301 Moved Permanently') != -1):
 
             url_redirect = ''
 
