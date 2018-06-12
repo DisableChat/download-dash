@@ -49,22 +49,34 @@ class Downloader:
 
     # Deterimines if there is a redirect error (301 ERROR), if it does occur find new route
     def determine_error(self, s):
-        if(self.header.find('404 Not Found') != -1):
-            #for i in range(0, 100, 1):
-            #    print(self.url_array_os[self.index])
-            self.header = 'NULL'
-            """
-            while(True):
-                url_redirect = Distro().glue_url(self.index)
 
-                server, directories = self.parse_server_info(url_redirect)
-                request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
-                s.send(request.encode())
-                new_header = s.recv(4096)
-                new_header = str(new_header)
-                self.header = new_header
-                self.determine_error(self.header)
-            """
+        if(self.header.find('404 Not Found' or 'Not Found' or 'Service Unavailable' or '302 Found') != -1):
+
+            url_redirect = 'http://repos-jnb.psychz.net/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1804.iso'
+            server, directories = self.parse_server_info(url_redirect)
+            request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
+
+            s.shutdown(1)
+            s.close()
+            d = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            d.connect((server, 80))
+            d.send(request.encode())
+
+            new_header = d.recv(4096)
+            new_header = str(new_header)
+            self.header = new_header
+
+            self.parse_content_length()
+            self.data_length += len(self.header)
+
+            # Receiving stream of packets
+            while(self.run_thread):
+                result = d.recv(4096)
+                self.data_length += len(result)
+                self.chunk += len(result)
+                self.set_chunk_rate()
+                if(self.data_length == self.total_length):
+                    break
 
         elif(self.header.find('301 Moved Permanently') != -1):
 

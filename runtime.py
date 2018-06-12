@@ -7,7 +7,6 @@ import os
 import sys
 import random
 import distro_obj as dis
-
 ##
 # Runtime.py Script is designed to simulate a hot dog downloader race
 ##
