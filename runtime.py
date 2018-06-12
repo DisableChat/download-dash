@@ -7,11 +7,12 @@ import os
 import sys
 import random
 import distro_obj as dis
+
 ##
 # Runtime.py Script is designed to simulate a hot dog downloader race
 ##
 
-url_array = dis.choose_racers()
+url_array, url_array_os = dis.choose_racers()
 
 # Setting Up colors and Terminal Res Tracker.
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
@@ -60,7 +61,7 @@ def func():
     threads = []
     index = 0
     for p in players:
-        threads.append(Thread(target=p.download, args=('http://slackware.telecoms.bg/slackware/slackware-iso/slackware64-14.2-iso/slackware64-14.2-install-dvd.iso',))) #args=(url_array[index],)
+        threads.append(Thread(target=p.download, args=(url_array[index], url_array_os, index)))
         index += 1
 
     # Starting the array of threads

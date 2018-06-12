@@ -5,7 +5,7 @@ import urllib
 import socket
 from threading import Thread
 import distro_obj as dis
-
+from distro_obj import Distro
 ##
 # Downloader class is a class for the "Players" used in the race. This includes
 # all the neccary vars and functions needed by the runtime.py
@@ -41,15 +41,30 @@ class Downloader:
     time_end = 0
 
     # Runs threads while true, else quit player threads
-    run_thread = True
+    run_thread      = True
+    url_array_os    = []
 
+    def __init__(self):
+        index = 0
 
     # Deterimines if there is a redirect error (301 ERROR), if it does occur find new route
     def determine_error(self, s):
         if(self.header.find('404 Not Found') != -1):
+            #for i in range(0, 100, 1):
+            #    print(self.url_array_os[self.index])
             self.header = 'NULL'
+            """
             while(True):
-                print('hi')
+                url_redirect = Distro().glue_url(self.index)
+
+                server, directories = self.parse_server_info(url_redirect)
+                request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
+                s.send(request.encode())
+                new_header = s.recv(4096)
+                new_header = str(new_header)
+                self.header = new_header
+                self.determine_error(self.header)
+            """
 
         elif(self.header.find('301 Moved Permanently') != -1):
 
@@ -98,8 +113,9 @@ class Downloader:
                 break
         self.total_length = int(content_length)
 
-    def download(self, url):
-
+    def download(self, url, url_array_os, index):
+        self.index = index
+        self.url_array_os = url_array_os
         # Setting up socket
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

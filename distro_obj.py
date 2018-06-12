@@ -32,6 +32,7 @@ random_url_array = []
 
 # Final array of url's with no repeats from same os
 url_array = []
+url_array_os = []
 
 ##
 # Distro takes the txt files and creates an array of the object Distro
@@ -43,6 +44,7 @@ class Distro:
     distro_loc      = []
     distro_ver      = 0
 
+
     # Each objects inital variables when instantiated
     def __init__(self):
         self.distro         = ''
@@ -52,7 +54,6 @@ class Distro:
         self.address        = []
 
         self.random_url     = ''
-
 
     # Opens the txt file containing the distro addresses and then
     def create_address_array(self, file_directory, file):
@@ -146,8 +147,9 @@ class Distro:
         section_two =   distro_lib_array[num].path
         section_three = str(random.choice(distro_lib_array[num].filenames))
         self.random_url = section_one + section_two + section_three
-        #print(section_one + section_two + section_three)
-
+        random_url = section_one + section_two + section_three
+        return random_url
+        
     # Get txt file addresses for os and put them in corrosponding objects address array
     def get_address(self):
         # We do len(self.distro_loc )- 1 because END: is considered 1 of the os's
@@ -177,6 +179,8 @@ for j in range(1,len(distro_lib_array)-1, 1):
     random_url_array.append(distro_lib_array[j].random_url)
     # TODO printer helper to show if the url you downloaded is typo due to txt docu
     #print(distro_lib_array[j].random_url)
+    url_array_os.append(distro_lib_array[j].distro)
+
 
 # Choose racers finally chooses the racers from distro where there are no repeats on os and each is unique
 def choose_racers():
@@ -184,11 +188,15 @@ def choose_racers():
     while(size > 9):
         index = random.randrange(size)
         element = random_url_array[index]
+        element2 = distro_lib_array[index]
         random_url_array[index] = random_url_array[size - 1]
+        distro_lib_array[index] = distro_lib_array[size - 1]
         size -= 1
         url_array.append(element)
+        url_array_os.append(element2)
     #TODO Printer Helper used to show if URL downloaded is typo or bug NOTE ask creator for clarification
     for i in range(5):
         print(url_array[i])
 
-    return url_array
+
+    return url_array, url_array_os
