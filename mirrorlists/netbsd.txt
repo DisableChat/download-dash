@@ -1,5 +1,2 @@
 http://ftp.NetBSD.org/pub/NetBSD/
-http://ftp.fi.NetBSD.org/pub/NetBSD/
-http://ftp.fr.NetBSD.org/pub/NetBSD/
-http://mirror.isoc.org.il/pub/netbsd/
-http://mirror.planetunix.net/pub/NetBSD/
+

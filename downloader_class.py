@@ -4,7 +4,8 @@ import time
 import urllib
 import socket
 from threading import Thread
-
+import distro_obj as dis
+from distro_obj import Distro
 ##
 # Downloader class is a class for the "Players" used in the race. This includes
 # all the neccary vars and functions needed by the runtime.py
@@ -40,13 +41,44 @@ class Downloader:
     time_end = 0
 
     # Runs threads while true, else quit player threads
-    run_thread = True
+    run_thread      = True
+    url_array_os    = []
 
+    def __init__(self):
+        index = 0
 
     # Deterimines if there is a redirect error (301 ERROR), if it does occur find new route
     def determine_error(self, s):
 
-        if(self.header.find('301 Moved Permanently') != -1):
+        if(self.header.find('404 Not Found' or 'Not Found' or 'Service Unavailable' or '302 Found' or '403 Forbidden') != -1):
+
+            url_redirect = 'http://repos-jnb.psychz.net/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1804.iso'
+            server, directories = self.parse_server_info(url_redirect)
+            request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
+
+            s.shutdown(1)
+            s.close()
+            d = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            d.connect((server, 80))
+            d.send(request.encode())
+
+            new_header = d.recv(4096)
+            new_header = str(new_header)
+            self.header = new_header
+
+            self.parse_content_length()
+            self.data_length += len(self.header)
+
+            # Receiving stream of packets
+            while(self.run_thread):
+                result = d.recv(4096)
+                self.data_length += len(result)
+                self.chunk += len(result)
+                self.set_chunk_rate()
+                if(self.data_length == self.total_length):
+                    break
+
+        elif(self.header.find('301 Moved Permanently') != -1):
 
             url_redirect = ''
 
@@ -93,8 +125,9 @@ class Downloader:
                 break
         self.total_length = int(content_length)
 
-    def download(self, url):
-
+    def download(self, url, url_array_os, index):
+        self.index = index
+        self.url_array_os = url_array_os
         # Setting up socket
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
