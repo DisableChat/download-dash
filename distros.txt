@@ -71,7 +71,7 @@ netbsd:
                     NetBSD-8.0_RC1-atari.iso
                     NetBSD-8.0_RC1-cats.iso
                     NetBSD-8.0_RC1-cobalt.iso
-                    NetBSD-8.0_RC1-dreamcast.iso
+     	            NetBSD-8.0_RC1-dreamcast.iso
                     NetBSD-8.0_RC1-emips.iso
                     NetBSD-8.0_RC1-evbarm-earm.iso
                     NetBSD-8.0_RC1-evbarm-earmeb.iso

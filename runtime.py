@@ -99,8 +99,8 @@ def func():
                     max_download_speed = p.peak_download
 
             # Displaying overall peak download to screen
-            screen.addstr(36, 2, "Overall Peak Download Rate Recorded: ", curses.color_pair(blue))
-            screen.addstr(36, 39, "%.3f Mbs" % (max_download_speed), curses.color_pair(yellow_text))
+            screen.addstr(42, 13, "| Overall Peak Download Rate Recorded: ", curses.color_pair(blue))
+            screen.addstr(42, 52, "%.3f Mbs" % (max_download_speed), curses.color_pair(yellow_text))
 
             # Title for the race window
             screen.addstr(2, middle_width - 10, "Hot Dog Downloader", curses.color_pair(blue))
@@ -116,21 +116,21 @@ def func():
                 screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
                 screen.addstr(y_offset, 13, "| Rate: %.3f MBs" %
                     (round(p.chunk_rate/1024/1024, 3)))
-                screen.addstr(y_offset, 31, "| Percent Downloaded: %s%%" % (p.get_percent_done()))
-                screen.addstr(y_offset+2, 2, "start |%s:]%s| finish!" %
+                screen.addstr(y_offset, 33, "| Percent Downloaded: %s%%" % (p.get_percent_done()))
+                screen.addstr(y_offset+5, 2, "start |%s:]%s| finish!" %
                     ('-' * percent_print[x], ' ' *(window_width - 23 - percent_print[x])),
                     curses.color_pair(yellow_text))
 
                 # Displaying the peak download
                 if(p.chunk_rate > p.peak_download_high):
                     p.peak_download_high = p.chunk_rate
-                screen.addstr(y_offset+4, 2, "Peak Download Rate Recorded:", curses.color_pair(blue))
-                screen.addstr(y_offset+4, 34, "%.3f Mbs" % (p.peak_download_high/1024/1024), curses.color_pair(yellow_text))
+                screen.addstr(y_offset+2, 13, "| Peak Download Rate Recorded:", curses.color_pair(blue))
+                screen.addstr(y_offset+2, 43, " %.3f Mbs" % (p.peak_download_high/1024/1024), curses.color_pair(yellow_text))
 
                 # If done hen print static image for load animation but can still be resized
                 if(p.get_percent_done() == 100):
-                    screen.addstr(y_offset, 21, "0.000", curses.color_pair(red))
-                    screen.addstr(y_offset+2, 2, "start |%s:]%s| finish!" %
+                    screen.addstr(y_offset, 20, " 0.000", curses.color_pair(red))
+                    screen.addstr(y_offset+5, 2, "start |%s:]%s| finish!" %
                         ('-' * percent_print[x], ' ' *(window_width - 22 - percent_print[x])),
                         curses.color_pair(yellow_text))
                     p.done_flag = True
@@ -141,13 +141,13 @@ def func():
                         p.time_end = time.time()
                         p.stop_avg_flag = True
                     p.overall_average_download = round(((p.total_length /(p.time_end - start_time)) /1024/1024), 3)
-                    screen.addstr(y_offset+4, 46, "Overall Average Download Speed:", curses.color_pair(blue))
-                    screen.addstr(y_offset+4, 81, "%.3f MBs" % (p.overall_average_download), curses.color_pair(yellow_text))
+                    screen.addstr(y_offset+2, 56, "| Overall Average Download Speed:", curses.color_pair(blue))
+                    screen.addstr(y_offset+2, 92, " %.3f MBs" % (p.overall_average_download), curses.color_pair(yellow_text))
                 else:
                     pass
 
                 # Offesting the next racer in y-direction and updating x for player percent_print array
-                y_offset    += 6
+                y_offset    += 7
                 x           += 1
             screen.refresh()
             time.sleep(.1)

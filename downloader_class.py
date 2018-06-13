@@ -4,8 +4,7 @@ import time
 import urllib
 import socket
 from threading import Thread
-import distro_obj as dis
-from distro_obj import Distro
+
 ##
 # Downloader class is a class for the "Players" used in the race. This includes
 # all the neccary vars and functions needed by the runtime.py
@@ -52,10 +51,12 @@ class Downloader:
 
         if(self.header.find('404 Not Found' or 'Not Found' or 'Service Unavailable' or '302 Found' or '403 Forbidden') != -1):
 
+            # Hard coded url for now incase of error thats not a 301 rederect
             url_redirect = 'http://repos-jnb.psychz.net/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1804.iso'
             server, directories = self.parse_server_info(url_redirect)
             request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
 
+            # closing old socket and then creating new one to download from
             s.shutdown(1)
             s.close()
             d = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

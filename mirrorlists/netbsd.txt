@@ -1,2 +1,1 @@
-http://ftp.NetBSD.org/pub/NetBSD/
-
+http://mirror.isoc.org.il/pub/netbsd/
