@@ -14,7 +14,6 @@ http://mirror.koddos.net/dragonflybsd/
 http://ftp.icm.edu.pl/pub/BSD/dragonflybsd/
 http://mirror.macomnet.net/pub/DragonFlyBSD/
 http://mirror.tochlab.net/pub/DragonFlyBSD/
-http://ftp.acc.umu.se/mirror/dragonflybsd.org/
 http://mirror.bytemark.co.uk/dragonflybsd/
 http://mirrors.coreix.net/dragonflybsd/
 http://www.mirrorservice.org/sites/ftp.dragonflybsd.org/

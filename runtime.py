@@ -7,6 +7,7 @@ import os
 import sys
 import random
 import distro_obj as dis
+from downloader_class import Downloader
 ##
 # Runtime.py Script is designed to simulate a hot dog downloader race
 ##
@@ -100,7 +101,7 @@ def func():
 
             # Displaying overall peak download to screen
             screen.addstr(42, 13, "| Overall Peak Download Rate Recorded: ", curses.color_pair(blue))
-            screen.addstr(42, 52, "%.3f Mbs" % (max_download_speed), curses.color_pair(yellow_text))
+            screen.addstr(42, 52, "%.3f MBs" % (max_download_speed), curses.color_pair(yellow_text))
 
             # Title for the race window
             screen.addstr(2, middle_width - 10, "Hot Dog Downloader", curses.color_pair(blue))
@@ -111,6 +112,10 @@ def func():
             x           = 0
 
             for p in players:
+
+                # Displaying the OS being downloaded for player
+                screen.addstr(y_offset+4, 13, "| OS: ", curses.A_BOLD)
+                screen.addstr(y_offset+4, 20, str(dis.url_array_random_os[x]), curses.A_BOLD)
 
                 # Displaying the player, rate, percent downloaded and start/finish animation
                 screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
@@ -125,7 +130,7 @@ def func():
                 if(p.chunk_rate > p.peak_download_high):
                     p.peak_download_high = p.chunk_rate
                 screen.addstr(y_offset+2, 13, "| Peak Download Rate Recorded:", curses.color_pair(blue))
-                screen.addstr(y_offset+2, 43, " %.3f Mbs" % (p.peak_download_high/1024/1024), curses.color_pair(yellow_text))
+                screen.addstr(y_offset+2, 43, " %.3f MBs" % (p.peak_download_high/1024/1024), curses.color_pair(yellow_text))
 
                 # If done hen print static image for load animation but can still be resized
                 if(p.get_percent_done() == 100):

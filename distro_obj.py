@@ -31,8 +31,11 @@ distro_lib_array = []
 random_url_array = []
 
 # Final array of url's with no repeats from same os
-url_array = []
-url_array_os = []
+url_array           = []
+url_array_os        = []
+
+# Used by runtime, to know which os has been chosen for random url
+url_array_random_os = []
 
 ##
 # Distro takes the txt files and creates an array of the object Distro
@@ -149,7 +152,7 @@ class Distro:
         self.random_url = section_one + section_two + section_three
         random_url = section_one + section_two + section_three
         return random_url
-        
+
     # Get txt file addresses for os and put them in corrosponding objects address array
     def get_address(self):
         # We do len(self.distro_loc )- 1 because END: is considered 1 of the os's
@@ -184,19 +187,32 @@ for j in range(1,len(distro_lib_array)-1, 1):
 
 # Choose racers finally chooses the racers from distro where there are no repeats on os and each is unique
 def choose_racers():
+
     size = len(random_url_array)
+    tmp_array = []
+
+    for k in range(0, len(test.distro_loc)-2, 1):
+        tmp_array.append(distro_lib_array[k+1].distro)
+
     while(size > 9):
+
         index = random.randrange(size)
+
         element = random_url_array[index]
-        element2 = distro_lib_array[index]
-        random_url_array[index] = random_url_array[size - 1]
-        distro_lib_array[index] = distro_lib_array[size - 1]
-        size -= 1
+        element2 = tmp_array[index]
+
         url_array.append(element)
-        url_array_os.append(element2)
+        url_array_random_os.append(element2)
+
+        random_url_array[index] = random_url_array[size - 1]
+        tmp_array[index] = tmp_array[size - 1]
+        size -= 1
     #TODO Printer Helper used to show if URL downloaded is typo or bug NOTE ask creator for clarification
-    for i in range(5):
-        print(url_array[i])
-
-
+        #print(element)
+        #print(element2)
+    #for i in range(5):
+    #    print(url_array[i])
+    #    print(url_array_random_os[i])
     return url_array, url_array_os
+
+choose_racers()
