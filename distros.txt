@@ -1,23 +1,23 @@
 arch:
     location = mirrorlists/arch.txt
-    path += iso/
-    filenames += archlinux-2018.05.01.x86_64.iso
+    path += iso/latest/
+    filenames += archlinux-2018.06.01-x86_64.iso
 
 centos:
     location = mirrorlists/centos.txt
     path += 7/isos/x86_64/
-    filenames += CentOS-7-x86_64-DVD-1804.iso
-                CentOS-7-x86_64-Everything-1804.iso
-                CentOS-7-x86_64-LiveGNOME-1804.iso
-                CentOS-7-x86_64-LiveKDE-1804.iso
-                CentOS-7-x86_64-Minimal-1804.iso
-                CentOS-7-x86_64-NetInstall-1804.iso
+    filenames +=   CentOS-7-x86_64-DVD-1804.iso
+                   CentOS-7-x86_64-Everything-1804.iso
+                   CentOS-7-x86_64-LiveGNOME-1804.iso
+                   CentOS-7-x86_64-LiveKDE-1804.iso
+                   CentOS-7-x86_64-Minimal-1804.iso
+                   CentOS-7-x86_64-NetInstall-1804.iso
 
 debian-dvd:
     location = mirrorlists/debian.txt
     path += current/amd64/iso-dvd/
     filenames += debian-9.4.0-amd64-DVD-1.iso
-        	       sdebian-9.4.0-amd64-DVD-2.iso
+        	 debian-9.4.0-amd64-DVD-2.iso
                  debian-9.4.0-amd64-DVD-3.iso
 
 debian-cd:
@@ -41,7 +41,7 @@ fedora:
 gentoo:
     location = mirrorlists/gentoo.txt
     path += releases/amd64/autobuilds/current-install-amd64-minimal/
-    filenames +=    install-amd64-minimal-20180415T214502Z.iso
+    filenames += install-amd64-minimal-20180415T214502Z.iso
 
 mageia:
     location = mirrorlists/mageia.txt
@@ -123,9 +123,7 @@ openbsd:
 sabayon:
     location = mirrorlists/sabayon.txt
     path += iso/daily/
-    filenames +=    Sabayon_Linux_DAILY_amd64_-dev.iso
-                    Sabayon_Linux_DAILY_amd64_.iso
-                    Sabayon_Linux_DAILY_amd64_ForensicsXfce.iso
+    filenames +=    Sabayon_Linux_DAILY_amd64_ForensicsXfce.iso
                     Sabayon_Linux_DAILY_amd64_GNOME-dev.iso
                     Sabayon_Linux_DAILY_amd64_GNOME.iso
                     Sabayon_Linux_DAILY_amd64_KDE-dev.iso
@@ -145,8 +143,10 @@ sabayon:
 
 slackware:
     location = mirrorlists/slackware.txt
-    path += slackware-iso/slackware64-14.2-iso/
-    filenames += slackware64-14.2-install-dvd.iso
+    path += slackware/slackware-iso/slackware-14.2-iso/
+    filenames += slackware-14.2-install-d3.iso
+		 slackware-14.2-source-dvd.iso
+		 slackware-14.2-install-dvd.iso
 
 ubuntu:
     location = mirrorlists/ubuntu.txt

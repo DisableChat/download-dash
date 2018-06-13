@@ -50,7 +50,7 @@ class Downloader:
     # Deterimines if there is a redirect error (301 ERROR), if it does occur find new route
     def determine_error(self, s):
 
-        if(self.header.find('404 Not Found' or 'Not Found' or 'Service Unavailable' or '302 Found') != -1):
+        if(self.header.find('404 Not Found' or 'Not Found' or 'Service Unavailable' or '302 Found' or '403 Forbidden') != -1):
 
             url_redirect = 'http://repos-jnb.psychz.net/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1804.iso'
             server, directories = self.parse_server_info(url_redirect)
