@@ -114,9 +114,11 @@ def func():
             for p in players:
 
                 # Displaying the OS being downloaded for player
-                screen.addstr(y_offset+4, 13, "| OS: ", curses.A_BOLD)
+                screen.addstr(y_offset+4, 13, "| OS: ", curses.COLOR_WHITE)
                 screen.addstr(y_offset+4, 20, str(dis.url_array_random_os[x]), curses.A_BOLD)
 
+                screen.addstr(y_offset+4, 33, "| File: ", curses.COLOR_WHITE)
+                screen.addstr(y_offset+4, 41, str(dis.five_files[x]),curses.A_BOLD)
                 # Displaying the player, rate, percent downloaded and start/finish animation
                 screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
                 screen.addstr(y_offset, 13, "| Rate: %.3f MBs" %

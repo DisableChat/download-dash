@@ -36,6 +36,8 @@ url_array_os        = []
 
 # Used by runtime, to know which os has been chosen for random url
 url_array_random_os = []
+file_array_tmp      = []
+five_files          = []
 
 ##
 # Distro takes the txt files and creates an array of the object Distro
@@ -151,6 +153,7 @@ class Distro:
         section_three = str(random.choice(distro_lib_array[num].filenames))
         self.random_url = section_one + section_two + section_three
         random_url = section_one + section_two + section_three
+        file_array_tmp.append(section_three)
         return random_url
 
     # Get txt file addresses for os and put them in corrosponding objects address array
@@ -198,21 +201,22 @@ def choose_racers():
 
         index = random.randrange(size)
 
-        element = random_url_array[index]
-        element2 = tmp_array[index]
-
-        url_array.append(element)
-        url_array_random_os.append(element2)
-
+        url_array.append(random_url_array[index])
+        url_array_random_os.append(tmp_array[index])
+        five_files.append(file_array_tmp[index])
+        #element3 = file_array_tmp[index]
+        #print (element3)
         random_url_array[index] = random_url_array[size - 1]
         tmp_array[index] = tmp_array[size - 1]
+        file_array_tmp[index] = file_array_tmp[size - 1]
         size -= 1
     #TODO Printer Helper used to show if URL downloaded is typo or bug NOTE ask creator for clarification
         #print(element)
         #print(element2)
     #for i in range(5):
     #    print(url_array[i])
+    #    print(five_files[i])
     #    print(url_array_random_os[i])
     return url_array, url_array_os
 
-choose_racers()
+#choose_racers()
