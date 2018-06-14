@@ -43,6 +43,9 @@ class Downloader:
     run_thread      = True
     url_array_os    = []
 
+    # Rankings
+    ranking_array   = ['','','','','','']
+
     def __init__(self):
         index = 0
 
