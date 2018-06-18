@@ -44,6 +44,7 @@ def func():
     screen.bkgd(curses.color_pair(default))
 
     try:
+        time_adder_flag     = False
         ranking_x_offset    = 24
         max_download_speed  = 0
         split_timer         = time.time()
@@ -84,17 +85,21 @@ def func():
             screen.addstr(1, middle_width + 23, '======================', curses.color_pair(yellow_text))
             screen.addstr(2, middle_width + 22, '(- LIVE RANKINGS BOII -)', curses.color_pair(red))
             screen.addstr(3, middle_width + 23, '======================', curses.color_pair(yellow_text))
+            screen.addstr(3, middle_width + 48, 'MIN|SEC|MS', curses.A_UNDERLINE)
             screen.addstr(4, middle_width + ranking_x_offset, '1st Place ::', curses.A_BOLD)
             screen.addstr(5, middle_width + ranking_x_offset, '2nd Place ::', curses.A_BOLD)
             screen.addstr(6, middle_width + ranking_x_offset, '3rd Place ::', curses.A_BOLD)
             screen.addstr(7, middle_width + ranking_x_offset, 'Hard Rip  ::', curses.A_BOLD)
             screen.addstr(8, middle_width + ranking_x_offset, 'Mega Rip  ::', curses.A_BOLD)
 
+
+            screen.addstr(0,0, str(dc.ms_array))
+
             # Y componet offset for players X ussed in percent_print array
             y_offset    = 11
-            x           = 0
             j           = 4
-            k           = 0
+            x           = 0
+
             for p in players:
 
                 # Displaying the OS being downloaded for player
@@ -124,6 +129,7 @@ def func():
                     screen.addstr(y_offset+5, 2, "start |%s:]%s| finish!" %
                         ('-' * percent_print[x], ' ' *(window_width - 22 - percent_print[x])),
                         curses.color_pair(yellow_text))
+                    j += 1
                     p.done_flag = True
 
                 # Display overall average download when done
@@ -131,15 +137,25 @@ def func():
                     if(p.stop_avg_flag == False):
                         p.time_end = time.time()
                         p.stop_avg_flag = True
-                        p.ranking_array[x] = str(x+1)
-                        k += 1
+                        p.ranking_array.append(str(x+1))
+                        if(time_adder_flag != True):
+                            ms = round((p.time_end -start_time)*1000, 0)
+                            dc.ms_array.append(ms)
+                            p.timing_array.append(dc.get_time(ms))
+                        else:
+                            #TODO FIX THIS SHIT YA
+                            ms2 = round((p.time_end*1000) - (dc.ms_array[0]), 0)
+                            dc.ms_array.append(ms2)
+                            p.timing_array.append(dc.get_time(ms2))
+
                     p.overall_average_download = round(((p.total_length /(p.time_end - start_time)) /1024/1024), 3)
                     screen.addstr(y_offset+2, 56, "| Overall Average Download Speed:", curses.color_pair(blue))
                     screen.addstr(y_offset+2, 89, " %.3f MBs" % (p.overall_average_download), curses.color_pair(yellow_text))
 
-                    screen.addstr(j, middle_width + ranking_x_offset + 13, 'Player ', curses.color_pair(red))
-                    screen.addstr(j, middle_width + ranking_x_offset + 20, str(p.ranking_array[x]), curses.color_pair(yellow_text))
-                    j += 1
+                    screen.addstr(j-1, middle_width + ranking_x_offset + 13, 'Player ', curses.color_pair(red))
+                    screen.addstr(j-1, middle_width + ranking_x_offset + 20, str(p.ranking_array[j-5]), curses.color_pair(yellow_text))
+                    screen.addstr(j-1, middle_width + ranking_x_offset + 25, str(p.timing_array[j-5]), curses.A_BOLD)
+                    time_adder_flag = True
                 else:
                     pass
 

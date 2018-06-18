@@ -115,13 +115,6 @@ def print_hotdog():
         sys.exit("Keyboard Interrupt, Quitting...")
 
 
-
-
-
-
-
-
-
         '''
         screen.addstr(y, x,         '               ..,,,,,,,,,,,,,,,......')
         screen.addstr(y+1, x,       '             .........,,,,,,,*******,,,,,,,,...')

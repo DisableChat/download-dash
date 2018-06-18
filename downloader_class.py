@@ -10,6 +10,9 @@ from threading import Thread
 # all the neccary vars and functions needed by the runtime.py
 ##
 
+
+ms_array = []
+
 class Downloader:
 
     # Players data_length and total_length and percent done
@@ -22,10 +25,10 @@ class Downloader:
     peak_download               = 0
     peak_download_high          = 0
 
+
     # Flags used
     done_flag       = False
     stop_avg_flag   = False
-
     # Used for data download rate arithmitic
     chunk_rate          = 0
     chunk               = 0
@@ -44,9 +47,12 @@ class Downloader:
     url_array_os    = []
 
     # Rankings
-    ranking_array   = ['','','','','','']
+    ranking_array   = []
+    timing_array    = []
+    #ranking_array   = ['','','','','','']
 
     def __init__(self):
+
         index = 0
 
     # Deterimines if there is a redirect error (301 ERROR), if it does occur find new route
@@ -191,3 +197,11 @@ class Downloader:
     def get_percent_done(self):
         self.percent_done = int(100 * self.data_length/self.total_length)
         return self.percent_done
+
+def get_time(milliseconds):
+
+    ms = milliseconds
+    s, ms = divmod(ms, 1000)
+    m, s = divmod(s, 60)
+    new_time = ('%d:%d:%d'%(m,s, ms))
+    return new_time
