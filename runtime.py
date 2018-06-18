@@ -21,38 +21,8 @@ window_height, window_width = ss.window_res(screen)
 
 def func():
 
-    # Firt try except is used to display the countdown screen before race
-    try:
-        for k in range(3, 0, -1):
-            count = 0
-            while(count != 1000):
-                middle_height, middle_width = ss.window_res(screen)
-                screen.clear()
-                screen.border()
-                screen.addstr(middle_height - 2, middle_width - 22 ,
-                    '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
-                screen.addch(middle_height, middle_width - 1, str(k) , curses.color_pair(yellow_background))
-                #hd.print_hotdog()
-                screen.refresh()
-                count += 1
-
-        count1 = 0
-        while(count1 != 1000):
-            middle_height, middle_width = ss.window_res(screen)
-            screen.clear()
-            screen.border()
-            screen.addstr(middle_height - 2, middle_width - 22 ,
-                '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
-            screen.addstr(middle_height, middle_width - 2, 'GO!', curses.color_pair(yellow_background))
-            screen.refresh()
-            count1 += 1
-
-        screen.clear()
-
-    # For user wanting to ctr ^C in countdown window
-    except KeyboardInterrupt:
-        curses.endwin()
-        sys.exit("Keyboard Interrupt, Quitting...")
+    #initial screen with countdown
+    hd.print_hotdog()
 
     # Declaring an array of players and instantiating those players and setting url total length
     players = []

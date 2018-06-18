@@ -1,7 +1,7 @@
 import curses
 
 ##
-# Screen_Setup purpose is to setup the screen for runtime.py 
+# Screen_Setup purpose is to setup the screen for runtime.py
 ##
 
 def curses_setup():
