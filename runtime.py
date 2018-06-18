@@ -8,6 +8,7 @@ import sys
 import random
 import distro_obj as dis
 from downloader_class import Downloader
+import hotdog as hd
 ##
 # Runtime.py Script is designed to simulate a hot dog downloader race
 ##
@@ -22,7 +23,7 @@ def func():
 
     # Firt try except is used to display the countdown screen before race
     try:
-        for x in range(3, 0, -1):
+        for k in range(3, 0, -1):
             count = 0
             while(count != 1000):
                 middle_height, middle_width = ss.window_res(screen)
@@ -30,7 +31,8 @@ def func():
                 screen.border()
                 screen.addstr(middle_height - 2, middle_width - 22 ,
                     '(>0.0)>   -_-_COUNTDOWN HYPE_-_-   <(0.0<)', curses.color_pair(yellow_background))
-                screen.addch(middle_height, middle_width - 1, str(x) , curses.color_pair(yellow_background))
+                screen.addch(middle_height, middle_width - 1, str(k) , curses.color_pair(yellow_background))
+                #hd.print_hotdog()
                 screen.refresh()
                 count += 1
 
