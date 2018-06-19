@@ -67,10 +67,6 @@ class Distro:
             for lines in range(len(self.address)):
                 self.address[lines] = self.address[lines].strip('\n')
 
-            # TODO Print helpers
-            #for i in range(len(self.address)):
-            #    print(self.address[i])
-
     # Determine the spacing between distros so we can use them for conditons later on
     def get_distro_spacing(self, distro_list_dir):
 
@@ -102,9 +98,6 @@ class Distro:
             # Creating an array of the lines of the text file
             array = fp.readlines()
 
-            # TODO Helper function
-            #print('Distro Number In Array',distro_num)
-
             # Loop through text file
             for line in range(len(array)):
 
@@ -118,17 +111,14 @@ class Distro:
                     # Stripping the words and \n from the lines of in the text file
                     if(array[line].find(':') != -1):
                         self.distro = (array[line].strip(':' + '\n'))
-                    #    print(self.distro) # TODO Print helper
 
                         # Setting Obj's location
                         array[line+1] = (array[line+1].strip('location '))
                         self.location = (array[line+1].strip('= ' + '\n'))
-                    #    print(self.location) # TODO Print helper
 
                         # Setting Obj's path
                         array[line+2] = (array[line+2].strip('path +'))
                         self.path = (array[line+2].strip('= ' + '\n'))
-                    #    print(self.path) # TODO Print helper
 
                         # First directory but need to strip the filename from that line of txt
                         array[line+3] = (array[line+3].strip('filenames '))
@@ -140,10 +130,6 @@ class Distro:
                             self.filenames.append(array[counter].strip())
                             i += 1
                             counter += 1
-
-            # TODO print helper
-            #for k in range(len(self.filenames)):
-            #    print(self.filenames[k])
 
     # Randomly chooses file name and address and connects them with the distro's location
     # and path to create a randomly generated url from library
@@ -183,10 +169,7 @@ for j in range(1,len(distro_lib_array)-1, 1):
 
     distro_lib_array[j].glue_url(j)
     random_url_array.append(distro_lib_array[j].random_url)
-    # TODO printer helper to show if the url you downloaded is typo due to txt docu
-    #print(distro_lib_array[j].random_url)
     url_array_os.append(distro_lib_array[j].distro)
-
 
 # Choose racers finally chooses the racers from distro where there are no repeats on os and each is unique
 def choose_racers():
@@ -204,19 +187,10 @@ def choose_racers():
         url_array.append(random_url_array[index])
         url_array_random_os.append(tmp_array[index])
         five_files.append(file_array_tmp[index])
-        #element3 = file_array_tmp[index]
-        #print (element3)
+
         random_url_array[index] = random_url_array[size - 1]
         tmp_array[index] = tmp_array[size - 1]
         file_array_tmp[index] = file_array_tmp[size - 1]
         size -= 1
-    #TODO Printer Helper used to show if URL downloaded is typo or bug NOTE ask creator for clarification
-        #print(element)
-        #print(element2)
-    #for i in range(5):
-    #    print(url_array[i])
-    #    print(five_files[i])
-    #    print(url_array_random_os[i])
-    return url_array, url_array_os
 
-#choose_racers()
+    return url_array, url_array_os

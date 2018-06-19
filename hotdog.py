@@ -10,6 +10,30 @@ from subprocess import DEVNULL, STDOUT, run, Popen
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
 window_height, window_width = ss.window_res(screen)
 
+
+
+def odds_screen():
+    with open(os.devnull, 'wb') as devnull:
+        subprocess.Popen(['aplay', dis.file_directory + 'quickmath.wav'], stdout=devnull, stderr=subprocess.STDOUT)
+    # Odds Function
+    while True:
+        try:
+            middle_height, middle_width = ss.window_res(screen)
+            screen.addstr(1,middle_width - 13, "*PRESS SPACE TO START RACE*")
+            screen.addstr(5,middle_width - 8, "Odds Display Page")
+            screen.border()
+            key = screen.getkey()
+            if(key == ' '):
+                break
+                drums.terminate()
+            screen.clear()
+            screen.refresh()
+            time.sleep(.1)
+
+        except KeyboardInterrupt:
+            curses.endwin()
+            sys.exit("Keyboard, Interrupt Quitting...")
+
 def print_hotdog():
     with open(os.devnull, 'wb') as devnull:
         subprocess.Popen(['aplay', dis.file_directory + 'countdown.wav'], stdout=devnull, stderr=subprocess.STDOUT)
@@ -118,6 +142,7 @@ def print_hotdog():
     except KeyboardInterrupt:
         curses.endwin()
         sys.exit("Keyboard Interrupt, Quitting...")
+
 
         '''
         screen.addstr(y, x,         '               ..,,,,,,,,,,,,,,,......')

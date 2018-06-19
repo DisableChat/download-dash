@@ -10,7 +10,6 @@ from threading import Thread
 # all the neccary vars and functions needed by the runtime.py
 ##
 
-
 timing_array    = []
 
 class Downloader:
@@ -25,10 +24,10 @@ class Downloader:
     peak_download               = 0
     peak_download_high          = 0
 
-
     # Flags used
     done_flag       = False
     stop_avg_flag   = False
+
     # Used for data download rate arithmitic
     chunk_rate          = 0
     chunk               = 0
@@ -198,8 +197,8 @@ class Downloader:
         self.percent_done = int(100 * self.data_length/self.total_length)
         return self.percent_done
 
+# converts time from ms to minutes seconds and milliseconds
 def get_time(milliseconds):
-
     ms = milliseconds
     s, ms = divmod(ms, 1000)
     m, s = divmod(s, 60)

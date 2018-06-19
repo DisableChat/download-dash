@@ -1,14 +1,14 @@
 import downloader_class as dc
 import screen_setup as ss
+import distro_obj as dis
+from downloader_class import Downloader
+import hotdog as hd
 import time
 from threading import Thread
 import curses
 import os
 import sys
 import random
-import distro_obj as dis
-from downloader_class import Downloader
-import hotdog as hd
 import subprocess
 from subprocess import DEVNULL, STDOUT, run, Popen
 ##
@@ -23,26 +23,6 @@ window_height, window_width = ss.window_res(screen)
 
 def func():
 
-    # Odds Function
-    while True:
-        try:
-            middle_height, middle_width = ss.window_res(screen)
-            screen.addstr(1,middle_width - 13, "*PRESS SPACE TO START RACE*")
-            screen.addstr(5,middle_width - 8, "Odds Display Page")
-            screen.border()
-            key = screen.getkey()
-            if(key == ' '):
-                break
-            screen.clear()
-            screen.refresh()
-
-        except KeyboardInterrupt:
-            curses.endwin()
-            sys.exit("Keyboard, Interrupt Quitting...")
-
-    #initial screen with countdown
-    hd.print_hotdog()
-
     # Declaring an array of players and instantiating those players and setting url total length
     players = []
     for i in range(0, 5, 1):
@@ -54,6 +34,12 @@ def func():
     for p in players:
         threads.append(Thread(target=p.download, args=(url_array[index], url_array_os, index)))
         index += 1
+
+    # Odds screen display to terminal
+    hd.odds_screen()
+
+    #initial screen with countdown
+    hd.print_hotdog()
 
     # Starting the array of threads
     for thread in threads:
