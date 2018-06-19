@@ -3,11 +3,16 @@ import screen_setup as ss
 import sys
 import os
 import time
+import subprocess
+import distro_obj as dis
+from subprocess import DEVNULL, STDOUT, run, Popen
 
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
 window_height, window_width = ss.window_res(screen)
 
 def print_hotdog():
+    with open(os.devnull, 'wb') as devnull:
+        subprocess.Popen(['aplay', dis.file_directory + 'countdown.wav'], stdout=devnull, stderr=subprocess.STDOUT)
     try:
         for k in range(3,0,-1):
             count = 0

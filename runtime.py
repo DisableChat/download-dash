@@ -46,7 +46,7 @@ def func():
     screen.bkgd(curses.color_pair(default))
 
     try:
-        FINISH_FLAG         = False
+        finish_flag         = False
         ranking_x_offset    = 24
         max_download_speed  = 0
         split_timer         = time.time()
@@ -140,11 +140,11 @@ def func():
                 # Display overall average download when done
                 if(p.done_flag == True and p.get_percent_done() == 100):
 
-                    if(FINISH_FLAG == False):
+                    if(finish_flag == False):
                         # playing airhorn
                         with open(os.devnull, 'wb') as devnull:
                             subprocess.Popen(['aplay', dis.file_directory + 'horn.wav'], stdout=devnull, stderr=subprocess.STDOUT)
-                            FINISH_FLAG = True
+                            finish_flag = True
 
                     if(p.stop_avg_flag == False):
                         p.time_end = time.time()
