@@ -105,6 +105,10 @@ def func():
 
                 screen.addstr(y_offset+4, 33, "| File: ", curses.COLOR_WHITE)
                 screen.addstr(y_offset+4, 41, str(dis.five_files[x]),curses.A_BOLD)
+
+                screen.addstr(y_offset+4, 89, "| Size: ", curses.color_pair(red))
+                screen.addstr(y_offset+4, 98, str(round(p.total_length/1024/1024,2)) + ' MB', curses.color_pair(blue))
+
                 # Displaying the player, rate, percent downloaded and start/finish animation
                 screen.addstr(y_offset, 2,  "Player"+str(x+1)+" ::", curses.color_pair(cyan_dots))
                 screen.addstr(y_offset, 13, "| Rate: %.3f MBs" %
