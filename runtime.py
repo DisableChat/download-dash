@@ -23,6 +23,23 @@ window_height, window_width = ss.window_res(screen)
 
 def func():
 
+    # Odds Function
+    while True:
+        try:
+            middle_height, middle_width = ss.window_res(screen)
+            screen.addstr(1,middle_width - 13, "*PRESS SPACE TO START RACE*")
+            screen.addstr(5,middle_width - 8, "Odds Display Page")
+            screen.border()
+            key = screen.getkey()
+            if(key == ' '):
+                break
+            screen.clear()
+            screen.refresh()
+
+        except KeyboardInterrupt:
+            curses.endwin()
+            sys.exit("Keyboard, Interrupt Quitting...")
+
     #initial screen with countdown
     hd.print_hotdog()
 
