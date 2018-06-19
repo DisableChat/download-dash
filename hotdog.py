@@ -1,6 +1,7 @@
 import curses
 import screen_setup as ss
 import sys
+import os
 import time
 
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
@@ -104,7 +105,6 @@ def print_hotdog():
             screen.addstr(middle_height+14, middle_width-40+63,   ',.'                                                    ,curses.color_pair(yellow_text))
             screen.addstr(middle_height+15, middle_width-40+39,   '.....,,,,,,,****/***,,,,,.'                            ,curses.color_pair(yellow_text))
             screen.addstr(middle_height+16, middle_width-40+44,   '....,,,,,********,.'                                   ,curses.color_pair(yellow_text))
-
             screen.refresh()
             time.sleep(.1)
             count1 += 1
@@ -113,7 +113,6 @@ def print_hotdog():
     except KeyboardInterrupt:
         curses.endwin()
         sys.exit("Keyboard Interrupt, Quitting...")
-
 
         '''
         screen.addstr(y, x,         '               ..,,,,,,,,,,,,,,,......')

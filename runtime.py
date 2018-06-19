@@ -9,6 +9,8 @@ import random
 import distro_obj as dis
 from downloader_class import Downloader
 import hotdog as hd
+import subprocess
+from subprocess import DEVNULL, STDOUT, run, Popen
 ##
 # Runtime.py Script is designed to simulate a hot dog downloader race
 ##
@@ -44,7 +46,7 @@ def func():
     screen.bkgd(curses.color_pair(default))
 
     try:
-
+        FINISH_FLAG         = False
         ranking_x_offset    = 24
         max_download_speed  = 0
         split_timer         = time.time()
@@ -103,9 +105,11 @@ def func():
                 screen.addstr(y_offset+4, 13, "| OS: ", curses.COLOR_WHITE)
                 screen.addstr(y_offset+4, 20, str(dis.url_array_random_os[x]), curses.A_BOLD)
 
+                # Displaying File Name
                 screen.addstr(y_offset+4, 33, "| File: ", curses.COLOR_WHITE)
                 screen.addstr(y_offset+4, 41, str(dis.five_files[x]),curses.A_BOLD)
 
+                # Displaying size of file being downloaded
                 screen.addstr(y_offset+4, 89, "| Size: ", curses.color_pair(red))
                 screen.addstr(y_offset+4, 98, str(round(p.total_length/1024/1024,2)) + ' MB', curses.color_pair(blue))
 
@@ -135,6 +139,13 @@ def func():
 
                 # Display overall average download when done
                 if(p.done_flag == True and p.get_percent_done() == 100):
+
+                    if(FINISH_FLAG == False):
+                        # playing airhorn
+                        with open(os.devnull, 'wb') as devnull:
+                            subprocess.Popen(['aplay', dis.file_directory + 'horn.wav'], stdout=devnull, stderr=subprocess.STDOUT)
+                            FINISH_FLAG = True
+
                     if(p.stop_avg_flag == False):
                         p.time_end = time.time()
                         p.stop_avg_flag = True
