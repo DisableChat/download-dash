@@ -11,7 +11,7 @@ from threading import Thread
 ##
 
 
-ms_array = []
+timing_array    = []
 
 class Downloader:
 
@@ -48,7 +48,7 @@ class Downloader:
 
     # Rankings
     ranking_array   = []
-    timing_array    = []
+    #timing_array    = []
     #ranking_array   = ['','','','','','']
 
     def __init__(self):

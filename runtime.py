@@ -44,7 +44,7 @@ def func():
     screen.bkgd(curses.color_pair(default))
 
     try:
-        time_adder_flag     = False
+
         ranking_x_offset    = 24
         max_download_speed  = 0
         split_timer         = time.time()
@@ -92,9 +92,6 @@ def func():
             screen.addstr(7, middle_width + ranking_x_offset, 'Hard Rip  ::', curses.A_BOLD)
             screen.addstr(8, middle_width + ranking_x_offset, 'Mega Rip  ::', curses.A_BOLD)
 
-
-            screen.addstr(0,0, str(dc.ms_array))
-
             # Y componet offset for players X ussed in percent_print array
             y_offset    = 11
             j           = 4
@@ -138,15 +135,10 @@ def func():
                         p.time_end = time.time()
                         p.stop_avg_flag = True
                         p.ranking_array.append(str(x+1))
-                        if(time_adder_flag != True):
-                            ms = round((p.time_end -start_time)*1000, 0)
-                            dc.ms_array.append(ms)
-                            p.timing_array.append(dc.get_time(ms))
-                        else:
-                            #TODO FIX THIS SHIT YA
-                            ms2 = round((p.time_end*1000) - (dc.ms_array[0]), 0)
-                            dc.ms_array.append(ms2)
-                            p.timing_array.append(dc.get_time(ms2))
+
+                        # Displaying the finish times for the racers
+                        ms_first = round((p.time_end -start_time)*1000, 0)
+                        dc.timing_array.append(dc.get_time(ms_first))
 
                     p.overall_average_download = round(((p.total_length /(p.time_end - start_time)) /1024/1024), 3)
                     screen.addstr(y_offset+2, 56, "| Overall Average Download Speed:", curses.color_pair(blue))
@@ -154,8 +146,8 @@ def func():
 
                     screen.addstr(j-1, middle_width + ranking_x_offset + 13, 'Player ', curses.color_pair(red))
                     screen.addstr(j-1, middle_width + ranking_x_offset + 20, str(p.ranking_array[j-5]), curses.color_pair(yellow_text))
-                    screen.addstr(j-1, middle_width + ranking_x_offset + 25, str(p.timing_array[j-5]), curses.A_BOLD)
-                    time_adder_flag = True
+                    screen.addstr(j-1, middle_width + ranking_x_offset + 25, str(dc.timing_array[j-5]), curses.A_BOLD)
+
                 else:
                     pass
 
