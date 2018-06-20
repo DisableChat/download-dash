@@ -35,12 +35,15 @@ def odds_screen():
                 screen.addstr(y_offset+4, 13,  "Player"+str(x+1)+" | OS: ", curses.A_BOLD)
                 screen.addstr(y_offset+4, 26, str(dis.url_array_random_os[x]), curses.A_BOLD)
 
-                screen.addstr(y_offset+5, 10, "-"*(window_width*2-20))
+                screen.addstr(y_offset+6, 10, "-"*(window_width*2-20))
 
 
                 # Displaying File Name
-                screen.addstr(y_offset+4, 33, "| File: ", curses.A_BOLD)
+                screen.addstr(y_offset+4, 40, "| File: ", curses.A_BOLD)
                 screen.addstr(y_offset+4, 41, str(dis.five_files[x]),curses.A_BOLD)
+
+                screen.addstr(y_offset+5, 13, 'URL: ', curses.A_BOLD)
+                screen.addstr(y_offset+5, 18, str(dis.random_url_array[x]),curses.A_BOLD)
 
                 # Offesting the next racer in y-direction and updating x for player percent_print array
                 y_offset    += 4

@@ -197,6 +197,21 @@ class Downloader:
         self.percent_done = int(100 * self.data_length/self.total_length)
         return self.percent_done
 
+    # Determines the latancy of a sight
+    def determine_latancy():
+
+        command = subprocess.Popen(['ping', '-c', '1', server], stdout=subprocess.PIPE)
+        output = command.stdout.read()
+
+        output = str(output)
+        time_loc = output.find('time')
+        output_array = list(output)
+
+        # Parsing latancing value
+        latancy = output[time_loc+5:time_loc+9]
+        latancy = ''.join(latancy)
+        print(latancy + ' ms')
+
 # converts time from ms to minutes seconds and milliseconds
 def get_time(milliseconds):
     ms = milliseconds
