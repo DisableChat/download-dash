@@ -5,18 +5,18 @@ import os
 import time
 import subprocess
 import distro_obj as dis
-
 from subprocess import DEVNULL, STDOUT, run, Popen
 
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
 window_height, window_width = ss.window_res(screen)
 
-
-
 def odds_screen():
+
+    # Audio File for welcome screen
     with open(os.devnull, 'wb') as devnull:
         subprocess.Popen(['aplay', dis.file_directory + 'welcome.wav'], stdout=devnull, stderr=subprocess.STDOUT)
-    # Odds Function
+
+    # Printing PLayer info
     while True:
         try:
             middle_height, middle_width = ss.window_res(screen)
@@ -46,6 +46,7 @@ def odds_screen():
                 y_offset    += 4
                 x           += 1
 
+            # Space to continue to next screen
             key = screen.getkey()
             if(key == ' '):
                 break
@@ -60,6 +61,8 @@ def odds_screen():
             curses.endwin()
             sys.exit("Keyboard, Interrupt Quitting...")
 
+
+# Print Hot dog litterally just prints the ascii hotdog dawggg
 def print_hotdog():
     with open(os.devnull, 'wb') as devnull:
         subprocess.Popen(['aplay', dis.file_directory + 'countdown.wav'], stdout=devnull, stderr=subprocess.STDOUT)
@@ -168,7 +171,6 @@ def print_hotdog():
     except KeyboardInterrupt:
         curses.endwin()
         sys.exit("Keyboard Interrupt, Quitting...")
-
 
         '''
         screen.addstr(y, x,         '               ..,,,,,,,,,,,,,,,......')
