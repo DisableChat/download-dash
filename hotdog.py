@@ -12,14 +12,9 @@ window_height, window_width = ss.window_res(screen)
 
 def odds_screen():
 
-    k = 0
-    for p in dis.players_array:
-        p.server, directories = p.parse_server_info(str(dis.random_url_array[k]))
-        #p.determine_latancy()
-        k += 1
     # Audio File for welcome screen
     with open(os.devnull, 'wb') as devnull:
-        subprocess.Popen(['aplay', dis.file_directory + 'welcome.wav'], stdout=devnull, stderr=subprocess.STDOUT)
+        subprocess.Popen(['aplay', dis.file_directory + 'quickmath.wav'], stdout=devnull, stderr=subprocess.STDOUT)
 
     # Printing PLayer info
     while True:
@@ -50,7 +45,7 @@ def odds_screen():
                 screen.addstr(y_offset+5, 13, 'URL: ', curses.A_BOLD)
                 screen.addstr(y_offset+5, 18, str(dis.random_url_array[x]),curses.A_BOLD)
 
-                screen.addstr(y_offset+6, 18, str(p.latency),curses.A_BOLD)
+                screen.addstr(y_offset+6, 18, p.latency,curses.A_BOLD)
                 screen.addstr(y_offset+7, 18, str(p.server), curses.A_BOLD)
 
                 # Offesting the next racer in y-direction and updating x for player percent_print array
@@ -72,6 +67,20 @@ def odds_screen():
             curses.endwin()
             sys.exit("Keyboard, Interrupt Quitting...")
 
+# Print screen pre stats page
+def print_pre_intro():
+
+    # Audio File for welcome screen
+    with open(os.devnull, 'wb') as devnull:
+        subprocess.Popen(['aplay', dis.file_directory + 'welcome.wav'], stdout=devnull, stderr=subprocess.STDOUT)
+    k = 0
+    for p in dis.players_array:
+        p.server, directories = p.parse_server_info(str(dis.random_url_array[k]))
+        p.determine_latancy()
+        k += 1
+
+
+    time.sleep(1)
 
 # Print Hot dog litterally just prints the ascii hotdog dawggg
 def print_hotdog():

@@ -21,7 +21,6 @@ url_array, url_array_os = dis.choose_racers()
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
 window_height, window_width = ss.window_res(screen)
 
-
 def player_setup():
         # Declaring an array of players and instantiating those players and setting url total length
         players = []
@@ -41,6 +40,8 @@ def func():
 
     players, threads = player_setup()
     dis.players_array = players
+
+    hd.print_pre_intro()
 
     # Odds screen display to terminal
     hd.odds_screen()

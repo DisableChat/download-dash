@@ -205,7 +205,7 @@ class Downloader:
     # Determines the latancy of a sight
     def determine_latancy(self):
 
-        command = subprocess.Popen(['ping', '-c', '1', self.server], stdout=subprocess.PIPE)
+        command = subprocess.Popen(['ping', '-c', '1', '-W', '1', self.server], stdout=subprocess.PIPE)
         output = command.stdout.read()
 
         output = str(output)
@@ -215,8 +215,11 @@ class Downloader:
         # Parsing latancing value
         latancy = output[time_loc+5:time_loc+9]
         latancy = ''.join(latancy)
-        self.latency = latancy
-        #print(latancy + ' ms')
+        if(latancy == '0ms\\'):
+            self.latency = '0 ms'
+        else:
+            self.latency = latancy
+
 
 # converts time from ms to minutes seconds and milliseconds
 def get_time(milliseconds):
