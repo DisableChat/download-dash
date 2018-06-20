@@ -21,19 +21,26 @@ url_array, url_array_os = dis.choose_racers()
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
 window_height, window_width = ss.window_res(screen)
 
+
+def player_setup():
+        # Declaring an array of players and instantiating those players and setting url total length
+        players = []
+        for i in range(0, 5, 1):
+            players.append(dc.Downloader())
+
+        # Declaring an array of threads
+        threads = []
+        index = 0
+        for p in players:
+            threads.append(Thread(target=p.download, args=(url_array[index], url_array_os, index)))
+            index += 1
+
+        return players, threads
+
 def func():
 
-    # Declaring an array of players and instantiating those players and setting url total length
-    players = []
-    for i in range(0, 5, 1):
-        players.append(dc.Downloader())
-
-    # Declaring an array of threads
-    threads = []
-    index = 0
-    for p in players:
-        threads.append(Thread(target=p.download, args=(url_array[index], url_array_os, index)))
-        index += 1
+    players, threads = player_setup()
+    dis.players_array = players
 
     # Odds screen display to terminal
     hd.odds_screen()

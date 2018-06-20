@@ -5,6 +5,7 @@ import os
 import time
 import subprocess
 import distro_obj as dis
+
 from subprocess import DEVNULL, STDOUT, run, Popen
 
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
@@ -14,7 +15,7 @@ window_height, window_width = ss.window_res(screen)
 
 def odds_screen():
     with open(os.devnull, 'wb') as devnull:
-        subprocess.Popen(['aplay', dis.file_directory + 'quickmath.wav'], stdout=devnull, stderr=subprocess.STDOUT)
+        subprocess.Popen(['aplay', dis.file_directory + 'welcome.wav'], stdout=devnull, stderr=subprocess.STDOUT)
     # Odds Function
     while True:
         try:
@@ -22,10 +23,35 @@ def odds_screen():
             screen.addstr(1,middle_width - 13, "*PRESS SPACE TO START RACE*")
             screen.addstr(5,middle_width - 8, "Odds Display Page")
             screen.border()
+
+            # Y componet offset for players X ussed in percent_print array
+            y_offset    = 11
+            j           = 4
+            x           = 0
+
+            for p in dis.players_array:
+
+                # Displaying the OS being downloaded for player
+                screen.addstr(y_offset+4, 13,  "Player"+str(x+1)+" | OS: ", curses.A_BOLD)
+                screen.addstr(y_offset+4, 26, str(dis.url_array_random_os[x]), curses.A_BOLD)
+
+                screen.addstr(y_offset+5, 10, "-"*(window_width*2-20))
+
+
+                # Displaying File Name
+                screen.addstr(y_offset+4, 33, "| File: ", curses.A_BOLD)
+                screen.addstr(y_offset+4, 41, str(dis.five_files[x]),curses.A_BOLD)
+
+                # Offesting the next racer in y-direction and updating x for player percent_print array
+                y_offset    += 4
+                x           += 1
+
             key = screen.getkey()
             if(key == ' '):
                 break
-                drums.terminate()
+            drums.terminate()
+
+
             screen.clear()
             screen.refresh()
             time.sleep(.1)

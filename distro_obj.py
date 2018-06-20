@@ -39,6 +39,8 @@ url_array_random_os = []
 file_array_tmp      = []
 five_files          = []
 
+players_array       = []
+
 ##
 # Distro takes the txt files and creates an array of the object Distro
 # which contains the distro, location, path, filenames and address.
