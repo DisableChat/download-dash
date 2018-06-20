@@ -12,6 +12,11 @@ window_height, window_width = ss.window_res(screen)
 
 def odds_screen():
 
+    k = 0
+    for p in dis.players_array:
+        p.server, directories = p.parse_server_info(str(dis.random_url_array[k]))
+        #p.determine_latancy()
+        k += 1
     # Audio File for welcome screen
     with open(os.devnull, 'wb') as devnull:
         subprocess.Popen(['aplay', dis.file_directory + 'welcome.wav'], stdout=devnull, stderr=subprocess.STDOUT)
@@ -35,7 +40,7 @@ def odds_screen():
                 screen.addstr(y_offset+4, 13,  "Player"+str(x+1)+" | OS: ", curses.A_BOLD)
                 screen.addstr(y_offset+4, 26, str(dis.url_array_random_os[x]), curses.A_BOLD)
 
-                screen.addstr(y_offset+6, 10, "-"*(window_width*2-20))
+                screen.addstr(y_offset+8, 10, "-"*(window_width*2-20))
 
 
                 # Displaying File Name
@@ -45,8 +50,11 @@ def odds_screen():
                 screen.addstr(y_offset+5, 13, 'URL: ', curses.A_BOLD)
                 screen.addstr(y_offset+5, 18, str(dis.random_url_array[x]),curses.A_BOLD)
 
+                screen.addstr(y_offset+6, 18, str(p.latency),curses.A_BOLD)
+                screen.addstr(y_offset+7, 18, str(p.server), curses.A_BOLD)
+
                 # Offesting the next racer in y-direction and updating x for player percent_print array
-                y_offset    += 4
+                y_offset    += 6
                 x           += 1
 
             # Space to continue to next screen

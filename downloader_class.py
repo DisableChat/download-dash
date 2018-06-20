@@ -4,6 +4,7 @@ import time
 import urllib
 import socket
 from threading import Thread
+import subprocess
 
 ##
 # Downloader class is a class for the "Players" used in the race. This includes
@@ -37,6 +38,7 @@ class Downloader:
     # String variables for header and url info
     header  = ''
     url     = ''
+    server  = ''
 
     # Used for each player time end var
     time_end = 0
@@ -49,6 +51,9 @@ class Downloader:
     ranking_array   = []
     #timing_array    = []
     #ranking_array   = ['','','','','','']
+
+    # Latency
+    latency = ''
 
     def __init__(self):
 
@@ -198,9 +203,9 @@ class Downloader:
         return self.percent_done
 
     # Determines the latancy of a sight
-    def determine_latancy():
+    def determine_latancy(self):
 
-        command = subprocess.Popen(['ping', '-c', '1', server], stdout=subprocess.PIPE)
+        command = subprocess.Popen(['ping', '-c', '1', self.server], stdout=subprocess.PIPE)
         output = command.stdout.read()
 
         output = str(output)
@@ -210,7 +215,8 @@ class Downloader:
         # Parsing latancing value
         latancy = output[time_loc+5:time_loc+9]
         latancy = ''.join(latancy)
-        print(latancy + ' ms')
+        self.latency = latancy
+        #print(latancy + ' ms')
 
 # converts time from ms to minutes seconds and milliseconds
 def get_time(milliseconds):
