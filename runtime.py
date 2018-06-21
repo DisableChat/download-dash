@@ -33,7 +33,6 @@ def player_setup():
         for p in players:
             threads.append(Thread(target=p.download, args=(url_array[index], url_array_os, index)))
             index += 1
-
         return players, threads
 
 def func():
@@ -42,7 +41,7 @@ def func():
     dis.players_array = players
 
     hd.print_pre_intro()
-
+    time.sleep(1)
     # Odds screen display to terminal
     hd.odds_screen()
 

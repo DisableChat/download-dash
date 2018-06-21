@@ -196,3 +196,4 @@ def choose_racers():
         size -= 1
 
     return url_array, url_array_os
+choose_racers()
