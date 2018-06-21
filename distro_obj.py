@@ -3,8 +3,8 @@ import random
 random.seed()
 
 # Directory info
-distro_list_dir     = '/home/wes/Source/download-dash/distros.txt'
-file_directory      = '/home/wes/Source/download-dash/'
+distro_list_dir     = './distros.txt'
+file_directory      = './'
 
 # Text file names
 arch            = 'mirrorlists/arch.txt'
