@@ -4,12 +4,14 @@ import time
 import urllib
 import socket
 from threading import Thread
-import distro_obj as dis
-from distro_obj import Distro
+import subprocess
+
 ##
 # Downloader class is a class for the "Players" used in the race. This includes
 # all the neccary vars and functions needed by the runtime.py
 ##
+
+timing_array    = []
 
 class Downloader:
 
@@ -36,6 +38,7 @@ class Downloader:
     # String variables for header and url info
     header  = ''
     url     = ''
+    server  = ''
 
     # Used for each player time end var
     time_end = 0
@@ -44,7 +47,16 @@ class Downloader:
     run_thread      = True
     url_array_os    = []
 
+    # Rankings
+    ranking_array   = []
+    #timing_array    = []
+    #ranking_array   = ['','','','','','']
+
+    # Latency
+    latency = ''
+
     def __init__(self):
+
         index = 0
 
     # Deterimines if there is a redirect error (301 ERROR), if it does occur find new route
@@ -52,10 +64,12 @@ class Downloader:
 
         if(self.header.find('404 Not Found' or 'Not Found' or 'Service Unavailable' or '302 Found' or '403 Forbidden') != -1):
 
+            # Hard coded url for now incase of error thats not a 301 rederect
             url_redirect = 'http://repos-jnb.psychz.net/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1804.iso'
             server, directories = self.parse_server_info(url_redirect)
             request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
 
+            # closing old socket and then creating new one to download from
             s.shutdown(1)
             s.close()
             d = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -187,3 +201,30 @@ class Downloader:
     def get_percent_done(self):
         self.percent_done = int(100 * self.data_length/self.total_length)
         return self.percent_done
+
+    # Determines the latancy of a sight
+    def determine_latancy(self):
+
+        command = subprocess.Popen(['ping', '-c', '1', '-W', '1', self.server], stdout=subprocess.PIPE)
+        output = command.stdout.read()
+
+        output = str(output)
+        time_loc = output.find('time')
+        output_array = list(output)
+
+        # Parsing latancing value
+        latancy = output[time_loc+5:time_loc+9]
+        latancy = ''.join(latancy)
+        if(latancy == '0ms\\'):
+            self.latency = '0 ms'
+        else:
+            self.latency = latancy
+
+
+# converts time from ms to minutes seconds and milliseconds
+def get_time(milliseconds):
+    ms = milliseconds
+    s, ms = divmod(ms, 1000)
+    m, s = divmod(s, 60)
+    new_time = ('%d:%d:%d'%(m,s, ms))
+    return new_time

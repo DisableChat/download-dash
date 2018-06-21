@@ -3,8 +3,8 @@ import random
 random.seed()
 
 # Directory info
-distro_list_dir     = '/home/wes/Source/download-dash/distros.txt'
-file_directory      = '/home/wes/Source/download-dash/'
+distro_list_dir     = './distros.txt'
+file_directory      = './'
 
 # Text file names
 arch            = 'mirrorlists/arch.txt'
@@ -31,8 +31,15 @@ distro_lib_array = []
 random_url_array = []
 
 # Final array of url's with no repeats from same os
-url_array = []
-url_array_os = []
+url_array           = []
+url_array_os        = []
+
+# Used by runtime, to know which os has been chosen for random url
+url_array_random_os = []
+file_array_tmp      = []
+five_files          = []
+
+players_array       = []
 
 ##
 # Distro takes the txt files and creates an array of the object Distro
@@ -61,10 +68,6 @@ class Distro:
             self.address = fp.readlines()
             for lines in range(len(self.address)):
                 self.address[lines] = self.address[lines].strip('\n')
-
-            # TODO Print helpers
-            #for i in range(len(self.address)):
-            #    print(self.address[i])
 
     # Determine the spacing between distros so we can use them for conditons later on
     def get_distro_spacing(self, distro_list_dir):
@@ -97,9 +100,6 @@ class Distro:
             # Creating an array of the lines of the text file
             array = fp.readlines()
 
-            # TODO Helper function
-            #print('Distro Number In Array',distro_num)
-
             # Loop through text file
             for line in range(len(array)):
 
@@ -113,17 +113,14 @@ class Distro:
                     # Stripping the words and \n from the lines of in the text file
                     if(array[line].find(':') != -1):
                         self.distro = (array[line].strip(':' + '\n'))
-                    #    print(self.distro) # TODO Print helper
 
                         # Setting Obj's location
                         array[line+1] = (array[line+1].strip('location '))
                         self.location = (array[line+1].strip('= ' + '\n'))
-                    #    print(self.location) # TODO Print helper
 
                         # Setting Obj's path
                         array[line+2] = (array[line+2].strip('path +'))
                         self.path = (array[line+2].strip('= ' + '\n'))
-                    #    print(self.path) # TODO Print helper
 
                         # First directory but need to strip the filename from that line of txt
                         array[line+3] = (array[line+3].strip('filenames '))
@@ -136,10 +133,6 @@ class Distro:
                             i += 1
                             counter += 1
 
-            # TODO print helper
-            #for k in range(len(self.filenames)):
-            #    print(self.filenames[k])
-
     # Randomly chooses file name and address and connects them with the distro's location
     # and path to create a randomly generated url from library
     def glue_url(self, num):
@@ -148,8 +141,9 @@ class Distro:
         section_three = str(random.choice(distro_lib_array[num].filenames))
         self.random_url = section_one + section_two + section_three
         random_url = section_one + section_two + section_three
+        file_array_tmp.append(section_three)
         return random_url
-        
+
     # Get txt file addresses for os and put them in corrosponding objects address array
     def get_address(self):
         # We do len(self.distro_loc )- 1 because END: is considered 1 of the os's
@@ -177,26 +171,28 @@ for j in range(1,len(distro_lib_array)-1, 1):
 
     distro_lib_array[j].glue_url(j)
     random_url_array.append(distro_lib_array[j].random_url)
-    # TODO printer helper to show if the url you downloaded is typo due to txt docu
-    #print(distro_lib_array[j].random_url)
     url_array_os.append(distro_lib_array[j].distro)
-
 
 # Choose racers finally chooses the racers from distro where there are no repeats on os and each is unique
 def choose_racers():
-    size = len(random_url_array)
-    while(size > 9):
-        index = random.randrange(size)
-        element = random_url_array[index]
-        element2 = distro_lib_array[index]
-        random_url_array[index] = random_url_array[size - 1]
-        distro_lib_array[index] = distro_lib_array[size - 1]
-        size -= 1
-        url_array.append(element)
-        url_array_os.append(element2)
-    #TODO Printer Helper used to show if URL downloaded is typo or bug NOTE ask creator for clarification
-    for i in range(5):
-        print(url_array[i])
 
+    size = len(random_url_array)
+    tmp_array = []
+
+    for k in range(0, len(test.distro_loc)-2, 1):
+        tmp_array.append(distro_lib_array[k+1].distro)
+
+    while(size > 9):
+
+        index = random.randrange(size)
+
+        url_array.append(random_url_array[index])
+        url_array_random_os.append(tmp_array[index])
+        five_files.append(file_array_tmp[index])
+
+        random_url_array[index] = random_url_array[size - 1]
+        tmp_array[index] = tmp_array[size - 1]
+        file_array_tmp[index] = file_array_tmp[size - 1]
+        size -= 1
 
     return url_array, url_array_os
