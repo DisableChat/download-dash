@@ -12,41 +12,44 @@ window_height, window_width = ss.window_res(screen)
 
 def odds_screen():
 
-    # Audio File for welcome screen
+    # Audio File for welcome screen "smash themed sound effects"
     with open(os.devnull, 'wb') as devnull:
-        subprocess.Popen(['aplay', dis.file_directory + 'quickmath.wav'], stdout=devnull, stderr=subprocess.STDOUT)
+        subprocess.Popen(['aplay', dis.file_directory + 'smash.wav'], stdout=devnull, stderr=subprocess.STDOUT)
 
     # Printing PLayer info
     while True:
         try:
             middle_height, middle_width = ss.window_res(screen)
-            screen.addstr(1,middle_width - 13, "*PRESS SPACE TO START RACE*")
-            screen.addstr(5,middle_width - 8, "Odds Display Page")
+            screen.addstr(5,middle_width - 10, "*press space to start*")
+            screen.addstr(3,middle_width - 8, "Odds Display Page", curses.A_UNDERLINE)
             screen.border()
 
             # Y componet offset for players X ussed in percent_print array
-            y_offset    = 11
+            y_offset    = 5
             j           = 4
             x           = 0
 
             for p in dis.players_array:
 
                 # Displaying the OS being downloaded for player
-                screen.addstr(y_offset+4, 13,  "Player"+str(x+1)+" | OS: ", curses.A_BOLD)
-                screen.addstr(y_offset+4, 26, str(dis.url_array_random_os[x]), curses.A_BOLD)
+                screen.addstr(y_offset+4, 13,  "Player"+str(x+1)+" |::| OS:", curses.A_BOLD)
+                screen.addstr(y_offset+4, 26, str(dis.url_array_random_os[x]), curses.color_pair(cyan_dots))
 
                 screen.addstr(y_offset+8, 10, "-"*(window_width*2-20))
 
 
                 # Displaying File Name
                 screen.addstr(y_offset+4, 40, "| File: ", curses.A_BOLD)
-                screen.addstr(y_offset+4, 41, str(dis.five_files[x]),curses.A_BOLD)
+                screen.addstr(y_offset+4, 41, str(dis.five_files[x]),curses.color_pair(default))
 
-                screen.addstr(y_offset+5, 13, 'URL: ', curses.A_BOLD)
-                screen.addstr(y_offset+5, 18, str(dis.random_url_array[x]),curses.A_BOLD)
+                # Displaying URL
+                screen.addstr(y_offset+6, 13, 'URL:')
+                screen.addstr(y_offset+6, 19, str(dis.random_url_array[x]))
 
-                screen.addstr(y_offset+6, 18, p.latency,curses.A_BOLD)
-                screen.addstr(y_offset+7, 18, str(p.server), curses.A_BOLD)
+                # Displaying Latency
+                screen.addch(y_offset+4, 89, '|',curses.A_BOLD)
+                screen.addstr(y_offset+4, 90, 'Latency: ' + p.latency,curses.A_STANDOUT)
+                #screen.addstr(y_offset+6, 13, 'ADDRESS: ' + str(p.server), curses.A_BOLD)
 
                 # Offesting the next racer in y-direction and updating x for player percent_print array
                 y_offset    += 6
@@ -55,8 +58,10 @@ def odds_screen():
             # Space to continue to next screen
             key = screen.getkey()
             if(key == ' '):
+                with open(os.devnull, 'wb') as devnull:
+                    subprocess.Popen(['aplay', dis.file_directory + 'smash-effect.wav'], stdout=devnull, stderr=subprocess.STDOUT)
+                    time.sleep(1.5)
                 break
-            drums.terminate()
 
 
             screen.clear()
@@ -68,18 +73,47 @@ def odds_screen():
             sys.exit("Keyboard, Interrupt Quitting...")
 
 # Print screen pre stats page
+
 def print_pre_intro():
 
-    # Audio File for welcome screen
-    with open(os.devnull, 'wb') as devnull:
-        subprocess.Popen(['aplay', dis.file_directory + 'welcome.wav'], stdout=devnull, stderr=subprocess.STDOUT)
+    try:
+        middle_height, middle_width = ss.window_res(screen)
+        screen.border()
+
+        # Y componet offset for players X ussed in percent_print array
+        y_offset    = 11
+        j           = 4
+        x           = 0
+
+        screen.addstr(middle_height-8,middle_width-35, " __    __     _                            _____        _____ _           ", curses.A_BOLD)
+        screen.addstr(middle_height-7,middle_width-35, "/ / /\ \ \___| | ___ ___  _ __ ___   ___  /__   \___   /__   \ |__   ___  ", curses.A_BOLD)
+        screen.addstr(middle_height-6,middle_width-35, "\ \/  \/ / _ \ |/ __/ _ \| '_ ` _ \ / _ \   / /\/ _ \    / /\/ '_ \ / _ \\", curses.A_BOLD)
+        screen.addstr(middle_height-5,middle_width-35, " \  /\  /  __/ | (_| (_) | | | | | |  __/  / / | (_) |  / /  | | | |  __/ ", curses.A_BOLD)
+        screen.addstr(middle_height-4,middle_width-35, "  \/  \/ \___|_|\___\___/|_| |_| |_|\___|  \/   \___/   \/   |_| |_|\___| ", curses.A_BOLD)
+
+        screen.addstr(middle_height-3,middle_width-45,"             _        ___                 ___                    _                 _            ",curses.A_BOLD)
+        screen.addstr(middle_height-2,middle_width-45,"  /\  /\___ | |_     /   \___   __ _     /   \_____      ___ __ | | ___   __ _  __| | ___ _ __  ",curses.A_BOLD)
+        screen.addstr(middle_height-1,middle_width-45," / /_/ / _ \| __|   / /\ / _ \ / _` |   / /\ / _ \ \ /\ / / '_ \| |/ _ \ / _` |/ _` |/ _ \ '__| ",curses.A_BOLD)
+        screen.addstr(middle_height,middle_width-45,  "/ __  / (_) | |_   / /_// (_) | (_| |  / /_// (_) \ V  V /| | | | | (_) | (_| | (_| |  __/ |    ",curses.A_BOLD)
+        screen.addstr(middle_height+1,middle_width-45,"\/ /_/ \___/ \__| /___,' \___/ \__, | /___,' \___/ \_/\_/ |_| |_|_|\___/ \__,_|\__,_|\___|_|    ",curses.A_BOLD)
+        screen.addstr(middle_height+2,middle_width-45,"                               |___/                                                            ", curses.A_BOLD)
+
+        # Audio File for welcome screen
+        with open(os.devnull, 'wb') as devnull:
+            subprocess.Popen(['aplay', dis.file_directory + 'welcome.wav'], stdout=devnull, stderr=subprocess.STDOUT)
+
+        screen.refresh()
+
+    except KeyboardInterrupt:
+        curses.endwin()
+        sys.exit("Keyboard, Interrupt Quitting...")
+
+    screen.clear()
     k = 0
     for p in dis.players_array:
         p.server, directories = p.parse_server_info(str(dis.random_url_array[k]))
         p.determine_latancy()
         k += 1
-
-
     time.sleep(1)
 
 # Print Hot dog litterally just prints the ascii hotdog dawggg
