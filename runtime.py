@@ -40,8 +40,9 @@ def func():
     players, threads = player_setup()
     dis.players_array = players
 
+    # Print to screen pre intro 
     hd.print_pre_intro()
-    time.sleep(1)
+
     # Odds screen display to terminal
     hd.odds_screen()
 

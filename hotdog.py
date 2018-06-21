@@ -105,9 +105,9 @@ def print_pre_intro():
         screen.addstr(middle_height+2,middle_width-45,"                               |___/                                                            ", curses.A_BOLD)
 
         # Determining the file sizes for the stats page
-        temp = Downloader()
-        for i in range(0, 5, 1):
-            temp.get_size_runtime(dis.url_array[i])
+        #temp = Downloader()
+        #for i in range(0, 5, 1):
+        #    temp.get_size_runtime(dis.url_array[i])
 
         # Audio File for welcome screen
         with open(os.devnull, 'wb') as devnull:
@@ -120,13 +120,19 @@ def print_pre_intro():
         sys.exit("Keyboard, Interrupt Quitting...")
 
     screen.clear()
+
+    # Determining the file sizes for the stats page
+    temp = Downloader()
+    for i in range(0, 5, 1):
+        temp.get_size_runtime(dis.url_array[i])
+
+    # Determining he latancy to the host
     k = 0
     for p in dis.players_array:
         p.server, directories = p.parse_server_info(str(dis.url_array[k]))
         p.determine_latancy()
         k += 1
 
-    time.sleep(1)
 
 # Print Hot dog litterally just prints the ascii hotdog dawggg
 def print_hotdog():
