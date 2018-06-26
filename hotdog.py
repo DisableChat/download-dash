@@ -121,17 +121,21 @@ def print_pre_intro():
 
     screen.clear()
 
-    # Determining the file sizes for the stats page
-    temp = Downloader()
-    for i in range(0, 5, 1):
-        temp.get_size_runtime(dis.url_array[i])
+    try:
+        # Determining the file sizes for the stats page
+        temp = Downloader()
+        for i in range(0, 5, 1):
+            temp.get_size_runtime(dis.url_array[i])
 
-    # Determining he latancy to the host
-    k = 0
-    for p in dis.players_array:
-        p.server, directories = p.parse_server_info(str(dis.url_array[k]))
-        p.determine_latancy()
-        k += 1
+            # Determining he latancy to the host
+        k = 0
+        for p in dis.players_array:
+            p.server, directories = p.parse_server_info(str(dis.url_array[k]))
+            p.determine_latancy()
+            k += 1
+    except KeyboardInterrupt:
+        curses.endwin()
+        sys.exit("Keyboard Interupt Quitting...")
 
 
 # Print Hot dog litterally just prints the ascii hotdog dawggg
