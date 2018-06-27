@@ -5,6 +5,8 @@ import os
 import time
 import subprocess
 import distro_obj as dis
+from downloader_class import Downloader
+import downloader_class as dc
 from subprocess import DEVNULL, STDOUT, run, Popen
 
 screen, red, yellow_background, blue, default, yellow_text, cyan_dots = ss.curses_setup()
@@ -35,24 +37,28 @@ def odds_screen():
                 screen.addstr(y_offset+4, 13,  "Player"+str(x+1)+" |::| OS:", curses.A_BOLD)
                 screen.addstr(y_offset+4, 26, str(dis.url_array_random_os[x]), curses.color_pair(cyan_dots))
 
-                screen.addstr(y_offset+8, 10, "-"*(window_width*2-20))
+                screen.addstr(y_offset+10, 10, "-"*(window_width*2-20))
 
 
                 # Displaying File Name
-                screen.addstr(y_offset+4, 40, "| File: ", curses.A_BOLD)
-                screen.addstr(y_offset+4, 41, str(dis.five_files[x]),curses.color_pair(default))
+                screen.addstr(y_offset+4, 45, "| File: ", curses.A_BOLD)
+                screen.addstr(y_offset+4, 53, str(dis.five_files[x]),curses.color_pair(default))
 
                 # Displaying URL
-                screen.addstr(y_offset+6, 13, 'URL:')
-                screen.addstr(y_offset+6, 19, str(dis.random_url_array[x]))
+                screen.addstr(y_offset+8, 24, '| URL:')
+                screen.addstr(y_offset+8, 30, str(dis.url_array[x]))
 
                 # Displaying Latency
-                screen.addch(y_offset+4, 89, '|',curses.A_BOLD)
-                screen.addstr(y_offset+4, 90, 'Latency: ' + p.latency,curses.A_STANDOUT)
-                #screen.addstr(y_offset+6, 13, 'ADDRESS: ' + str(p.server), curses.A_BOLD)
+                screen.addch(y_offset+6, 24, '|',curses.A_BOLD)
+                screen.addstr(y_offset+6, 26, 'Latency: ',curses.A_BOLD)
+                screen.addstr(y_offset+6, 35, p.latency + ' ms',curses.A_STANDOUT)
+
+                # Displaying File Size
+                screen.addstr(y_offset+6, 45, '| File Size: ', curses.A_BOLD)
+                screen.addstr(y_offset+6, 58, '~ ' + dc.file_size_run[x] +' Mbs', curses.color_pair(cyan_dots))
 
                 # Offesting the next racer in y-direction and updating x for player percent_print array
-                y_offset    += 6
+                y_offset    += 8
                 x           += 1
 
             # Space to continue to next screen
@@ -98,6 +104,11 @@ def print_pre_intro():
         screen.addstr(middle_height+1,middle_width-45,"\/ /_/ \___/ \__| /___,' \___/ \__, | /___,' \___/ \_/\_/ |_| |_|_|\___/ \__,_|\__,_|\___|_|    ",curses.A_BOLD)
         screen.addstr(middle_height+2,middle_width-45,"                               |___/                                                            ", curses.A_BOLD)
 
+        # Determining the file sizes for the stats page
+        #temp = Downloader()
+        #for i in range(0, 5, 1):
+        #    temp.get_size_runtime(dis.url_array[i])
+
         # Audio File for welcome screen
         with open(os.devnull, 'wb') as devnull:
             subprocess.Popen(['aplay', dis.file_directory + 'welcome.wav'], stdout=devnull, stderr=subprocess.STDOUT)
@@ -109,12 +120,23 @@ def print_pre_intro():
         sys.exit("Keyboard, Interrupt Quitting...")
 
     screen.clear()
-    k = 0
-    for p in dis.players_array:
-        p.server, directories = p.parse_server_info(str(dis.random_url_array[k]))
-        p.determine_latancy()
-        k += 1
-    time.sleep(1)
+
+    try:
+        # Determining the file sizes for the stats page
+        temp = Downloader()
+        for i in range(0, 5, 1):
+            temp.get_size_runtime(dis.url_array[i])
+
+            # Determining he latancy to the host
+        k = 0
+        for p in dis.players_array:
+            p.server, directories = p.parse_server_info(str(dis.url_array[k]))
+            p.determine_latancy()
+            k += 1
+    except KeyboardInterrupt:
+        curses.endwin()
+        sys.exit("Keyboard Interupt Quitting...")
+
 
 # Print Hot dog litterally just prints the ascii hotdog dawggg
 def print_hotdog():

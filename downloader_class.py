@@ -12,7 +12,8 @@ import subprocess
 ##
 
 timing_array    = []
-
+# Size array used in Runtime
+file_size_run   = []
 class Downloader:
 
     # Players data_length and total_length and percent done
@@ -54,6 +55,9 @@ class Downloader:
 
     # Latency
     latency = ''
+
+    # Size array used in Runtime
+    #file_size_run   = []
 
     def __init__(self):
 
@@ -139,6 +143,50 @@ class Downloader:
                 break
         self.total_length = int(content_length)
 
+    def get_size_runtime(self, url):
+
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        except socket.error as err:
+            sys.exit("Socket Error %s" %(err))
+
+        # Setting Url, Port, Server, and Directory and request info
+        port = 80
+        server, directories = self.parse_server_info(url)
+        request = "GET "+directories+" HTTP/1.1\r\nHOST: "+server+"\r\n\r\n"
+
+        # Connect To host Try
+        try:
+            server_ip = socket.gethostbyname(server)
+        except socket.gaierror:
+            sys.exit("there was an error resolving the host")
+
+        # Conneting to server
+        s.connect((server, port))
+        s.send(request.encode())
+
+        # recieving header to find out size of download
+        header = s.recv(4096)
+        header = str(header)
+        #self.determine_error(s)
+
+        content_length = ''
+        content_length_pos = header.find('Content-Length') + 17
+        for i in range(content_length_pos, 4096 - content_length_pos, 1):
+            content_length += header[i - 1]
+            if(header[i] == "\\"):
+                break
+
+        total_length = int(content_length)
+        total_length = round(total_length/1024/1024)
+        total_length = str(total_length)
+        file_size_run.append(total_length)
+        #selfdata_length += len(self.header)
+
+        s.shutdown(1)
+        s.close()
+
+
     def download(self, url, url_array_os, index):
         self.index = index
         self.url_array_os = url_array_os
@@ -216,7 +264,7 @@ class Downloader:
         latancy = output[time_loc+5:time_loc+9]
         latancy = ''.join(latancy)
         if(latancy == '0ms\\'):
-            self.latency = '0 ms'
+            self.latency = '---'
         else:
             self.latency = latancy
 
